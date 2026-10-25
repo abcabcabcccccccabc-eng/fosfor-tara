@@ -230,25 +230,6 @@ button{font:inherit;color:inherit}
 .plan p{font-size:13.5px;color:var(--ink-2)}
 .sum-cta{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
-/* ---------- Telegram-бот ---------- */
-.tg-wrap{display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:18px;align-items:start}
-.phone{display:grid;grid-template-rows:auto minmax(0,1fr) auto;height:min(640px,calc(100vh - var(--hdr) - 60px));min-height:420px;border-radius:28px;border:8px solid var(--ink);background:var(--panel);overflow:hidden;box-shadow:var(--shadow)}
-.ph-top{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--accent);color:var(--accent-ink)}
-.ph-top small{display:block;font-size:11.5px;opacity:.85}
-.ph-ava{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--phos);color:var(--hazard-ink);font-weight:700;font-size:13px}
-.ph-chat{overflow:auto;padding:12px;display:flex;flex-direction:column;gap:10px;background:var(--inset)}
-.ph-empty{color:var(--muted);text-align:center;margin:auto;max-width:28ch;font-size:13px}
-.bubble{align-self:flex-start;max-width:92%;display:grid;gap:5px;justify-items:start;padding:9px 11px;border-radius:4px 14px 14px 14px;background:var(--panel);border:1px solid var(--line);box-shadow:0 1px 1px rgba(0,0,0,.04)}
-.bubble p{font-size:13.5px}
-.bubble time{justify-self:end;font-size:11px;color:var(--muted)}
-.mb-to{font-size:11.5px;color:var(--accent);font-weight:600}
-.mb-btns{display:flex;gap:6px;flex-wrap:wrap;width:100%}
-.mb-btns button{flex:1 1 auto;border:1px solid var(--line-2);background:var(--inset);border-radius:8px;padding:6px 8px;font-size:12.5px;font-weight:600;color:var(--accent);cursor:pointer}
-.mb-btns button:hover{border-color:var(--accent)}
-.mb-ok{flex:1 1 auto;text-align:center;font-size:12.5px;font-weight:600;color:var(--good-ink);padding:6px 8px}
-.ph-input{padding:10px 14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
-.badge-soft{background:var(--accent);color:var(--accent-ink)}
-
 /* ---------- инциденты: список и карточка ---------- */
 .pg-inc{grid-template-columns:270px minmax(0,1fr);align-items:start}
 .pg-inc .inc-card{padding:18px 20px}
@@ -566,7 +547,6 @@ kbd{font-family:var(--f-mono);font-size:12px;padding:1px 6px;border:1px solid va
   .nav-open .side{transform:none;visibility:visible}
   .pg-inc{grid-template-columns:minmax(0,1fr)}
   .pg-inc .inc-list{position:static;max-height:none}
-  .tg-wrap{grid-template-columns:minmax(0,1fr)}
   .cols2{grid-template-columns:minmax(0,1fr)}
 }
 @media (max-width:700px){
@@ -647,7 +627,6 @@ kbd{font-family:var(--f-mono);font-size:12px;padding:1px 6px;border:1px solid va
       <button class="nav-it" data-nav="case:tleak"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 13h6l-1 8 8-10h-6z"/></svg><span data-t="case_tleak"></span></button>
       <div class="side-h" data-t="nav_g_work"></div>
       <button class="nav-it" data-nav="inc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M12 8v5M12 16v.5"/></svg><span data-t="nav_inc"></span><span class="badge" id="incBadge" hidden>0</span></button>
-      <button class="nav-it" data-nav="tg"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 4L3 11l6 2.5L19 7l-8 8 .5 5.5 3.5-4 4.5 3.5z"/></svg><span data-t="nav_tg"></span><span class="badge badge-soft" id="tgBadge" hidden>0</span></button>
       <button class="nav-it" data-nav="log"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.5M4.5 12h.5M4.5 18h.5"/></svg><span data-t="nav_log"></span></button>
       <button class="nav-it" data-nav="shift"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg><span data-t="nav_shift"></span></button>
       <div class="side-h" data-t="nav_g_project"></div>
@@ -687,7 +666,6 @@ kbd{font-family:var(--f-mono);font-size:12px;padding:1px 6px;border:1px solid va
       <ol class="feed-list" id="feed"></ol>
     </section>
     <section class="page panel pad" id="tab-shift" hidden></section>
-    <section class="page" id="pg-tg" hidden></section>
     <section class="page" id="pg-system" hidden></section>
     <section class="page" id="pg-cost" hidden></section>
     <section class="page panel pad pg-about" id="pg-about" hidden>
@@ -2300,7 +2278,7 @@ Object.assign(L.kk, {
 
 /* ---------- эффект ИИ, устройство, стоимость, Telegram, резюме — русский ---------- */
 Object.assign(L.ru, {
-  nav_g_project: 'Проект', nav_system: 'Как устроена система', nav_cost: 'Внедрение и стоимость', nav_tg: 'Telegram-бот', k_tg: 'раздел',
+  nav_g_project: 'Проект', nav_system: 'Как устроена система', nav_cost: 'Внедрение и стоимость',
 
   eff_h: 'Что даёт ИИ', eff_lead: 'Счётчики этой смены. Запустите любой случай — цифры изменятся.',
   eff_prev: 'Аварий предотвращено', eff_lead_t: 'Лучшее упреждение ИИ', eff_evac: 'Людей выведено из опасной зоны', eff_tons: 'Налито за смену',
@@ -2339,12 +2317,6 @@ Object.assign(L.ru, {
     ['Месяцы 3–4', 'Помощник', 'ИИ подаёт тревоги оператору и в Telegram мастеру. Насос останавливает человек по подсказке ИИ.', 'Цель: упреждение не меньше 5 минут'],
     ['Месяцы 5–6', 'Защита', 'Три поста и контейнеры в пути. Автостоп насоса, сигнал на метки людей, черновики донесений в ДЧС.', 'Цель: ни одного перелива и ни одного человека в дыму']],
 
-  tg_h: 'Telegram-бот', tg_lead: 'Так тревоги приходят в телефон мастера смены и диспетчера. Кнопка «Принял» подтверждает тревогу прямо из чата.',
-  tg_bot: 'Фосфор-Тара · бот', tg_online: 'в сети', tg_empty: 'Сообщений пока нет. Запустите любой случай в разделе «Случаи».',
-  tg_input: 'Сообщения приходят автоматически', tg_ack: '✅ Принял', tg_acked: '✅ Принято', tg_open: 'Открыть на пульте', tg_to: p => `кому: ${p.to}`,
-  tg_who_h: 'Кому что приходит',
-  tg_who: [['Мастер смены цеха №7', 'остановка насоса, дым, течь на посту, люди в зоне'], ['Служба КИПиА', 'неисправные датчики'], ['Пожарная часть НДФЗ', 'возгорание'], ['Диспетчер ЖД', 'течь контейнера в пути'], ['ДЧС области', 'опасность за пределами завода']],
-  tg_note: 'В прототипе это имитация. В пилоте сообщения уходят через Telegram Bot API и дублируются SMS.',
   chart_hint: 'Наведите курсор на график, чтобы увидеть значения в любой момент.',
 
   sm_title: 'Фосфор-Тара — резюме проекта',
@@ -2357,7 +2329,7 @@ Object.assign(L.ru, {
 
 /* ---------- AI effect, architecture, cost, Telegram, summary — English ---------- */
 Object.assign(L.en, {
-  nav_g_project: 'Project', nav_system: 'How the system works', nav_cost: 'Rollout and cost', nav_tg: 'Telegram bot', k_tg: 'section',
+  nav_g_project: 'Project', nav_system: 'How the system works', nav_cost: 'Rollout and cost',
 
   eff_h: 'What AI adds', eff_lead: 'This shift’s counters. Run any case and the numbers will change.',
   eff_prev: 'Accidents prevented', eff_lead_t: 'Best AI lead time', eff_evac: 'People moved out of danger zones', eff_tons: 'Loaded this shift',
@@ -2396,12 +2368,6 @@ Object.assign(L.en, {
     ['Months 3–4', 'Assistant', 'The AI sends alarms to the operator and to the supervisor in Telegram. A person stops the pump when the AI suggests it.', 'Goal: at least 5 minutes of warning'],
     ['Months 5–6', 'Protection', 'Three posts and containers in transit. Automatic pump stop, signals to people’s tags, draft reports for the emergency service.', 'Goal: no overflows and nobody in the smoke']],
 
-  tg_h: 'Telegram bot', tg_lead: 'This is how alarms reach the shift supervisor’s and dispatcher’s phones. The “Got it” button acknowledges an alarm right from the chat.',
-  tg_bot: 'Fosfor-Tara · bot', tg_online: 'online', tg_empty: 'No messages yet. Run any case in the “Cases” section.',
-  tg_input: 'Messages arrive automatically', tg_ack: '✅ Got it', tg_acked: '✅ Acknowledged', tg_open: 'Open on the console', tg_to: p => `to: ${p.to}`,
-  tg_who_h: 'Who gets what',
-  tg_who: [['Shift supervisor, workshop No. 7', 'pump stops, smoke, leaks at a post, people in a zone'], ['Instrumentation service', 'faulty sensors'], ['NDFZ fire station', 'fires'], ['Railway dispatcher', 'container leaks in transit'], ['Regional emergency service', 'danger beyond the plant']],
-  tg_note: 'In the prototype this is simulated. In the pilot, messages go through the Telegram Bot API and are duplicated by SMS.',
   chart_hint: 'Hover over the chart to see the values at any moment.',
 
   sm_title: 'Fosfor-Tara: project summary',
@@ -2414,7 +2380,7 @@ Object.assign(L.en, {
 
 /* ---------- ЖИ әсері, жүйе құрылымы, құны, Telegram, түйіндеме — қазақша ---------- */
 Object.assign(L.kk, {
-  nav_g_project: 'Жоба', nav_system: 'Жүйе қалай құрылған', nav_cost: 'Енгізу және құны', nav_tg: 'Telegram-бот', k_tg: 'бөлім',
+  nav_g_project: 'Жоба', nav_system: 'Жүйе қалай құрылған', nav_cost: 'Енгізу және құны',
 
   eff_h: 'ЖИ не береді', eff_lead: 'Осы ауысымның есептегіштері. Кез келген жағдайды іске қосыңыз — сандар өзгереді.',
   eff_prev: 'Алды алынған апаттар', eff_lead_t: 'ЖИ-дің ең ерте ескертуі', eff_evac: 'Қауіпті аймақтан шығарылған адамдар', eff_tons: 'Ауысымда құйылды',
@@ -2453,12 +2419,6 @@ Object.assign(L.kk, {
     ['3–4-айлар', 'Көмекші', 'ЖИ операторға және Telegram-да шеберге дабыл береді. Сорғыны ЖИ-дің кеңесі бойынша адам тоқтатады.', 'Мақсат: кемінде 5 минут бұрын ескерту'],
     ['5–6-айлар', 'Қорғаныс', 'Үш бекет және жолдағы контейнерлер. Сорғыны автоматты тоқтату, адамдардың белгілеріне сигнал, ТЖД-ға хабарлама жобалары.', 'Мақсат: бірде-бір асып төгілу жоқ, түтінде бірде-бір адам жоқ']],
 
-  tg_h: 'Telegram-бот', tg_lead: 'Дабылдар ауысым шебері мен диспетчердің телефонына осылай келеді. «Қабылдадым» батырмасы дабылды чаттың өзінен растайды.',
-  tg_bot: 'Фосфор-Тара · бот', tg_online: 'желіде', tg_empty: 'Әзірге хабар жоқ. «Жағдайлар» бөлімінде кез келген жағдайды іске қосыңыз.',
-  tg_input: 'Хабарлар автоматты түрде келеді', tg_ack: '✅ Қабылдадым', tg_acked: '✅ Қабылданды', tg_open: 'Пультте ашу', tg_to: p => `кімге: ${p.to}`,
-  tg_who_h: 'Кімге не келеді',
-  tg_who: [['№7 цехтің ауысым шебері', 'сорғының тоқтауы, түтін, бекеттегі ағу, аймақтағы адамдар'], ['КИПиА қызметі', 'ақаулы датчиктер'], ['НДФЗ өрт сөндіру бөлімі', 'өрт'], ['ТЖ диспетчері', 'жолдағы контейнердің ағуы'], ['Облыстық ТЖД', 'зауыттан тыс қауіп']],
-  tg_note: 'Прототипте бұл — имитация. Пилотта хабарлар Telegram Bot API арқылы жіберіліп, SMS-пен қайталанады.',
   chart_hint: 'Кез келген сәттегі мәндерді көру үшін курсорды графикке апарыңыз.',
 
   sm_title: 'Фосфор-Тара — жоба түйіндемесі',
@@ -2488,7 +2448,7 @@ function logEvent(sev, mod, k, p = {}, o = {}) {
   S.events.unshift(ev);
   if (S.events.length > 200) S.events.length = 200;
   renderFeed();
-  if (o.notify) { tgPush(o.notify, ev); toast(o.notify, k, p, sev); }
+  if (o.notify) toast(o.notify, k, p, sev);
   return ev;
 }
 const evp = (tr, sev, mod, k, p, o) => logEvent(sev, mod, k, Object.assign({ post: tr.id }, p), o);
@@ -2999,7 +2959,7 @@ function nearOf(p) {
 }
 /* ---------- общие части интерфейса: уведомления, графики, камера, объяснения ИИ, инциденты ---------- */
 function toast(to, k, p, sev) {
-  if (S.tour || S.tab === 'tg') return; // во время демо всё объясняет полоса сверху, а в разделе бота сообщения и так видны
+  if (S.tour) return; // во время демо всё объясняет полоса сверху
   const box = $('#toasts');
   const el = document.createElement('div');
   el.className = 'toast';
@@ -3530,7 +3490,6 @@ function renderNav() {
   $('#nd-trains').className = 'nd nd-' + sev;
   setHTML($('#ns-trains'), esc(na ? t('st_need', { n: na }) : t('st_ok')));
   const cur = S.tab === 'obj' && S.sel && S.sel.type === 'cont' ? 'trains' : S.page;
-  renderTgBadge();
   $$('.nav-it[data-nav]').forEach(b => { if (b.dataset.nav === cur) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
 }
 
@@ -3653,9 +3612,9 @@ function renderCases(force) {
     <div class="panel pad case-reset"><div><b>${esc(t('cs_reset'))}</b><p class="note">${esc(t('cs_reset_d'))}</p></div><button class="btn" data-run="reset">${esc(t('sb_reset'))}</button></div>`;
 }
 
-/* ---------- проект: эффект ИИ, устройство системы, стоимость, Telegram-бот, резюме ---------- */
-Object.assign(PAGE_EL, { tg: '#pg-tg', system: '#pg-system', cost: '#pg-cost' });
-Object.assign(S, { tg: [], tgSeen: 0, tgKey: null, sysLang: null, costKey: null, tgLang: null });
+/* ---------- проект: эффект ИИ, устройство системы, стоимость, резюме ---------- */
+Object.assign(PAGE_EL, { system: '#pg-system', cost: '#pg-cost' });
+Object.assign(S, { sysLang: null, costKey: null });
 
 /* эффект ИИ на сводке: счётчики смены и таблица «с ИИ / без ИИ» */
 function effectHTML() {
@@ -3718,49 +3677,6 @@ function renderCost(force) {
       <section class="panel pad"><h3 class="h3">${esc(t('plan_h'))}</h3><ol class="plan">${t('plan').map(([w, h, d, g], i) => `<li><span class="plan-n">${i + 1}</span><div><div class="eyebrow">${esc(w)}</div><b>${esc(h)}</b><p>${esc(d)}</p><span class="tag tag-add">${esc(g)}</span></div></li>`).join('')}</ol></section>
     </div>
     ${S.dl ? `<div class="panel pad sum-cta"><b>${esc(t('sm_title'))}</b><button class="btn btn-primary" data-act="summary">${esc(t('sum_btn'))}</button></div>` : ''}`;
-}
-
-/* ---------- Telegram-бот: тревоги в телефоне мастера ---------- */
-function tgPush(to, ev) {
-  let pick = null;
-  if (ev.post != null) pick = 'post:' + ev.post;
-  else if (ev.cont != null) { const T = ts.trains.find(x => x.conts.some(c => c.id === ev.cont)); if (T) pick = `cont:${T.key}:${ev.cont}`; }
-  const id = (S.tg.length ? S.tg[S.tg.length - 1].id : 0) + 1;
-  S.tg.push({ id, t: ev.t, to, sev: ev.sev, k: ev.k, p: ev.p, pick });
-  if (S.tg.length > 60) S.tg.shift();
-}
-const tgAlarms = pick => Object.keys(S.alarms).filter(k => S.alarms[k].pick === pick);
-function tgAck(pick) { tgAlarms(pick).filter(k => !S.alarms[k].ack).forEach(ackAlarm); render(true); }
-function renderTg(force) {
-  if (force || S.tgLang !== LANG) {
-    S.tgLang = LANG; S.tgKey = null;
-    $('#pg-tg').innerHTML = `
-      <div class="pg-head panel pad"><div class="eyebrow">${esc(t('nav_g_work'))}</div><h1>${esc(t('tg_h'))}</h1><p>${esc(t('tg_lead'))}</p></div>
-      <div class="tg-wrap">
-        <div class="phone" role="log" aria-live="polite">
-          <div class="ph-top"><span class="ph-ava" aria-hidden="true">ФТ</span><div><b>${esc(t('tg_bot'))}</b><small>${esc(t('tg_online'))}</small></div></div>
-          <div class="ph-chat" id="tgChat"></div>
-          <div class="ph-input">${esc(t('tg_input'))}</div>
-        </div>
-        <section class="panel pad"><h3 class="h3">${esc(t('tg_who_h'))}</h3><dl class="kv">${t('tg_who').map(([a, b]) => `<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join('')}</dl><p class="note">${esc(t('tg_note'))}</p></section>
-      </div>`;
-  }
-  const state = pick => { const ks = tgAlarms(pick); return !ks.length ? 'n' : ks.some(k => !S.alarms[k].ack) ? 'u' : 'a'; };
-  const key = S.tg.map(m => m.id + (m.pick ? state(m.pick) : '')).join(',');
-  if (key === S.tgKey) return;
-  const chat = $('#tgChat'), atEnd = chat.scrollHeight - chat.scrollTop - chat.clientHeight < 40;
-  S.tgKey = key;
-  chat.innerHTML = S.tg.length ? S.tg.map(m => {
-    const st = m.pick ? state(m.pick) : 'n';
-    const btns = m.pick ? `<div class="mb-btns">${st === 'u' ? `<button data-tgack="${m.pick}">${esc(t('tg_ack'))}</button>` : st === 'a' ? `<span class="mb-ok">${esc(t('tg_acked'))}</span>` : ''}<button data-pick="${m.pick}">${esc(t('tg_open'))}</button></div>` : '';
-    return `<div class="bubble b-${m.sev}"><div class="mb-to">${esc(t('tg_to', { to: t(m.to) }))}</div>${chip(m.sev)}<p>${esc(t(m.k, m.p))}</p><time class="mono">${hm(m.t)}</time>${btns}</div>`;
-  }).join('') : `<p class="ph-empty">${esc(t('tg_empty'))}</p>`;
-  if (atEnd || force) chat.scrollTop = chat.scrollHeight;
-}
-function renderTgBadge() {
-  if (S.tab === 'tg' && S.tg.length) S.tgSeen = S.tg[S.tg.length - 1].id;
-  const n = S.tg.filter(m => m.id > S.tgSeen).length, b = $('#tgBadge');
-  b.hidden = !n; b.textContent = n;
 }
 
 /* ---------- резюме проекта для жюри (одна страница для печати) ---------- */
@@ -4052,7 +3968,6 @@ function render(force) {
   else if (k === 'trains') renderTrains(force);
   else if (k === 'cases') renderCases(force);
   else if (k === 'shift') renderShift(force);
-  else if (k === 'tg') renderTg(force);
   else if (k === 'system') renderSystem(force);
   else if (k === 'cost') renderCost(force);
   else if (k === 'inc') renderIncidents(force);
@@ -4232,13 +4147,12 @@ function init() {
   $('#tourNext').addEventListener('click', guideNext);
   // переходы по разделам: меню, карточки сводки, кнопки «Показать» и «Открыть»
   document.addEventListener('click', e => {
-    const b = e.target.closest('[data-nav], [data-pick], [data-run], [data-act], [data-inc-open], [data-tgack]'); if (!b) return;
+    const b = e.target.closest('[data-nav], [data-pick], [data-run], [data-act], [data-inc-open]'); if (!b) return;
     if (b.dataset.nav) nav(b.dataset.nav, true);
     else if (b.dataset.pick) nav(b.dataset.pick, true);
     else if (b.dataset.run) runSb(b.dataset.run);
     else if (b.dataset.act === 'tour') runTour();
     else if (b.dataset.act === 'summary') exportSummary();
-    else if (b.dataset.tgack) tgAck(b.dataset.tgack);
     else if (b.dataset.incOpen) { S.selInc = Number(b.dataset.incOpen); nav('inc', true); }
   });
   $('#menuBtn').addEventListener('click', () => setNavOpen(!document.body.classList.contains('nav-open')));
@@ -4322,7 +4236,7 @@ function cloneState(v, key) {
 function takeSnap() {
   const last = HIST[HIST.length - 1];
   if (last && last.tp === posts[0].t) HIST.pop();
-  HIST.push({ tp: posts[0].t, tt: ts.t, d: cloneState({ posts, people, hz, ts, weather, events: S.events, incidents: S.incidents, shift: S.shift, alarms: S.alarms, tg: S.tg, seq: [seed, evSeq, incSeq, contSeq] }) });
+  HIST.push({ tp: posts[0].t, tt: ts.t, d: cloneState({ posts, people, hz, ts, weather, events: S.events, incidents: S.incidents, shift: S.shift, alarms: S.alarms, seq: [seed, evSeq, incSeq, contSeq] }) });
   if (HIST.length > SNAP_MAX) HIST.shift();
 }
 function maybeSnap() { const last = HIST[HIST.length - 1]; if (!last || posts[0].t - last.tp >= SNAP_EVERY) takeSnap(); }
@@ -4335,7 +4249,7 @@ function restoreSnap(i) {
   fillArr(posts, d.posts); fillArr(people, d.people); fillArr(hz, d.hz);
   for (const k of Object.keys(ts)) delete ts[k];
   Object.assign(ts, d.ts); Object.assign(weather, d.weather);
-  S.events = d.events; S.incidents = d.incidents; S.shift = d.shift; S.alarms = d.alarms || {}; S.tg = d.tg || []; S.tgKey = null;
+  S.events = d.events; S.incidents = d.incidents; S.shift = d.shift; S.alarms = d.alarms || {};
   [seed, evSeq, incSeq, contSeq] = d.seq;
   S.rbIdx = i;
   cam.parts = []; S.objKey = S.incKey = null; S.trainNum = null; S.feedConfirm = false;
@@ -4572,7 +4486,7 @@ function cycleTheme() {
 const normQ = s => String(s).toLowerCase().replace(/ё/g, 'е').replace(/[\s\-–—·№#.,:«»"]/g, '');
 function searchIndex() {
   const items = [];
-  [['home', 'nav_home'], ['trains', 'nav_trains'], ['inc', 'nav_inc'], ['tg', 'nav_tg'], ['log', 'nav_log'], ['shift', 'nav_shift'], ['system', 'nav_system'], ['cost', 'nav_cost'], ['about', 'nav_about']]
+  [['home', 'nav_home'], ['trains', 'nav_trains'], ['inc', 'nav_inc'], ['log', 'nav_log'], ['shift', 'nav_shift'], ['system', 'nav_system'], ['cost', 'nav_cost'], ['about', 'nav_about']]
     .forEach(([obj, k]) => items.push({ obj, label: t(k), sub: '', kind: 'k_page' }));
   posts.forEach(tr => items.push({ obj: 'post:' + tr.id, label: t('pv_post', { post: tr.id }), sub: NM.cont(tr.cont) + ' · ' + trState(tr)[1], kind: 'k_post' }));
   CASES.forEach(c => items.push({ obj: 'case:' + c.k, label: t('case_' + c.k), sub: t(c.d), kind: 'k_case' }));
