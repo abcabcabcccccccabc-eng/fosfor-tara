@@ -7,6 +7,8 @@
 <meta property="og:title" content="Фосфор-Тара">
 <meta property="og:description" content="ИИ следит за наливом жёлтого фосфора, людьми и контейнерами в пути и предотвращает аварии. Прототип для INNOVATION AI HACKATHON 2026.">
 <meta property="og:type" content="website">
+<meta name="theme-color" content="#0d1013">
+<meta name="color-scheme" content="dark light">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 34 34%22%3E%3Crect x=%221%22 y=%221%22 width=%2232%22 height=%2232%22 rx=%229%22 fill=%22%234a5f8f%22/%3E%3Crect x=%226%22 y=%2211%22 width=%2222%22 height=%2214%22 rx=%227%22 fill=%22%23f7f9f8%22/%3E%3Crect x=%226%22 y=%2219%22 width=%2222%22 height=%226%22 rx=%223%22 fill=%22%23dfbe55%22/%3E%3C/svg%3E">
 <title>Фосфор-Тара</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,7 +27,7 @@
   --good-ink:#0a5c0a; --warning-ink:#6e4a00; --serious-ink:#86381a; --critical-ink:#9b2020; --info-ink:#3a4c76;
   --series-sensor:#3e68ad; --series-est:#5b8a2e; --grid:#e1e8e5; --axis:#b5c1bc;
   --hazard:#f39200; --hazard-ink:#111111;
-  --shadow:0 1px 2px rgba(30,40,38,.06),0 6px 18px rgba(30,40,38,.06);
+  --shadow:0 0 #0000;
   --f-display:"Fira Sans Condensed","Arial Narrow",system-ui,sans-serif;
   --f-body:"Fira Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"Fira Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
@@ -33,29 +35,31 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#111517; --panel:#181d20; --inset:#14191b; --plan:#151a1d; --plan-grid:#1f272b; --bldg:#1c2226; --bldg-line:#3a4850;
-    --ink:#e0e6e4; --ink-2:#a7b2af; --muted:#73807d; --line:#253034; --line-2:#36444a;
-    --accent:#9db0dc; --accent-ink:#161c2a; --accent-soft:#232b3d;
-    --sage:#8fb394; --sage-soft:#1d2a20; --sand:#cdb07a;
-    --phos:#d1b14b; --phos-deep:#9a7b14; --water:#3e6a79; --water-deep:#86b4c3; --metal:#3a464b;
-    --good-soft:#10291a; --warning-soft:#30270c; --serious-soft:#331f16; --critical-soft:#361718; --info-soft:#232b3d;
-    --good-ink:#6fd66f; --warning-ink:#fcc853; --serious-ink:#f4a585; --critical-ink:#f28b8b; --info-ink:#b5c5ea;
-    --series-sensor:#5d86cc; --series-est:#6f9a3e; --grid:#1f272b; --axis:#36444a;
-    --shadow:0 1px 2px rgba(0,0,0,.5);
+    --bg:#0d1013; --panel:#121619; --inset:#171c20; --plan:#121619; --plan-grid:#1b2127; --bldg:#171c20; --bldg-line:#313a43;
+    --ink:#e4e8ec; --ink-2:#a3adb8; --muted:#6f7a86; --line:#232a31; --line-2:#323b44;
+    --accent:#93aef5; --accent-ink:#0d1013; --accent-soft:#161d2b;
+    --sage:#84b896; --sage-soft:#132019; --sand:#cdb07a;
+    --phos:#d8b95a; --phos-deep:#9a7b14; --water:#3e6a79; --water-deep:#86b4c3; --metal:#323b44;
+    --good:#45c46f; --warning:#f0b429; --serious:#f08a5d; --critical:#f05656;
+    --good-soft:#0f1d15; --warning-soft:#211b0c; --serious-soft:#23160f; --critical-soft:#261214; --info-soft:#161d2b;
+    --good-ink:#7ddf9b; --warning-ink:#f5cd6b; --serious-ink:#f6ad8c; --critical-ink:#f59a9a; --info-ink:#b8c9f8;
+    --series-sensor:#5d86cc; --series-est:#6f9a3e; --grid:#1b2127; --axis:#323b44;
+    --shadow:0 0 #0000;
     color-scheme:dark;
   }
 }
 :root[data-theme="light"]{color-scheme:light}
 :root[data-theme="dark"]{
-  --bg:#111517; --panel:#181d20; --inset:#14191b; --plan:#151a1d; --plan-grid:#1f272b; --bldg:#1c2226; --bldg-line:#3a4850;
-  --ink:#e0e6e4; --ink-2:#a7b2af; --muted:#73807d; --line:#253034; --line-2:#36444a;
-  --accent:#9db0dc; --accent-ink:#161c2a; --accent-soft:#232b3d;
-  --sage:#8fb394; --sage-soft:#1d2a20; --sand:#cdb07a;
-  --phos:#d1b14b; --phos-deep:#9a7b14; --water:#3e6a79; --water-deep:#86b4c3; --metal:#3a464b;
-  --good-soft:#10291a; --warning-soft:#30270c; --serious-soft:#331f16; --critical-soft:#361718; --info-soft:#232b3d;
-  --good-ink:#6fd66f; --warning-ink:#fcc853; --serious-ink:#f4a585; --critical-ink:#f28b8b; --info-ink:#b5c5ea;
-  --series-sensor:#5d86cc; --series-est:#6f9a3e; --grid:#1f272b; --axis:#36444a;
-  --shadow:0 1px 2px rgba(0,0,0,.5);
+  --bg:#0d1013; --panel:#121619; --inset:#171c20; --plan:#121619; --plan-grid:#1b2127; --bldg:#171c20; --bldg-line:#313a43;
+  --ink:#e4e8ec; --ink-2:#a3adb8; --muted:#6f7a86; --line:#232a31; --line-2:#323b44;
+  --accent:#93aef5; --accent-ink:#0d1013; --accent-soft:#161d2b;
+  --sage:#84b896; --sage-soft:#132019; --sand:#cdb07a;
+  --phos:#d8b95a; --phos-deep:#9a7b14; --water:#3e6a79; --water-deep:#86b4c3; --metal:#323b44;
+  --good:#45c46f; --warning:#f0b429; --serious:#f08a5d; --critical:#f05656;
+  --good-soft:#0f1d15; --warning-soft:#211b0c; --serious-soft:#23160f; --critical-soft:#261214; --info-soft:#161d2b;
+  --good-ink:#7ddf9b; --warning-ink:#f5cd6b; --serious-ink:#f6ad8c; --critical-ink:#f59a9a; --info-ink:#b8c9f8;
+  --series-sensor:#5d86cc; --series-est:#6f9a3e; --grid:#1b2127; --axis:#323b44;
+  --shadow:0 0 #0000;
   color-scheme:dark;
 }
 
@@ -534,6 +538,52 @@ kbd{font-family:var(--f-mono);font-size:12px;padding:1px 6px;border:1px solid va
 .present .alert{font-size:15px}
 .present .hero h1,.present .pg-head h1,.present .ins-head h1{font-size:32px}
 
+/* ---------- минимальный стиль: тонкие контуры вместо заливок и теней ---------- */
+.topbar{background:var(--bg)}
+body::before{background:var(--bg)}
+.panel,.card,.side{background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:none}
+.card:hover,.inc-mini button:hover,.inc-item:hover,.scn:hover{border-color:var(--line-2);background:transparent}
+.kpi,.why article,.rep-out,.msg,.advice{background:transparent;border:1px solid var(--line)}
+.shiftbox,.seg,.switch,.iconbtn,.side-search,.sel,.inc-mini button,.inc-item,.scn,.dec{background:transparent}
+.btn{background:transparent}
+.btn:hover{background:transparent;border-color:var(--ink-2)}
+.btn-primary{background:transparent;border-color:var(--accent);color:var(--accent)}
+.btn-primary:hover{background:var(--accent-soft);filter:none}
+.btn-primary:disabled{opacity:.5}
+.seg button[aria-pressed="true"],.iconbtn[aria-pressed="true"]{background:transparent;color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.switch[aria-checked="true"] .knob{background:var(--accent)}
+.switch .knob::after{background:var(--bg)}
+.nav-it:hover{background:transparent;color:var(--ink)}
+.nav-it[aria-current="page"]{background:transparent;color:var(--ink);box-shadow:inset 2px 0 0 var(--accent),inset 0 0 0 1px var(--line-2)}
+.chip{background:transparent;border:1px solid currentColor;border-color:color-mix(in srgb,currentColor 40%,transparent)}
+.alert{background:transparent;border:1px solid color-mix(in srgb,var(--sevc) 45%,transparent)}
+.alert .btn-ack{background:transparent}
+.dec-warning,.dec-serious,.dec-critical{background:transparent}
+.dec-warning{border-color:color-mix(in srgb,var(--warning) 55%,transparent)}
+.dec-serious{border-color:color-mix(in srgb,var(--serious) 55%,transparent)}
+.dec-critical{border-color:color-mix(in srgb,var(--critical) 55%,transparent)}
+.dec .dec-ic{background:transparent;border:1px solid var(--line-2)}
+.advice.a-good{background:transparent;border-color:color-mix(in srgb,var(--good) 50%,transparent)}
+.advice.a-serious{background:transparent;border-color:color-mix(in srgb,var(--serious) 55%,transparent)}
+.advice.a-critical{background:transparent;border-color:color-mix(in srgb,var(--critical) 55%,transparent)}
+.tourbar{background:transparent;border-top:1px solid var(--line)}
+.rbar{background:transparent;border-top:1px solid color-mix(in srgb,var(--warning) 50%,transparent)}
+.shiftbox.paused{background:transparent}
+.shiftbox.paused #pauseBtn{background:transparent;color:var(--warning);border-color:var(--warning)}
+.feed-confirm{background:transparent;border:1px solid color-mix(in srgb,var(--warning) 50%,transparent)}
+.cost-total{background:transparent;border:1px solid var(--accent)}
+.cost-tbl .grp th{background:transparent;border-bottom:1px solid var(--line-2)}
+.tag-have,.tag-add{background:transparent;border:1px solid var(--line-2)}
+.tag-add{border-color:color-mix(in srgb,var(--accent) 55%,transparent);color:var(--accent)}
+.flow-n{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
+.ctable tbody tr.sel,.search li button[aria-selected="true"]{background:transparent;box-shadow:inset 0 0 0 1px var(--accent)}
+.toast{box-shadow:none;border-color:var(--line-2)}
+.search{box-shadow:none;border:1px solid var(--line-2)}
+.case.hl,.guide-focus{box-shadow:0 0 0 1.5px var(--accent) !important}
+.bar{background:transparent}
+.hero h1{font-weight:600;letter-spacing:-.01em}
+.pg-head h1,.ins-head h1{font-weight:600}
+
 @media (max-width:1250px){
   .pg-cols{grid-template-columns:minmax(0,1fr)}
   .flow{grid-template-columns:minmax(0,1fr)}
@@ -570,6 +620,7 @@ kbd{font-family:var(--f-mono);font-size:12px;padding:1px 6px;border:1px solid va
 }
 </style>
 <style>body{margin:0}</style>
+<script>try{var v=localStorage.getItem("fosfor-tara-theme-v2");if(v!=="light"&&v!=="auto")document.documentElement.setAttribute("data-theme","dark");else if(v==="light")document.documentElement.setAttribute("data-theme","light")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
 </head>
 <body>
 <header class="topbar" id="topbar">
@@ -4445,8 +4496,9 @@ const ICON = {
 Object.assign(S, { present: false, dl: undefined, srch: { items: [], sel: 0, from: null } });
 
 const HOST_THEME = document.documentElement.getAttribute('data-theme');
-let THEME = 'auto';
-try { const v = localStorage.getItem('fosfor-tara-theme'); if (v === 'light' || v === 'dark') THEME = v; } catch (e) { /* без сохранения */ }
+// по умолчанию тёмная тема; выбор посетителя запоминается (новый ключ — после смены дизайна все начинают с тёмной)
+let THEME = 'dark';
+try { const v = localStorage.getItem('fosfor-tara-theme-v2'); if (v === 'light' || v === 'dark' || v === 'auto') THEME = v; } catch (e) { /* без сохранения */ }
 
 // кнопки настроек в меню слева: значок и подпись с текущим состоянием
 function renderHeaderIcons() {
@@ -4477,8 +4529,8 @@ function applyTheme() {
   renderHeaderIcons();
 }
 function cycleTheme() {
-  THEME = THEME === 'auto' ? 'light' : THEME === 'light' ? 'dark' : 'auto';
-  try { localStorage.setItem('fosfor-tara-theme', THEME); } catch (e) { /* без сохранения */ }
+  THEME = THEME === 'dark' ? 'light' : THEME === 'light' ? 'auto' : 'dark';
+  try { localStorage.setItem('fosfor-tara-theme-v2', THEME); } catch (e) { /* без сохранения */ }
   applyTheme(); S.objKey = null; render(true);
 }
 
