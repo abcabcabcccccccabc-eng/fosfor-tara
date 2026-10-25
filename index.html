@@ -538,6 +538,23 @@ kbd{font-family:var(--f-mono);font-size:12px;padding:1px 6px;border:1px solid va
 .present .alert{font-size:15px}
 .present .hero h1,.present .pg-head h1,.present .ins-head h1{font-size:32px}
 
+/* ---------- 3D-камера поста ---------- */
+.cam3d{display:grid;gap:8px}
+.c3-vp{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:#0b0e10;border:1px solid var(--line);touch-action:pan-y;user-select:none}
+.c3-vp canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.c3-vp #cam{position:static;height:auto}
+.cam3d.on .c3-vp #cam{display:none}
+.cam3d.on .c3-vp{cursor:grab}
+.cam3d.on .c3-vp:active{cursor:grabbing}
+.c3-hud{pointer-events:none;z-index:2}
+.cam3d:not(.on) .c3-hud,.cam3d:not(.on) .c3-bar{display:none}
+.c3-vp::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,.35))}
+.c3-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.c3-bar .seg button{font-size:12px;padding:5px 9px}
+.cam3d.c3-full{position:fixed;z-index:90;inset:max(12px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) max(12px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));background:var(--bg);border:1px solid var(--line-2);border-radius:12px;padding:12px;grid-template-rows:minmax(0,1fr) auto auto}
+.cam3d.c3-full .c3-vp{aspect-ratio:auto;height:100%}
+.c3-lock{overflow:hidden}
+
 /* ---------- минимальный стиль: тонкие контуры вместо заливок и теней ---------- */
 .topbar{background:var(--bg)}
 body::before{background:var(--bg)}
@@ -2480,6 +2497,32 @@ Object.assign(L.kk, {
   sm_stats_h: 'Модельдегі нәтиже (осы сеанс)', sm_made: p => `«Фосфор-Тара» прототипінде жасалды · модель уақыты бойынша ${p.t}. Деректер модельденген.`
 });
 
+/* ---------- 3D-камера поста налива: тексты на трёх языках ---------- */
+Object.assign(L.ru, {
+  c3_aria: 'Ракурс 3D-камеры', c3_hatch: 'Горловина', c3_overview: 'Общий вид', c3_flange: 'Фланец F-1', c3_free: 'Свободный',
+  c3_full: 'На весь экран', c3_exit: 'Свернуть',
+  c3_hint: 'Потяните мышью, чтобы осмотреть пост со всех сторон. Колесо приближает в свободном ракурсе.',
+  c3_loading: '3D-модель поста загружается…', c3_fail: '3D недоступно в этом браузере — показана упрощённая камера.',
+  c3_lbl_overview: () => `К-0 · ПОСТ ${NM.post()} · ОБЩИЙ ВИД`, c3_lbl_flange: () => `К-4 · ПОСТ ${NM.post()} · ФЛАНЕЦ F-1`, c3_lbl_free: () => `3D · ПОСТ ${NM.post()} · СВОБОДНЫЙ ОБЗОР`,
+  c3_leak_box: 'ТЕЧЬ F-1', c3_spill_box: 'ПЕРЕЛИВ'
+});
+Object.assign(L.en, {
+  c3_aria: '3D camera view', c3_hatch: 'Neck', c3_overview: 'Overview', c3_flange: 'Flange F-1', c3_free: 'Free',
+  c3_full: 'Full screen', c3_exit: 'Close',
+  c3_hint: 'Drag with the mouse to look at the post from every side. The wheel zooms in the free view.',
+  c3_loading: 'Loading the 3D model of the post…', c3_fail: '3D is not available in this browser, so a simplified camera is shown.',
+  c3_lbl_overview: () => `C-0 · POST ${NM.post()} · OVERVIEW`, c3_lbl_flange: () => `C-4 · POST ${NM.post()} · FLANGE F-1`, c3_lbl_free: () => `3D · POST ${NM.post()} · FREE VIEW`,
+  c3_leak_box: 'LEAK F-1', c3_spill_box: 'OVERFLOW'
+});
+Object.assign(L.kk, {
+  c3_aria: '3D камераның көрінісі', c3_hatch: 'Мойын', c3_overview: 'Жалпы көрініс', c3_flange: 'F-1 фланеці', c3_free: 'Еркін',
+  c3_full: 'Толық экран', c3_exit: 'Жабу',
+  c3_hint: 'Бекетті жан-жағынан қарау үшін тінтуірмен тартыңыз. Еркін көріністе дөңгелек жақындатады.',
+  c3_loading: 'Бекеттің 3D моделі жүктелуде…', c3_fail: 'Бұл браузерде 3D қолжетімсіз, сондықтан жеңілдетілген камера көрсетілген.',
+  c3_lbl_overview: () => `К-0 · ${NM.post()}-БЕКЕТ · ЖАЛПЫ КӨРІНІС`, c3_lbl_flange: () => `К-4 · ${NM.post()}-БЕКЕТ · F-1 ФЛАНЕЦІ`, c3_lbl_free: () => `3D · ${NM.post()}-БЕКЕТ · ЕРКІН ШОЛУ`,
+  c3_leak_box: 'F-1 АҒУЫ', c3_spill_box: 'АСЫП ТӨГІЛУ'
+});
+
 /* ---------- состояние ---------- */
 const SEV_CLS = { good: 's-good', info: 's-info', warning: 's-warning', serious: 's-serious', critical: 's-critical' };
 const chip = (sev, label) => `<span class="chip ${SEV_CLS[sev]}"><i aria-hidden="true"></i>${esc(label ?? t('sev_' + sev))}</span>`;
@@ -3186,7 +3229,7 @@ const cam = { parts: [], last: 0 };
 function rr(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
 function camFrame(now) {
   requestAnimationFrame(camFrame);
-  if (!document.getElementById('cam') || document.hidden || now - cam.last < 40) return;
+  if (!document.getElementById('cam') || document.hidden || now - cam.last < 40 || C3.st === 'ready') return;
   cam.last = now;
   const tr = curPost();
   if (cam.post !== tr.id) { cam.parts = []; cam.post = tr.id; }
@@ -3758,6 +3801,534 @@ function summaryDoc() {
 }
 function exportSummary() { saveFile('fosfor-tara-summary.html', summaryDoc(), 'text/html'); }
 
+/* ---------- 3D-камера поста налива: эстакада, цистерна, труба налива и эффекты ----------
+   three.js подгружается только при открытии поста; без WebGL остаётся прежняя 2D-камера */
+const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js';
+const C3 = {
+  st: 'idle', T: null, view: 'hatch', host: null, last: 0, post: -1, full: false, drag: null,
+  orbit: { th: -0.65, ph: 0.38, r: 19 }, tgt: null, camPos: null, fly: 1
+};
+// размеры поста, м: цистерна вдоль оси X, эстакада со стороны +Z
+const G3 = { R: 1.45, L: 10.4, yc: 2.85, hatchY: 4.55, flangeX: -6.8, pipeY: 6.0, deckY: 4.9 };
+const VIEWS = {
+  hatch: { pos: [2.6, 7.3, -4.6], at: [-0.2, 4.4, 0.4], fov: 42 },
+  overview: { pos: [-12.5, 7.8, 13.5], at: [-0.6, 2.6, 0.4], fov: 42 },
+  flange: { pos: [-11.0, 6.2, 6.0], at: [-6.7, 3.6, 0], fov: 50 }
+};
+
+function webglOK() { try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch (e) { return false; } }
+function c3Load() {
+  if (C3.st !== 'idle') return;
+  if (!webglOK()) { C3.st = 'fail'; c3Status(); return; }
+  C3.st = 'loading'; c3Status();
+  import(THREE_URL).then(T => {
+    C3.T = T;
+    try { c3Build(); C3.st = 'ready'; } catch (e) { C3.st = 'fail'; }
+    c3Attach();
+  }).catch(() => { C3.st = 'fail'; c3Status(); });
+}
+function c3Status() {
+  const note = document.getElementById('c3Note'); if (!note) return;
+  note.textContent = C3.st === 'loading' ? t('c3_loading') : C3.st === 'fail' ? t('c3_fail') : C3.st === 'ready' ? t('c3_hint') : '';
+}
+// разметка камеры на странице поста
+function cam3dHTML() {
+  const vb = k => `<button data-c3view="${k}" aria-pressed="${C3.view === k}">${esc(t('c3_' + k))}</button>`;
+  return `<div class="cam3d" id="cam3d">
+    <div class="c3-vp"><canvas id="cam" width="640" height="360" aria-label="${esc(t('cam_aria'))}"></canvas><canvas class="c3-hud" id="c3Hud" aria-hidden="true"></canvas></div>
+    <div class="c3-bar"><div class="seg" role="group" aria-label="${esc(t('c3_aria'))}" id="c3Views">${['hatch', 'overview', 'flange', 'free'].map(vb).join('')}</div><button class="btn btn-sm" id="c3Full">${esc(t(C3.full ? 'c3_exit' : 'c3_full'))}</button></div>
+    <p class="note" id="c3Note"></p>
+  </div>`;
+}
+function c3Attach() {
+  const host = document.getElementById('cam3d'); C3.host = host;
+  if (!host) return;
+  c3Status();
+  host.classList.toggle('c3-full', C3.full);
+  if (C3.st !== 'ready') return;
+  const vp = host.querySelector('.c3-vp'), gl = C3.R.domElement;
+  if (gl.parentNode !== vp) vp.insertBefore(gl, vp.firstChild);
+  host.classList.add('on');
+  c3Resize();
+}
+function c3SetView(v) {
+  C3.view = v; C3.fly = 1;
+  $$('#c3Views [data-c3view]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.c3view === v)));
+}
+function c3SetFull(on) {
+  C3.full = on;
+  if (C3.host) C3.host.classList.toggle('c3-full', on);
+  document.body.classList.toggle('c3-lock', on);
+  const b = document.getElementById('c3Full'); if (b) b.textContent = t(on ? 'c3_exit' : 'c3_full');
+  setTimeout(c3Resize, 30);
+}
+
+/* ---------- сцена ---------- */
+function c3Sprite(T) {
+  const c = document.createElement('canvas'); c.width = c.height = 64;
+  const g = c.getContext('2d'), rg = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  rg.addColorStop(0, 'rgba(255,255,255,1)'); rg.addColorStop(0.45, 'rgba(255,255,255,.55)'); rg.addColorStop(1, 'rgba(255,255,255,0)');
+  g.fillStyle = rg; g.fillRect(0, 0, 64, 64);
+  return new T.CanvasTexture(c);
+}
+function c3Stripes(T, glow) {
+  const c = document.createElement('canvas'); c.width = 8; c.height = 64;
+  const g = c.getContext('2d');
+  g.fillStyle = glow ? '#000' : '#a7b0b7'; g.fillRect(0, 0, 8, 64);
+  for (let y = 0; y < 64; y += 16) { g.fillStyle = '#f0b93a'; g.fillRect(0, y, 8, 3); }
+  const tx = new T.CanvasTexture(c); tx.wrapS = tx.wrapT = T.RepeatWrapping; tx.repeat.set(1, 3); tx.colorSpace = T.SRGBColorSpace;
+  return tx;
+}
+function c3Plate(T) {
+  const c = document.createElement('canvas'); c.width = 140; c.height = 100;
+  const g = c.getContext('2d');
+  g.fillStyle = '#f39200'; g.fillRect(0, 0, 140, 100); g.strokeStyle = '#111'; g.lineWidth = 6; g.strokeRect(3, 3, 134, 94);
+  g.beginPath(); g.moveTo(0, 50); g.lineTo(140, 50); g.stroke();
+  g.fillStyle = '#111'; g.font = '700 34px monospace'; g.textAlign = 'center'; g.fillText('46', 70, 38); g.fillText('1381', 70, 88);
+  const tx = new T.CanvasTexture(c); tx.colorSpace = T.SRGBColorSpace;
+  return tx;
+}
+// частицы с размером и прозрачностью на каждую точку
+function c3Particles(T, scene, max, additive) {
+  const g = new T.BufferGeometry();
+  const pos = new Float32Array(max * 3), col = new Float32Array(max * 3), size = new Float32Array(max), alpha = new Float32Array(max);
+  g.setAttribute('position', new T.BufferAttribute(pos, 3));
+  g.setAttribute('aColor', new T.BufferAttribute(col, 3));
+  g.setAttribute('aSize', new T.BufferAttribute(size, 1));
+  g.setAttribute('aAlpha', new T.BufferAttribute(alpha, 1));
+  const mat = new T.ShaderMaterial({
+    uniforms: { uMap: { value: C3.sprite }, uScale: { value: 400 } },
+    vertexShader: 'attribute float aSize;attribute float aAlpha;attribute vec3 aColor;varying float vA;varying vec3 vC;uniform float uScale;'
+      + 'void main(){vA=aAlpha;vC=aColor;vec4 mv=modelViewMatrix*vec4(position,1.0);gl_PointSize=aSize*uScale/max(0.2,-mv.z);gl_Position=projectionMatrix*mv;}',
+    fragmentShader: 'uniform sampler2D uMap;varying float vA;varying vec3 vC;'
+      + 'void main(){vec4 tx=texture2D(uMap,gl_PointCoord);float a=tx.a*vA;if(a<0.004)discard;gl_FragColor=vec4(vC,a);}',
+    transparent: true, depthWrite: false, blending: additive ? T.AdditiveBlending : T.NormalBlending
+  });
+  const pts = new T.Points(g, mat); pts.frustumCulled = false; pts.renderOrder = additive ? 3 : 2;
+  scene.add(pts);
+  return { pts, mat, max, pos, col, size, alpha, vel: new Float32Array(max * 3), age: new Float32Array(max).fill(1e9), life: new Float32Array(max).fill(1), aux: new Float32Array(max), head: 0, acc: 0 };
+}
+function c3Spawn(P, x, y, z, vx, vy, vz, life, aux) {
+  const i = P.head; P.head = (P.head + 1) % P.max;
+  P.pos[i * 3] = x; P.pos[i * 3 + 1] = y; P.pos[i * 3 + 2] = z;
+  P.vel[i * 3] = vx; P.vel[i * 3 + 1] = vy; P.vel[i * 3 + 2] = vz;
+  P.age[i] = 0; P.life[i] = life; P.aux[i] = aux || 0;
+}
+function c3Emit(P, rate, dt, fn) { P.acc += rate * dt; while (P.acc >= 1) { P.acc -= 1; fn(); } if (rate <= 0) P.acc = 0; }
+function c3Step(P, dt, fn) {
+  for (let i = 0; i < P.max; i++) {
+    if (P.age[i] >= P.life[i]) { P.alpha[i] = 0; P.size[i] = 0; continue; }
+    P.age[i] += dt;
+    fn(i, P.age[i] / P.life[i]);
+  }
+  const a = P.pts.geometry.attributes;
+  a.position.needsUpdate = a.aColor.needsUpdate = a.aSize.needsUpdate = a.aAlpha.needsUpdate = true;
+}
+function c3Clear(P) { P.age.fill(1e9); P.acc = 0; }
+
+function c3Build() {
+  const T = C3.T, { R: TR_, L: TL, yc } = G3;
+  const R = new T.WebGLRenderer({ antialias: true, powerPreference: 'low-power' });
+  R.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
+  R.localClippingEnabled = true;
+  R.shadowMap.enabled = true; R.shadowMap.type = T.PCFSoftShadowMap;
+  R.toneMapping = T.ACESFilmicToneMapping; R.toneMappingExposure = 1.25;
+  R.domElement.className = 'c3-gl';
+  const scene = new T.Scene();
+  scene.background = new T.Color(0x0f1317);
+  scene.fog = new T.Fog(0x0f1317, 30, 80);
+  const cam = new T.PerspectiveCamera(50, 16 / 9, 0.1, 200);
+  C3.sprite = c3Sprite(T);
+  Object.assign(C3, { R, scene, cam, tgt: new T.Vector3(0, 4.35, 0), camPos: new T.Vector3(2.5, 6.6, 1.75), v3: new T.Vector3() });
+
+  // свет: небо, солнце с тенями, прожектор под навесом эстакады
+  scene.add(new T.HemisphereLight(0xc9d6f2, 0x23282d, 1.7));
+  const sun = new T.DirectionalLight(0xfff1dc, 2.2);
+  sun.position.set(12, 22, 10); sun.castShadow = true;
+  sun.shadow.mapSize.set(1024, 1024);
+  Object.assign(sun.shadow.camera, { left: -16, right: 16, top: 16, bottom: -16, near: 1, far: 70 });
+  sun.shadow.bias = -0.0006;
+  scene.add(sun);
+  const flood = new T.SpotLight(0xffe0b0, 90, 22, Math.PI / 4.5, 0.6, 1.6);
+  flood.position.set(1.5, 7.0, 2.6); flood.target.position.set(0, 4.2, 0);
+  scene.add(flood, flood.target);
+
+  const M = (color, o) => new T.MeshStandardMaterial(Object.assign({ color, roughness: 0.65, metalness: 0.25 }, o || {}));
+  const mats = {
+    ground: M(0x1b2024, { roughness: 1, metalness: 0 }), pad: M(0x262c31, { roughness: 0.95, metalness: 0 }),
+    steel: M(0x7d8790, { roughness: 0.45, metalness: 0.6 }), dark: M(0x2f363c, { roughness: 0.6, metalness: 0.5 }),
+    rail: M(0x8f979e, { roughness: 0.35, metalness: 0.8 }), sleeper: M(0x3a332c, { roughness: 1, metalness: 0 }),
+    yellow: M(0xd6b445, { roughness: 0.5, metalness: 0.2 }), pipe: M(0xb7c0c7, { roughness: 0.35, metalness: 0.55 }),
+    red: M(0xb2372b, { roughness: 0.5 }), bldg: M(0x252b30, { roughness: 0.9, metalness: 0.05 })
+  };
+  const add = (geo, mat, x, y, z, shadow = true) => { const m = new T.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = shadow; m.receiveShadow = true; scene.add(m); return m; };
+  const box = (w, h, d, mat, x, y, z) => add(new T.BoxGeometry(w, h, d), mat, x, y, z);
+  const cylX = (r, len, mat, x, y, z, seg = 16) => { const g = new T.CylinderGeometry(r, r, len, seg); g.rotateZ(Math.PI / 2); return add(g, mat, x, y, z); };
+  const cylY = (r, h, mat, x, y, z, seg = 16) => add(new T.CylinderGeometry(r, r, h, seg), mat, x, y, z);
+  const inst = (geo, mat, list) => {
+    const im = new T.InstancedMesh(geo, mat, list.length), o = new T.Object3D();
+    list.forEach((p, i) => { o.position.set(p[0], p[1], p[2]); o.rotation.set(p[3] || 0, p[4] || 0, p[5] || 0); o.updateMatrix(); im.setMatrixAt(i, o.matrix); });
+    im.castShadow = true; im.receiveShadow = true; scene.add(im); return im;
+  };
+
+  // земля, площадка, рельсы со шпалами
+  const ground = new T.Mesh(new T.PlaneGeometry(160, 160), mats.ground); ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
+  box(22, 0.04, 9.5, mats.pad, -1.5, 0.02, 1.6);
+  box(60, 0.14, 0.09, mats.rail, 0, 0.17, -0.72); box(60, 0.14, 0.09, mats.rail, 0, 0.17, 0.72);
+  const sl = []; for (let x = -29; x <= 29; x += 0.7) sl.push([x, 0.06, 0]);
+  inst(new T.BoxGeometry(0.24, 0.1, 2.5), mats.sleeper, sl);
+
+  // вагон-платформа и тележки
+  box(11.4, 0.3, 2.3, mats.dark, 0, 1.15, 0);
+  box(2.4, 0.45, 2.0, mats.dark, -4, 0.62, 0); box(2.4, 0.45, 2.0, mats.dark, 4, 0.62, 0);
+  const wh = []; for (const bx of [-4, 4]) for (const dx of [-0.85, 0.85]) for (const z of [-0.72, 0.72]) wh.push([bx + dx, 0.42, z, Math.PI / 2]);
+  inst(new T.CylinderGeometry(0.42, 0.42, 0.12, 20), mats.steel, wh);
+  for (const x of [-3.6, 3.6]) box(0.6, 0.45, 2.0, mats.dark, x, 1.45, 0);
+
+  // цистерна: полупрозрачная обечайка, чтобы был виден уровень, и непрозрачные бандажи
+  const shellMat = M(0x9aa5ae, { roughness: 0.3, metalness: 0.6, transparent: true, opacity: 0.3, depthWrite: false, side: T.DoubleSide });
+  const shellG = new T.CylinderGeometry(TR_, TR_, TL, 56, 1, true); shellG.rotateZ(Math.PI / 2);
+  const shell = new T.Mesh(shellG, shellMat); shell.position.set(0, yc, 0); shell.renderOrder = 4; scene.add(shell);
+  for (const sx of [-1, 1]) { const cap = new T.Mesh(new T.SphereGeometry(TR_, 40, 20), shellMat); cap.scale.set(0.3, 1, 1); cap.position.set(sx * TL / 2, yc, 0); cap.renderOrder = 4; scene.add(cap); }
+  const ringG = new T.TorusGeometry(TR_ + 0.015, 0.04, 8, 56); ringG.rotateY(Math.PI / 2);
+  for (const x of [-4.8, -2.4, 2.4, 4.8]) add(ringG, mats.dark, x, yc, 0);
+  const plate = new T.Mesh(new T.PlaneGeometry(0.7, 0.5), new T.MeshStandardMaterial({ map: c3Plate(T), roughness: 0.6 }));
+  plate.position.set(-3.4, yc + 0.1, TR_ + 0.03); scene.add(plate);
+
+  // фосфор и слой воды внутри: срезаются плоскостями на текущем уровне
+  const pPhos = new T.Plane(new T.Vector3(0, -1, 0), yc), pWlo = new T.Plane(new T.Vector3(0, 1, 0), -yc), pWhi = new T.Plane(new T.Vector3(0, -1, 0), yc);
+  const phosMat = M(0xd9a630, { roughness: 0.3, metalness: 0, emissive: 0x4a3200, emissiveIntensity: 0.7, clippingPlanes: [pPhos], side: T.DoubleSide });
+  const waterMat = M(0x3f86ad, { roughness: 0.15, metalness: 0, transparent: true, opacity: 0.5, depthWrite: false, clippingPlanes: [pWlo, pWhi], side: T.DoubleSide });
+  const inner = mat => {
+    const g = new T.CylinderGeometry(TR_ - 0.04, TR_ - 0.04, TL - 0.02, 48); g.rotateZ(Math.PI / 2);
+    const m = new T.Mesh(g, mat); m.position.set(0, yc, 0); scene.add(m);
+    for (const sx of [-1, 1]) { const cap = new T.Mesh(new T.SphereGeometry(TR_ - 0.04, 32, 16), mat); cap.scale.set(0.29, 1, 1); cap.position.set(sx * TL / 2, yc, 0); scene.add(cap); }
+  };
+  inner(phosMat); inner(waterMat);
+  const surfG = new T.PlaneGeometry(1, 1); surfG.rotateX(-Math.PI / 2);
+  const phosTop = new T.Mesh(surfG, M(0xe7b947, { roughness: 0.25, metalness: 0, emissive: 0x5a3c00, emissiveIntensity: 0.8 }));
+  const waterTop = new T.Mesh(surfG, M(0x5aa3c8, { roughness: 0.1, metalness: 0, transparent: true, opacity: 0.55, depthWrite: false }));
+  scene.add(phosTop, waterTop);
+
+  // горловина: патрубок и откидная крышка
+  cylY(0.42, 0.34, mats.steel, 0, G3.hatchY - 0.17, 0, 28);
+  const lidPivot = new T.Group(); lidPivot.position.set(0.44, G3.hatchY, 0); scene.add(lidPivot);
+  const lid = new T.Mesh(new T.CylinderGeometry(0.47, 0.47, 0.07, 28), mats.steel); lid.position.set(-0.44, 0.035, 0); lid.castShadow = true; lidPivot.add(lid);
+  // датчик уровня и сигнализатор перелива на крыше цистерны
+  cylY(0.12, 0.3, mats.dark, 1.3, 4.42, 0); box(0.22, 0.16, 0.22, mats.steel, 1.3, 4.62, 0);
+  const sensorLamp = new T.Mesh(new T.SphereGeometry(0.07, 12, 8), new T.MeshStandardMaterial({ color: 0x222, emissive: 0x33ff66, emissiveIntensity: 1 }));
+  sensorLamp.position.set(1.3, 4.76, 0); scene.add(sensorLamp);
+  cylY(0.1, 0.36, mats.dark, -1.3, 4.45, 0);
+
+  // эстакада налива: стойки, настил, ограждение, навес, лестница и мостик к горловине
+  const ez = 2.75;
+  for (const x of [-4.4, 0, 4.4]) for (const z of [ez - 0.75, ez + 0.75]) box(0.2, 7.2, 0.2, mats.dark, x, 3.6, z);
+  box(9.2, 0.1, 1.7, mats.steel, 0, G3.deckY, ez);
+  box(9.6, 0.12, 2.1, mats.dark, 0, 7.25, ez);
+  for (const z of [ez + 0.83]) { box(9.2, 0.06, 0.06, mats.yellow, 0, G3.deckY + 1.05, z); box(9.2, 0.05, 0.05, mats.yellow, 0, G3.deckY + 0.55, z); }
+  const posts = []; for (let x = -4.5; x <= 4.6; x += 1.5) posts.push([x, G3.deckY + 0.53, ez + 0.83]);
+  inst(new T.BoxGeometry(0.06, 1.05, 0.06), mats.yellow, posts);
+  const bridge = box(1.0, 0.06, 1.55, mats.steel, -1.3, G3.deckY - 0.12, 1.25); bridge.rotation.x = 0.12;
+  // лестница спускается от края настила к земле
+  const steps = []; for (let i = 0; i < 14; i++) steps.push([4.85 + i * 0.25, G3.deckY - 0.35 * (i + 0.5), ez]);
+  inst(new T.BoxGeometry(0.28, 0.05, 1.1), mats.steel, steps);
+  for (const z of [ez - 0.58, ez + 0.58]) { const s = box(6.0, 0.08, 0.06, mats.yellow, 6.5, 2.45, z); s.rotation.z = -Math.atan2(4.9, 3.5); }
+  // лампа насоса на стойке: зелёная — налив идёт, красная — насос остановлен
+  const pumpLamp = new T.Mesh(new T.SphereGeometry(0.11, 12, 8), new T.MeshStandardMaterial({ color: 0x222, emissive: 0x33ff66, emissiveIntensity: 1.4 }));
+  pumpLamp.position.set(-4.4, 6.3, ez - 0.88); scene.add(pumpLamp);
+
+  // труба налива: от насосной вдоль эстакады, фланец F-1, задвижка и опускной рукав в горловину
+  const PY = G3.pipeY;
+  cylX(0.1, 12.3, mats.pipe, -6.45, PY, 0);
+  for (const dx of [-0.035, 0.035]) cylX(0.22, 0.05, mats.yellow, G3.flangeX + dx, PY, 0, 24);
+  const bolts = []; for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2; bolts.push([G3.flangeX, PY + Math.cos(a) * 0.17, Math.sin(a) * 0.17, 0, 0, Math.PI / 2]); }
+  inst(new T.CylinderGeometry(0.02, 0.02, 0.14, 6), mats.dark, bolts);
+  add(new T.SphereGeometry(0.17, 16, 10), mats.red, -1.4, PY, 0); cylY(0.025, 0.3, mats.dark, -1.4, PY + 0.25, 0);
+  const wheel = add(new T.TorusGeometry(0.17, 0.025, 6, 20), mats.red, -1.4, PY + 0.4, 0); wheel.rotation.x = Math.PI / 2;
+  // колено над горловиной и опускной рукав: при открытии люка рукав втягивается вверх
+  add(new T.TorusGeometry(0.3, 0.1, 10, 16, Math.PI / 2), mats.pipe, -0.3, PY - 0.3, 0);
+  const flowTex = c3Stripes(T, false), flowGlow = c3Stripes(T, true);
+  const drop = new T.Mesh(new T.CylinderGeometry(0.1, 0.1, 1, 16), new T.MeshStandardMaterial({ map: flowTex, emissiveMap: flowGlow, emissive: 0xffffff, emissiveIntensity: 0.9, roughness: 0.4, metalness: 0.4 }));
+  drop.castShadow = true; scene.add(drop);
+  for (const x of [-8.8, -3.4, 1.2]) { box(0.16, PY + 0.25, 0.16, mats.dark, x, (PY + 0.25) / 2, x < -5 ? 0.9 : ez - 0.75); }
+  box(0.12, 0.12, 0.95, mats.dark, -8.8, PY + 0.2, 0.45);
+  for (const x of [-3.4, 1.2]) box(0.12, 0.12, ez - 0.75, mats.dark, x, PY + 0.2, (ez - 0.75) / 2);
+
+  // оросители над горловиной и камера К-1 на стойке
+  cylX(0.04, 3.2, mats.red, 0, 6.75, 0.9);
+  const nozzles = [-1.2, 0, 1.2].map(x => { add(new T.ConeGeometry(0.07, 0.14, 10), mats.red, x, 6.66, 0.9).rotation.x = Math.PI; return [x, 6.6, 0.9]; });
+  box(0.16, 7.6, 0.16, mats.dark, 2.9, 3.8, -4.9);
+  const camBody = box(0.38, 0.18, 0.2, mats.dark, 2.9, 7.5, -4.9); camBody.lookAt(0, 4.4, 0);
+  const camLight = new T.SpotLight(0xdfe8ff, 70, 16, Math.PI / 6, 0.7, 1.6);
+  camLight.position.set(2.9, 7.7, -4.7); camLight.target.position.set(0, 4.3, 0); scene.add(camLight, camLight.target);
+
+  // фон: насосная, резервуары склада, прожекторная мачта
+  box(7, 4.2, 5, mats.bldg, -16, 2.1, 7.5);
+  for (const [x, z] of [[-22, -9], [-14, -12], [-6, -14]]) cylY(3, 6.5, mats.bldg, x, 3.25, z, 32);
+  box(0.25, 10, 0.25, mats.dark, 9.5, 5, 5.5);
+
+  // лужи разлитого фосфора (под фланцем и у борта цистерны)
+  const puddleMat = M(0xc8901f, { roughness: 0.25, metalness: 0, emissive: 0x5a3600, emissiveIntensity: 0.6, transparent: true, opacity: 0.9 });
+  const pg = new T.CircleGeometry(1, 32); pg.rotateX(-Math.PI / 2);
+  const puddleF = new T.Mesh(pg, puddleMat); puddleF.position.set(G3.flangeX, 0.125, 0); scene.add(puddleF);
+  const puddleO = new T.Mesh(pg, puddleMat); puddleO.position.set(0, 0.125, 1.9); scene.add(puddleO);
+
+  // огни пожара
+  const fireLight = new T.PointLight(0xff8a2a, 0, 16, 1.6); fireLight.position.set(0, 5.2, 0); scene.add(fireLight);
+  const leakLight = new T.PointLight(0xff8a2a, 0, 14, 1.6); leakLight.position.set(G3.flangeX, 1.2, 0); scene.add(leakLight);
+
+  Object.assign(C3, {
+    planes: { pPhos, pWlo, pWhi }, phosTop, waterTop, lidPivot, drop, flowTex, flowGlow, sensorLamp, pumpLamp, puddleF, puddleO, fireLight, leakLight, nozzles,
+    smoke: c3Particles(T, scene, 360, false), fire: c3Particles(T, scene, 220, true), spray: c3Particles(T, scene, 520, false),
+    drip: c3Particles(T, scene, 120, false), spill: c3Particles(T, scene, 260, false),
+    lid: 0, lift: 0, levelY: yc, k: new T.Vector3()
+  });
+}
+
+/* ---------- кадр: состояние поста → модель и эффекты ---------- */
+function c3Update(dt, now) {
+  const tr = curPost(), { R: TR_, L: TL, yc } = G3;
+  if (C3.post !== tr.id) { C3.post = tr.id; [C3.smoke, C3.fire, C3.spray, C3.drip, C3.spill].forEach(c3Clear); }
+  // уровень: жидкость в цистерне, сверху слой воды
+  const f = clamp((tr.level || 0) / 100, 0, 1);
+  const top = yc - TR_ + 2 * TR_ * f;
+  C3.levelY += (top - C3.levelY) * Math.min(1, dt * 3);
+  const wTop = C3.levelY, pTop = Math.max(yc - TR_, wTop - 0.2);
+  C3.planes.pPhos.constant = pTop; C3.planes.pWlo.constant = -pTop; C3.planes.pWhi.constant = wTop;
+  const half = y => Math.sqrt(Math.max(0, TR_ * TR_ - (y - yc) * (y - yc))) - 0.05;
+  C3.phosTop.position.set(0, pTop, 0); C3.phosTop.scale.set(TL - 0.1, 1, Math.max(0.001, 2 * half(pTop)));
+  C3.waterTop.position.set(0, wTop, 0); C3.waterTop.scale.set(TL - 0.1, 1, Math.max(0.001, 2 * half(wTop)));
+  C3.phosTop.visible = f > 0.02; C3.waterTop.visible = f > 0.02;
+  // люк открыт при выбросе и пожаре; рукав поднимается
+  const open = tr.smokeTarget > 0 || tr.smoke > 0.05 || tr.fire > 0.05 ? 1 : 0;
+  C3.lid += (open - C3.lid) * Math.min(1, dt * 2.5);
+  C3.lidPivot.rotation.z = -C3.lid * 1.25;
+  C3.lift += (open - C3.lift) * Math.min(1, dt * 2);
+  const dTop = G3.pipeY - 0.3, dBot = 4.6 + C3.lift * 0.6;
+  C3.drop.scale.y = dTop - dBot; C3.drop.position.set(0, (dTop + dBot) / 2, 0);
+  // поток в рукаве и лампы
+  if (tr.pump) { C3.flowTex.offset.y -= dt * 1.6; C3.flowGlow.offset.y = C3.flowTex.offset.y; }
+  C3.drop.material.emissiveIntensity = tr.pump ? 1.2 : 0.05;
+  C3.pumpLamp.material.emissive.setHex(tr.pump ? 0x33ff66 : 0xff3b30);
+  const fault = tr.frozen || tr.fault;
+  C3.sensorLamp.material.emissive.setHex(fault ? 0xff3b30 : 0x33ff66);
+  C3.sensorLamp.material.emissiveIntensity = fault ? (Math.floor(now / 350) % 2 ? 2 : 0.2) : 0.9;
+  // ветер: откуда дует → куда сносит дым (север = −Z)
+  const to = (weather.windFrom + 180) * Math.PI / 180, ws = (weather.windSpeed || 3) / 4;
+  const wx = Math.sin(to) * ws, wz = -Math.cos(to) * ws;
+  const rnd = () => Math.random() - 0.5;
+  const hy = G3.hatchY + 0.1;
+
+  // дым: из люка, от луж горящего фосфора
+  const puddleAmt = clamp((tr.leaked || 0) * 6, 0, 1), spillAmt = tr.overflowed ? 1 : 0;
+  c3Emit(C3.smoke, 75 * clamp(tr.smoke, 0, 1), dt, () => c3Spawn(C3.smoke, rnd() * 0.5, hy, rnd() * 0.5, wx * 0.3 + rnd() * 0.25, 0.7 + Math.random() * 0.4, wz * 0.3 + rnd() * 0.25, 4 + Math.random() * 2));
+  c3Emit(C3.smoke, 30 * puddleAmt * (tr.leakFire ? 1.6 : 1), dt, () => c3Spawn(C3.smoke, G3.flangeX + rnd() * 1.2 * puddleAmt, 0.15, rnd() * 1.2 * puddleAmt, wx * 0.3 + rnd() * 0.2, 0.6 + Math.random() * 0.3, wz * 0.3 + rnd() * 0.2, 4 + Math.random() * 2));
+  c3Emit(C3.smoke, 30 * spillAmt, dt, () => c3Spawn(C3.smoke, rnd() * 2, 0.15, 1.9 + rnd() * 1.2, wx * 0.3, 0.6 + Math.random() * 0.3, wz * 0.3, 4.5));
+  c3Step(C3.smoke, dt, (i, u) => {
+    const v = C3.smoke.vel, p = C3.smoke.pos;
+    v[i * 3] += wx * 0.12 * dt; v[i * 3 + 2] += wz * 0.12 * dt;
+    p[i * 3] += v[i * 3] * dt; p[i * 3 + 1] += v[i * 3 + 1] * dt; p[i * 3 + 2] += v[i * 3 + 2] * dt;
+    C3.smoke.size[i] = 0.5 + 3.2 * Math.pow(u, 0.7);
+    C3.smoke.alpha[i] = 0.3 * Math.min(1, u * 8) * (1 - u) * (1 - u);
+    const c = 0.86 + 0.08 * u; C3.smoke.col[i * 3] = c; C3.smoke.col[i * 3 + 1] = c + 0.01; C3.smoke.col[i * 3 + 2] = c + 0.02;
+  });
+
+  // огонь: в люке при переливе, у фланца и в луже при возгорании течи
+  const fireHatch = clamp(tr.fire || 0, 0, 1), fireLeak = tr.leakFire ? 1 : 0;
+  c3Emit(C3.fire, 140 * fireHatch, dt, () => c3Spawn(C3.fire, rnd() * 0.6, hy - 0.05, rnd() * 0.6, rnd() * 0.3, 1.6 + Math.random(), rnd() * 0.3, 0.55 + Math.random() * 0.35, 1));
+  c3Emit(C3.fire, 70 * spillAmt * fireHatch, dt, () => c3Spawn(C3.fire, rnd() * 2.2, 0.1, 1.9 + rnd() * 1.4, rnd() * 0.3, 1.4 + Math.random(), rnd() * 0.3, 0.6, 1.3));
+  c3Emit(C3.fire, 110 * fireLeak, dt, () => c3Spawn(C3.fire, G3.flangeX + rnd() * 0.3, G3.pipeY - 0.1, rnd() * 0.3, rnd() * 0.3, 1.2 + Math.random(), rnd() * 0.3, 0.5, 0.8));
+  c3Emit(C3.fire, 90 * fireLeak * Math.max(0.3, puddleAmt), dt, () => c3Spawn(C3.fire, G3.flangeX + rnd() * 1.6, 0.1, rnd() * 1.6, rnd() * 0.3, 1.3 + Math.random(), rnd() * 0.3, 0.6, 1.2));
+  c3Step(C3.fire, dt, (i, u) => {
+    const v = C3.fire.vel, p = C3.fire.pos;
+    v[i * 3] += wx * 0.6 * dt; v[i * 3 + 2] += wz * 0.6 * dt;
+    p[i * 3] += v[i * 3] * dt; p[i * 3 + 1] += v[i * 3 + 1] * dt; p[i * 3 + 2] += v[i * 3 + 2] * dt;
+    C3.fire.size[i] = C3.fire.aux[i] * (1.1 - 0.85 * u);
+    C3.fire.alpha[i] = 0.5 * (1 - u);
+    C3.fire.col[i * 3] = 1; C3.fire.col[i * 3 + 1] = clamp(0.92 - 0.75 * u, 0.15, 1); C3.fire.col[i * 3 + 2] = clamp(0.55 - 0.9 * u, 0.02, 1);
+  });
+  const flick = 0.75 + 0.25 * Math.sin(now / 47) * Math.sin(now / 113);
+  C3.fireLight.intensity = 30 * fireHatch * flick;
+  C3.leakLight.intensity = 30 * fireLeak * flick;
+
+  // вода из оросителей
+  c3Emit(C3.spray, 520 * clamp(tr.spray || 0, 0, 1), dt, () => {
+    const n = C3.nozzles[Math.floor(Math.random() * 3)];
+    c3Spawn(C3.spray, n[0], n[1], n[2], rnd() * 1.6, -2.2 - Math.random() * 1.5, rnd() * 1.6 - 0.35, 0.75 + Math.random() * 0.25);
+  });
+  c3Step(C3.spray, dt, (i, u) => {
+    const v = C3.spray.vel, p = C3.spray.pos;
+    v[i * 3 + 1] -= 9.8 * dt;
+    p[i * 3] += v[i * 3] * dt; p[i * 3 + 1] += v[i * 3 + 1] * dt; p[i * 3 + 2] += v[i * 3 + 2] * dt;
+    if (p[i * 3 + 1] < 4.3 && Math.abs(p[i * 3 + 2]) < 1.2) C3.spray.age[i] = C3.spray.life[i];
+    C3.spray.size[i] = 0.09; C3.spray.alpha[i] = 0.6 * (1 - u);
+    C3.spray.col[i * 3] = 0.72; C3.spray.col[i * 3 + 1] = 0.88; C3.spray.col[i * 3 + 2] = 1;
+  });
+
+  // капли из фланца F-1 и лужа под ним
+  const dripping = tr.leak > 0 && tr.pump && !tr.leakFire;
+  c3Emit(C3.drip, dripping ? 14 + 80 * tr.leak : 0, dt, () => c3Spawn(C3.drip, G3.flangeX + rnd() * 0.12, G3.pipeY - 0.2, rnd() * 0.12, rnd() * 0.15, -0.3, rnd() * 0.15, 3));
+  c3Step(C3.drip, dt, i => {
+    const v = C3.drip.vel, p = C3.drip.pos;
+    v[i * 3 + 1] -= 9.8 * dt;
+    p[i * 3] += v[i * 3] * dt; p[i * 3 + 1] += v[i * 3 + 1] * dt; p[i * 3 + 2] += v[i * 3 + 2] * dt;
+    if (p[i * 3 + 1] < 0.15) C3.drip.age[i] = C3.drip.life[i];
+    C3.drip.size[i] = 0.24; C3.drip.alpha[i] = 1;
+    C3.drip.col[i * 3] = 0.95; C3.drip.col[i * 3 + 1] = 0.72; C3.drip.col[i * 3 + 2] = 0.2;
+  });
+  const ps = clamp(Math.sqrt((tr.leaked || 0) * 22), 0, 2.4);
+  C3.puddleF.visible = ps > 0.04; C3.puddleF.scale.set(ps, 1, ps * 0.8);
+  // перелив: фосфор стекает по борту цистерны и растекается у колёс
+  c3Emit(C3.spill, 110 * spillAmt, dt, () => c3Spawn(C3.spill, rnd() * 1.4, 0, 0, 0, 0, 0, 2.2, 0.15));
+  c3Step(C3.spill, dt, (i, u) => {
+    const p = C3.spill.pos, a = C3.spill.aux;
+    a[i] += dt * 1.1;
+    if (a[i] < Math.PI / 2) { p[i * 3 + 1] = yc + (TR_ + 0.03) * Math.cos(a[i]); p[i * 3 + 2] = (TR_ + 0.03) * Math.sin(a[i]); }
+    else { const fall = (a[i] - Math.PI / 2) / 1.1; p[i * 3 + 1] = Math.max(0.08, yc - 4.9 * fall * fall * 3); p[i * 3 + 2] = TR_ + 0.05 + fall * 0.6; }
+    C3.spill.size[i] = 0.22; C3.spill.alpha[i] = 0.9 * (1 - u * 0.5);
+    C3.spill.col[i * 3] = 0.98; C3.spill.col[i * 3 + 1] = 0.7; C3.spill.col[i * 3 + 2] = 0.18;
+  });
+  const po = tr.overflowed ? 2.6 : 0;
+  C3.puddleO.visible = po > 0; C3.puddleO.scale.set(Math.max(po, 0.001), 1, Math.max(po * 0.5, 0.001));
+}
+
+/* ---------- камера: ракурсы, плавный перелёт, свободный обзор ---------- */
+function c3Camera(dt) {
+  const T = C3.T, cam = C3.cam;
+  let pos, at, fov;
+  if (C3.view === 'free') {
+    const o = C3.orbit; at = [-0.8, 3.0, 0.6];
+    pos = [at[0] + o.r * Math.cos(o.ph) * Math.sin(o.th), at[1] + o.r * Math.sin(o.ph), at[2] + o.r * Math.cos(o.ph) * Math.cos(o.th)];
+    fov = 45;
+  } else { const v = VIEWS[C3.view]; pos = v.pos; at = v.at; fov = v.fov; }
+  const k = C3.fly > 0 ? Math.min(1, dt * 4) : 1;
+  C3.camPos.lerp(C3.v3.set(pos[0], pos[1], pos[2]), k);
+  C3.tgt.lerp(new T.Vector3(at[0], at[1], at[2]), k);
+  if (C3.fly > 0) { C3.fly -= dt; }
+  cam.position.copy(C3.camPos); cam.lookAt(C3.tgt);
+  if (Math.abs(cam.fov - fov) > 0.05) { cam.fov += (fov - cam.fov) * k; cam.updateProjectionMatrix(); }
+  const h = C3.R.domElement.height;
+  const scale = h / 2 / Math.tan(cam.fov * Math.PI / 360);
+  [C3.smoke, C3.fire, C3.spray, C3.drip, C3.spill].forEach(P => { P.mat.uniforms.uScale.value = scale; });
+}
+function c3Resize() {
+  if (C3.st !== 'ready' || !C3.host) return;
+  const vp = C3.host.querySelector('.c3-vp'), w = vp.clientWidth, h = vp.clientHeight;
+  if (!w || !h) return;
+  C3.R.setSize(w, h, false);
+  C3.cam.aspect = w / h; C3.cam.updateProjectionMatrix();
+  const hud = document.getElementById('c3Hud'), dpr = Math.min(devicePixelRatio || 1, 2);
+  hud.width = Math.round(w * dpr); hud.height = Math.round(h * dpr);
+  C3.size = [w, h];
+}
+
+/* ---------- надписи камеры и рамки ИИ поверх картинки ---------- */
+function c3Bbox(P, minA) {
+  const cam = C3.cam, v = C3.k, [w, h] = C3.size;
+  let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9, n = 0;
+  for (let i = 0; i < P.max; i++) {
+    if (P.age[i] >= P.life[i] || P.alpha[i] < minA) continue;
+    v.set(P.pos[i * 3], P.pos[i * 3 + 1], P.pos[i * 3 + 2]).project(cam);
+    if (v.z > 1) continue;
+    const x = (v.x + 1) / 2 * w, y = (1 - v.y) / 2 * h;
+    x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y); n++;
+  }
+  return n > 4 ? [x0 - 10, y0 - 10, x1 + 10, y1 + 10] : null;
+}
+function c3PointBox(x, y, z, r) {
+  const v = C3.k.set(x, y, z).project(C3.cam), [w, h] = C3.size;
+  if (v.z > 1) return null;
+  const cx = (v.x + 1) / 2 * w, cy = (1 - v.y) / 2 * h;
+  return [cx - r, cy - r, cx + r, cy + r];
+}
+function c3Hud(now) {
+  const tr = curPost(), hud = document.getElementById('c3Hud'); if (!hud) return;
+  const g = hud.getContext('2d'), [w, h] = C3.size, dpr = hud.width / w;
+  g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, w, h);
+  CUR_POST = tr.id;
+  const fs = w < 420 ? 9 : 12;
+  g.font = `600 ${fs}px "Fira Mono", ui-monospace, monospace`; g.textBaseline = 'alphabetic';
+  const label = C3.view === 'hatch' ? t('cam_hud', { c: tr.cont }) : t('c3_lbl_' + C3.view);
+  const box = (b, txt) => {
+    if (!b) return;
+    const x = clamp(b[0], 2, w - 4), y = clamp(b[1], fs * 2 + 22, h - 4), x2 = clamp(b[2], x + 20, w - 2), y2 = clamp(b[3], y + 16, h - fs - 16);
+    g.strokeStyle = '#ff5a4f'; g.lineWidth = 2; g.strokeRect(x, y, x2 - x, y2 - y);
+    const tw = g.measureText(txt).width + 10; g.fillStyle = '#ff5a4f'; g.fillRect(x, y - fs - 6, tw, fs + 6);
+    g.fillStyle = '#111'; g.fillText(txt, x + 5, y - 4);
+  };
+  const conf = v => v.toFixed(2).replace('.', dec());
+  if (S.ai) {
+    const k = clamp(tr.smoke, 0, 1);
+    if (k > 0.12 && tr.smokeDet) box(c3Bbox(C3.smoke, 0.08), t('cam_smoke_box') + ' P₂O₅ ' + conf(0.62 + 0.33 * Math.min(1, k * 1.4)));
+    if (tr.fire > 0.15 || tr.leakFire) box(c3Bbox(C3.fire, 0.2), t('cam_fire_box') + ' ' + conf(0.97));
+    if (tr.leakDet && !tr.leakFire) box(c3PointBox(G3.flangeX, G3.pipeY - 0.3, 0, C3.view === 'flange' ? 60 : 26), t('c3_leak_box'));
+    if (tr.overflowed) box(c3PointBox(0, 2.6, 1.6, 40), t('c3_spill_box'));
+  }
+  g.fillStyle = 'rgba(230,240,240,.9)';
+  g.fillText(label, 12, fs + 10);
+  g.textAlign = 'right'; g.fillText(clock(tr.t), w - 12, fs + 10);
+  g.fillText(t('cam_sim'), w - 12, h - 10); g.textAlign = 'left';
+  g.fillText(S.ai ? t('cam_hud_ai') : t('cam_hud_off'), 12, h - 10);
+  if (Math.floor(now / 600) % 2) { const tw = g.measureText(clock(tr.t)).width; g.fillStyle = '#ff5a4f'; g.beginPath(); g.arc(w - 22 - tw, fs + 6, 4, 0, Math.PI * 2); g.fill(); }
+}
+
+function c3Loop(now) {
+  requestAnimationFrame(c3Loop);
+  if (C3.st !== 'ready' || document.hidden) return;
+  const host = document.getElementById('cam3d');
+  // видимость через размеры: у блока «на весь экран» (position: fixed) offsetParent пустой
+  if (!host || !host.getClientRects().length) { C3.last = now; return; }
+  if (host !== C3.host) c3Attach();
+  if (now - C3.last < 30) return;
+  const dt = Math.min(0.1, (now - (C3.last || now)) / 1000); C3.last = now;
+  const vp = host.querySelector('.c3-vp');
+  if (!C3.size || vp.clientWidth !== C3.size[0] || vp.clientHeight !== C3.size[1]) c3Resize();
+  if (!C3.size) return;
+  c3Update(S.paused || S.hold ? 0 : dt, now);
+  c3Camera(dt);
+  C3.R.render(C3.scene, C3.cam);
+  c3Hud(now);
+}
+
+/* ---------- управление: ракурсы, перетаскивание, колесо, весь экран ---------- */
+function setupCam3d() {
+  document.addEventListener('click', e => {
+    const v = e.target.closest('[data-c3view]'); if (v) { c3SetView(v.dataset.c3view); return; }
+    if (e.target.closest('#c3Full')) c3SetFull(!C3.full);
+  });
+  document.addEventListener('pointerdown', e => {
+    const vp = e.target.closest('.c3-vp'); if (!vp || C3.st !== 'ready') return;
+    C3.drag = { x: e.clientX, y: e.clientY, th: C3.orbit.th, ph: C3.orbit.ph, moved: false, id: e.pointerId };
+  });
+  document.addEventListener('pointermove', e => {
+    const d = C3.drag; if (!d || d.id !== e.pointerId) return;
+    const dx = e.clientX - d.x, dy = e.clientY - d.y;
+    if (!d.moved && Math.hypot(dx, dy) > 4) {
+      d.moved = true;
+      if (C3.view !== 'free') {
+        // начать свободный обзор с текущего положения камеры
+        const o = C3.orbit, p = C3.camPos, at = [-0.8, 3.0, 0.6], rx = p.x - at[0], ry = p.y - at[1], rz = p.z - at[2];
+        o.r = clamp(Math.hypot(rx, ry, rz), 6, 40); o.th = Math.atan2(rx, rz); o.ph = Math.asin(clamp(ry / o.r, -0.2, 1));
+        d.th = o.th; d.ph = o.ph; c3SetView('free'); C3.fly = 0;
+      }
+    }
+    if (d.moved) {
+      C3.orbit.th = d.th - dx * 0.008;
+      if (e.pointerType === 'mouse') C3.orbit.ph = clamp(d.ph + dy * 0.006, 0.05, 1.35);
+    }
+  });
+  const end = () => { C3.drag = null; };
+  document.addEventListener('pointerup', end); document.addEventListener('pointercancel', end);
+  document.addEventListener('wheel', e => {
+    if (C3.view !== 'free' || !e.target.closest('.c3-vp')) return;
+    e.preventDefault();
+    C3.orbit.r = clamp(C3.orbit.r * Math.exp(e.deltaY * 0.0012), 5, 40);
+  }, { passive: false });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && C3.full) { e.preventDefault(); e.stopPropagation(); c3SetFull(false); } }, true);
+  addEventListener('resize', () => { if (C3.st === 'ready') c3Resize(); });
+  requestAnimationFrame(c3Loop);
+}
+
 /* ---------- инспектор: данные выбранного объекта ---------- */
 const kvRows = rows => `<dl class="kv">${rows.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${v}</dd></div>`).join('')}</dl>`;
 function miniLog(list) {
@@ -3793,7 +4364,7 @@ function postView(box, fresh) {
           <div class="row-btns"><button class="btn" id="btnPumpStart">${esc(t('btn_start'))}</button><button class="btn btn-danger" id="btnPumpStop">${esc(t('btn_stop'))}</button></div>
         </div>
         <div class="col">
-          <section class="sec"><div class="row-btns" style="justify-content:space-between;align-items:center"><h3 class="h3" id="h-cam"></h3><span id="camState"></span></div><div class="cam"><canvas id="cam" width="640" height="360" aria-label="${esc(t('cam_aria'))}"></canvas></div></section>
+          <section class="sec"><div class="row-btns" style="justify-content:space-between;align-items:center"><h3 class="h3" id="h-cam"></h3><span id="camState"></span></div>${cam3dHTML()}</section>
           <section class="sec"><h3 class="h3">${esc(t('h_explain'))}</h3><ul class="ex-list" id="trAI"></ul></section>
           <section class="sec"><h3 class="h3" id="h-postlog"></h3><ul class="mini-log" id="postLog"></ul></section>
         </div>
@@ -3803,6 +4374,7 @@ function postView(box, fresh) {
       </div></section>`;
     setupChart($('#trChart'));
     cam.parts = []; cam.post = tr.id;
+    c3Attach(); c3Load();
   }
   CUR_POST = tr.id;
   $('#trTitle').textContent = t('pv_post', { post: tr.id }) + ' · ' + NM.cont(tr.cont);
@@ -4718,6 +5290,7 @@ function setupUX() {
   $('#csvBtn').addEventListener('click', exportCSV);
   document.addEventListener('fullscreenchange', measureHeader);
   dlPromise.then(d => { S.dl = d || null; renderDlButtons(); });
+  setupCam3d();
 }
 
 init();
