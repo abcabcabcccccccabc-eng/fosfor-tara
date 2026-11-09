@@ -64,7 +64,7 @@
 }
 
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--panel)}
 a{color:var(--accent)}
 h1,h2,h3,h4{text-wrap:balance;margin:0}
@@ -555,6 +555,19 @@ kbd{font-family:var(--f-mono);font-size:12px;padding:1px 6px;border:1px solid va
 .cam3d.c3-full .c3-vp{aspect-ratio:auto;height:100%}
 .c3-lock{overflow:hidden}
 
+/* ---------- понятность: строки «что здесь», подсказки, первые шаги, плашка случая ---------- */
+.pg-lead{color:var(--ink-2);max-width:78ch}
+.ins-head .pg-lead{font-size:14.5px}
+.pg-inc .inc-lead{grid-column:1/-1}
+.kpi .kh{font-size:11px;color:var(--muted);margin-top:1px;line-height:1.3}
+.start-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:10px}
+.start-card{grid-template-columns:auto 1fr;column-gap:12px;row-gap:2px;align-items:start}
+.start-card .start-n{grid-row:1/3;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;border:1.5px solid var(--accent);color:var(--accent);font-weight:700}
+.start-card b{font-size:15px}
+.case-hint{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid var(--accent);border-radius:10px}
+.case-hint p{color:var(--ink-2);margin-top:3px;max-width:80ch}
+.pg-cols-even{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+
 /* ---------- минимальный стиль: тонкие контуры вместо заливок и теней ---------- */
 .topbar{background:var(--bg)}
 body::before{background:var(--bg)}
@@ -719,11 +732,12 @@ body::before{background:var(--bg)}
     <section class="page" id="pg-trains" hidden></section>
     <section class="page" id="pg-cases" hidden></section>
     <section class="page pg-inc" id="tab-inc" hidden>
+      <div class="pg-head inc-lead"><h1 data-t="nav_inc"></h1><p class="pg-lead" data-t="lead_inc"></p></div>
       <nav class="inc-list" id="incList" data-ta="aria-label:inc_list_aria"></nav>
       <div id="incDetail"></div>
     </section>
     <section class="page panel pad" id="tab-log" hidden>
-      <div class="pg-head"><h1 data-t="nav_log"></h1></div>
+      <div class="pg-head"><h1 data-t="nav_log"></h1><p class="pg-lead" data-t="lead_log"></p></div>
       <div class="feed-tools">
         <div class="seg" role="group" id="feedSec" data-ta="aria-label:feed_sec_aria">
           <button data-sec="all" aria-pressed="true" data-t="feed_all"></button><button data-sec="transfer" aria-pressed="false" data-t="feed_transfer"></button><button data-sec="people" aria-pressed="false" data-t="feed_people"></button><button data-sec="transit" aria-pressed="false" data-t="feed_transit"></button><button data-sec="system" aria-pressed="false" data-t="feed_system"></button>
@@ -2523,6 +2537,65 @@ Object.assign(L.kk, {
   c3_leak_box: 'F-1 АҒУЫ', c3_spill_box: 'АСЫП ТӨГІЛУ'
 });
 
+/* ---------- понятность: подсказки, строки «что здесь», первые шаги, плашка случая, камера — три языка ---------- */
+Object.assign(L.ru, {
+  c3_xray: 'Разрез', c3_xray_t: 'Показать фосфор внутри цистерны',
+  c3_sign: p => `ПОСТ НАЛИВА ${p.n}`, c3_sign_sub: 'НДФЗ · ЦЕХ №7 · ЖЁЛТЫЙ ФОСФОР', c3_tank_txt: 'ФОСФОР ЖЁЛТЫЙ · UN 1381 · ОПАСНО',
+  kh_sensor: 'что показывает прибор', kh_est: 'уровень, посчитанный по расходу', kh_to90: 'когда остановить налив', kh_tover: 'запас времени до аварии',
+  lead_post: p => `Как идёт налив в контейнер ${p.c}: решение системы, камера, уровень и журнал поста.`,
+  lead_cont: 'Контейнер в пути: слой воды над фосфором, прогноз ИИ и что делать, если вода уходит.',
+  lead_inc: 'Происшествия смены: что случилось, опасная зона, меры, оповещения и донесение в ДЧС. Выберите карточку слева.',
+  lead_log: 'Все события смены, сверху — самые новые. Кнопки ниже оставляют нужный раздел или объект.',
+  lead_shift: 'Итоги смены: сколько налито, что в пути, сколько аварий предотвращено. Здесь же записка для следующей смены.',
+  start_h: 'С чего начать',
+  start1_h: 'Посмотрите демо', start1: 'Две минуты: сайт сам покажет три аварии и объяснит каждую.',
+  start2_h: 'Выберите случай', start2: 'Например, «Дым у люка», и посмотрите, как ИИ справится.',
+  start3_h: 'Откройте пост налива', start3: 'Камера, уровень и решение системы на одной странице.',
+  cw_h: p => `Идёт случай «${p.name}»`, cw_close: 'Скрыть',
+  cw_sensor: 'Смотрите на мерное стекло и график: датчик застыл, а уровень растёт. ИИ остановит насос при 90%.',
+  cw_smoke: 'Смотрите на камеру «Горловина»: из люка пойдёт дым, ИИ обведёт его рамкой, выведет людей и включит воду.',
+  cw_leak: 'Смотрите на камеру «Фланец F-1»: из фланца капает фосфор. ИИ заметит разницу расходов и перекроет линию.',
+  cw_tleak: 'Смотрите на слой воды и прогноз: вода уходит. ИИ предупредит заранее и посоветует остановить поезд.'
+});
+Object.assign(L.en, {
+  c3_xray: 'Cutaway', c3_xray_t: 'Show the phosphorus inside the tank',
+  c3_sign: p => `LOADING POST ${p.n}`, c3_sign_sub: 'NDFZ · WORKSHOP No. 7 · YELLOW PHOSPHORUS', c3_tank_txt: 'YELLOW PHOSPHORUS · UN 1381 · DANGER',
+  kh_sensor: 'what the gauge shows', kh_est: 'level worked out from the flow', kh_to90: 'when to stop loading', kh_tover: 'time left before an accident',
+  lead_post: p => `How loading into container ${p.c} is going: the system’s decision, the camera, the level and the post log.`,
+  lead_cont: 'A container in transit: the water layer over the phosphorus, the AI forecast and what to do if the water drains.',
+  lead_inc: 'This shift’s incidents: what happened, the danger zone, actions, notifications and the emergency report. Pick a card on the left.',
+  lead_log: 'Every event of the shift, newest first. The buttons below keep the section or object you need.',
+  lead_shift: 'Shift results: how much was loaded, what is in transit, how many accidents were prevented. The note for the next shift is here too.',
+  start_h: 'Where to start',
+  start1_h: 'Watch the demo', start1: 'Two minutes: the site shows three accidents and explains each one.',
+  start2_h: 'Pick a case', start2: 'For example, “Smoke at the hatch”, and see how the AI handles it.',
+  start3_h: 'Open a loading post', start3: 'The camera, the level and the system’s decision on one page.',
+  cw_h: p => `Case running: “${p.name}”`, cw_close: 'Hide',
+  cw_sensor: 'Watch the sight glass and the chart: the sensor has frozen while the level keeps rising. The AI stops the pump at 90%.',
+  cw_smoke: 'Watch the “Neck” camera: smoke comes out of the hatch, the AI boxes it, moves people away and turns on the water.',
+  cw_leak: 'Watch the “Flange F-1” camera: phosphorus is dripping from the flange. The AI sees the flow gap and shuts the line.',
+  cw_tleak: 'Watch the water layer and the forecast: the water is draining. The AI warns early and suggests stopping the train.'
+});
+Object.assign(L.kk, {
+  c3_xray: 'Қима', c3_xray_t: 'Цистерна ішіндегі фосфорды көрсету',
+  c3_sign: p => `${p.n}-ҚҰЮ БЕКЕТІ`, c3_sign_sub: 'НДФЗ · №7 ЦЕХ · САРЫ ФОСФОР', c3_tank_txt: 'САРЫ ФОСФОР · UN 1381 · ҚАУІПТІ',
+  kh_sensor: 'аспап не көрсетеді', kh_est: 'шығын бойынша есептелген деңгей', kh_to90: 'құюды қашан тоқтату керек', kh_tover: 'апатқа дейінгі уақыт қоры',
+  lead_post: p => `${p.c} контейнеріне құю қалай жүріп жатыр: жүйе шешімі, камера, деңгей және бекет журналы.`,
+  lead_cont: 'Жолдағы контейнер: фосфор үстіндегі су қабаты, ЖИ болжамы және су кетсе не істеу керек.',
+  lead_inc: 'Ауысым оқиғалары: не болды, қауіпті аймақ, шаралар, хабарламалар және ТЖД-ға хабарлама. Сол жақтан карточканы таңдаңыз.',
+  lead_log: 'Ауысымның барлық оқиғалары, жоғарыда — ең жаңалары. Төмендегі батырмалар қажет бөлімді немесе нысанды қалдырады.',
+  lead_shift: 'Ауысым қорытындысы: қанша құйылды, не жолда, қанша апаттың алды алынды. Келесі ауысымға жазба да осында.',
+  start_h: 'Неден бастау керек',
+  start1_h: 'Демоны қараңыз', start1: 'Екі минут: сайт үш апатты көрсетіп, әрқайсысын түсіндіреді.',
+  start2_h: 'Жағдайды таңдаңыз', start2: 'Мысалы, «Люк жанындағы түтін», және ЖИ қалай әрекет ететінін көріңіз.',
+  start3_h: 'Құю бекетін ашыңыз', start3: 'Камера, деңгей және жүйе шешімі бір бетте.',
+  cw_h: p => `«${p.name}» жағдайы жүріп жатыр`, cw_close: 'Жасыру',
+  cw_sensor: 'Өлшеу шынысы мен графикке қараңыз: датчик қатып қалды, ал деңгей өсіп жатыр. ЖИ сорғыны 90%-да тоқтатады.',
+  cw_smoke: '«Мойын» камерасына қараңыз: люктен түтін шығады, ЖИ оны жақтаумен белгілеп, адамдарды шығарып, суды қосады.',
+  cw_leak: '«F-1 фланеці» камерасына қараңыз: фланецтен фосфор тамып тұр. ЖИ шығын айырмасын байқап, желіні жабады.',
+  cw_tleak: 'Су қабаты мен болжамға қараңыз: су кетіп жатыр. ЖИ алдын ала ескертіп, пойызды тоқтатуға кеңес береді.'
+});
+
 /* ---------- состояние ---------- */
 const SEV_CLS = { good: 's-good', info: 's-info', warning: 's-warning', serious: 's-serious', critical: 's-critical' };
 const chip = (sev, label) => `<span class="chip ${SEV_CLS[sev]}"><i aria-hidden="true"></i>${esc(label ?? t('sev_' + sev))}</span>`;
@@ -3145,10 +3218,10 @@ function renderTrKpis() {
   const tr = curPost();
   const fault = S.ai && tr.fault;
   $('#trKpis').innerHTML = `
-    <div class="kpi"><div class="k">${esc(t('k_sensor'))}</div><div class="v">${f1(tr.sensor)}<small> %</small></div>${tr.frozen && fault ? `<div class="x">${chip('serious', t('chip_frozen'))}</div>` : ''}</div>
-    <div class="kpi"><div class="k">${esc(t('k_est'))}</div><div class="v">${S.ai ? f1(tr.est) + '<small> %</small>' : '—'}</div>${fault ? `<div class="x">${chip('info', t('chip_bymeter'))}</div>` : ''}</div>
-    <div class="kpi"><div class="k">${esc(t('k_to90'))}</div><div class="v">${S.ai && tr.pump && tr.tt90 != null ? dur(tr.tt90) : '—'}</div></div>
-    <div class="kpi"><div class="k">${esc(t('k_tover'))}</div><div class="v">${S.ai && tr.pump && tr.tto != null ? dur(tr.tto) : '—'}</div></div>`;
+    <div class="kpi"><div class="k">${esc(t('k_sensor'))}</div><div class="kh">${esc(t('kh_sensor'))}</div><div class="v">${f1(tr.sensor)}<small> %</small></div>${tr.frozen && fault ? `<div class="x">${chip('serious', t('chip_frozen'))}</div>` : ''}</div>
+    <div class="kpi"><div class="k">${esc(t('k_est'))}</div><div class="kh">${esc(t('kh_est'))}</div><div class="v">${S.ai ? f1(tr.est) + '<small> %</small>' : '—'}</div>${fault ? `<div class="x">${chip('info', t('chip_bymeter'))}</div>` : ''}</div>
+    <div class="kpi"><div class="k">${esc(t('k_to90'))}</div><div class="kh">${esc(t('kh_to90'))}</div><div class="v">${S.ai && tr.pump && tr.tt90 != null ? dur(tr.tt90) : '—'}</div></div>
+    <div class="kpi"><div class="k">${esc(t('k_tover'))}</div><div class="kh">${esc(t('kh_tover'))}</div><div class="v">${S.ai && tr.pump && tr.tto != null ? dur(tr.tto) : '—'}</div></div>`;
 }
 function renderTrChart() {
   const tr = curPost();
@@ -3561,6 +3634,11 @@ function nav(page, user) {
       el.classList.add('hl'); el.scrollIntoView({ block: 'center' });
     }
   } else if (user && changed) scrollTo({ top: 0 });
+  if (user && changed && !S.fromPop) { try { history.pushState({ page }, '', '#' + page); } catch (e) { /* в песочнице история может быть недоступна */ } }
+}
+function navFromHash() {
+  let h = ''; try { h = decodeURIComponent(location.hash.slice(1)); } catch (e) { /* без адреса */ }
+  return h && /^(home|trains|cases|inc|log|shift|about|system|cost|post:[0-2]|case:[a-z]+)$/.test(h) ? h : null;
 }
 // старое имя: сценарии, тревоги и поиск открывают объект через pick
 const pick = (str, user) => nav(str, user);
@@ -3608,6 +3686,11 @@ function renderHome(force) {
           <p id="hmLead"></p>
           <div class="row-btns hero-btns"><button class="btn btn-primary btn-lg" data-act="tour">${esc(t('home_demo'))}</button><button class="btn btn-lg" data-nav="cases">${esc(t('home_cases'))}</button>${S.dl ? `<button class="btn btn-lg" data-act="summary">${esc(t('sum_btn'))}</button>` : ''}<span class="note">${esc(t('home_demo'))}: ${esc(t('home_demo_note'))}</span></div>
         </section>
+        <section class="start" aria-labelledby="startH"><h3 class="h3" id="startH">${esc(t('start_h'))}</h3><div class="start-grid">
+          <button class="card start-card" data-act="tour"><span class="start-n">1</span><b>${esc(t('start1_h'))}</b><span class="note">${esc(t('start1'))}</span></button>
+          <button class="card start-card" data-nav="cases"><span class="start-n">2</span><b>${esc(t('start2_h'))}</b><span class="note">${esc(t('start2'))}</span></button>
+          <button class="card start-card" data-nav="post:0"><span class="start-n">3</span><b>${esc(t('start3_h'))}</b><span class="note">${esc(t('start3'))}</span></button>
+        </div></section>
         ${effectHTML()}
         <section class="sec"><h3 class="h3">${esc(t('home_posts_h'))}</h3><div class="cards3">
           ${posts.map((tr, i) => `<button class="card" data-nav="post:${i}">
@@ -3806,7 +3889,7 @@ function exportSummary() { saveFile('fosfor-tara-summary.html', summaryDoc(), 't
 const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js';
 const C3 = {
   st: 'idle', T: null, view: 'hatch', host: null, last: 0, post: -1, full: false, drag: null,
-  orbit: { th: -0.65, ph: 0.38, r: 19 }, tgt: null, camPos: null, fly: 1
+  orbit: { th: -0.65, ph: 0.38, r: 19 }, tgt: null, camPos: null, fly: 1, xray: false, xrApplied: null, tankKey: '', signKey: ''
 };
 // размеры поста, м: цистерна вдоль оси X, эстакада со стороны +Z
 const G3 = { R: 1.45, L: 10.4, yc: 2.85, hatchY: 4.55, flangeX: -6.8, pipeY: 6.0, deckY: 4.9 };
@@ -3836,7 +3919,8 @@ function cam3dHTML() {
   const vb = k => `<button data-c3view="${k}" aria-pressed="${C3.view === k}">${esc(t('c3_' + k))}</button>`;
   return `<div class="cam3d" id="cam3d">
     <div class="c3-vp"><canvas id="cam" width="640" height="360" aria-label="${esc(t('cam_aria'))}"></canvas><canvas class="c3-hud" id="c3Hud" aria-hidden="true"></canvas></div>
-    <div class="c3-bar"><div class="seg" role="group" aria-label="${esc(t('c3_aria'))}" id="c3Views">${['hatch', 'overview', 'flange', 'free'].map(vb).join('')}</div><button class="btn btn-sm" id="c3Full">${esc(t(C3.full ? 'c3_exit' : 'c3_full'))}</button></div>
+    <div class="c3-bar"><div class="seg" role="group" aria-label="${esc(t('c3_aria'))}" id="c3Views">${['hatch', 'overview', 'flange', 'free'].map(vb).join('')}</div>
+      <div class="row-btns"><button class="btn btn-sm" id="c3Xray" aria-pressed="${C3.xray}" title="${esc(t('c3_xray_t'))}">${esc(t('c3_xray'))}</button><button class="btn btn-sm" id="c3Full">${esc(t(C3.full ? 'c3_exit' : 'c3_full'))}</button></div></div>
     <p class="note" id="c3Note"></p>
   </div>`;
 }
@@ -3854,6 +3938,16 @@ function c3Attach() {
 function c3SetView(v) {
   C3.view = v; C3.fly = 1;
   $$('#c3Views [data-c3view]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.c3view === v)));
+}
+function c3SetXray(on) {
+  C3.xray = on;
+  const b = document.getElementById('c3Xray'); if (b) b.setAttribute('aria-pressed', String(on));
+}
+// при запуске случая камера сама показывает нужное место
+function c3Focus(k) {
+  if (k === 'smoke') { c3SetView('hatch'); c3SetXray(false); }
+  else if (k === 'leak') { c3SetView('flange'); c3SetXray(false); }
+  else if (k === 'sensor') { c3SetView('overview'); c3SetXray(true); }
 }
 function c3SetFull(on) {
   C3.full = on;
@@ -3888,6 +3982,81 @@ function c3Plate(T) {
   const tx = new T.CanvasTexture(c); tx.colorSpace = T.SRGBColorSpace;
   return tx;
 }
+/* процедурные текстуры: рисуются один раз на canvas, без загрузки картинок */
+function c3Canvas(w, h, draw) { const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h); return c; }
+function c3Tex(T, canvas, rx, ry) {
+  const tx = new T.CanvasTexture(canvas); tx.wrapS = tx.wrapT = T.RepeatWrapping; tx.repeat.set(rx || 1, ry || 1);
+  tx.colorSpace = T.SRGBColorSpace; tx.anisotropy = 4; return tx;
+}
+function c3Rep(tx, rx, ry) { const c = tx.clone(); c.repeat.set(rx, ry); c.needsUpdate = true; return c; }
+function c3Speckle(g, w, h, n, colors, amax, smax) {
+  for (let i = 0; i < n; i++) { g.globalAlpha = amax * Math.random(); g.fillStyle = colors[i % colors.length]; const s = 1 + Math.random() * (smax || 2); g.fillRect(Math.random() * w, Math.random() * h, s, s); }
+  g.globalAlpha = 1;
+}
+function c3Blot(g, w, h, n, color, rmax, amax) {
+  for (let i = 0; i < n; i++) {
+    const x = Math.random() * w, y = Math.random() * h, r = 8 + Math.random() * rmax, rg = g.createRadialGradient(x, y, 0, x, y, r);
+    rg.addColorStop(0, color); rg.addColorStop(1, 'rgba(0,0,0,0)');
+    g.globalAlpha = amax * Math.random(); g.fillStyle = rg; g.fillRect(x - r, y - r, r * 2, r * 2);
+  }
+  g.globalAlpha = 1;
+}
+const C3TEX = {
+  dirt: (g, w, h) => { g.fillStyle = '#5d5b55'; g.fillRect(0, 0, w, h); c3Blot(g, w, h, 30, '#3f3d39', 70, 0.5); c3Speckle(g, w, h, 9000, ['#7a776f', '#4a4842', '#8c887e'], 0.6, 2.5); },
+  concrete: (g, w, h) => {
+    g.fillStyle = '#8f9190'; g.fillRect(0, 0, w, h); c3Blot(g, w, h, 18, '#5c5e5d', 60, 0.35); c3Speckle(g, w, h, 7000, ['#a3a5a3', '#77797a'], 0.5, 1.5);
+    g.strokeStyle = 'rgba(40,42,44,.55)'; g.lineWidth = 2; for (let x = 0; x <= w; x += w / 2) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, h); g.stroke(); } for (let y = 0; y <= h; y += h / 2) { g.beginPath(); g.moveTo(0, y); g.lineTo(w, y); g.stroke(); }
+  },
+  ballast: (g, w, h) => { g.fillStyle = '#625f5a'; g.fillRect(0, 0, w, h); c3Speckle(g, w, h, 14000, ['#8b877f', '#46433f', '#a29c90', '#55524d'], 0.9, 3.5); },
+  wood: (g, w, h) => {
+    g.fillStyle = '#4e3f31'; g.fillRect(0, 0, w, h);
+    for (let i = 0; i < 40; i++) { g.strokeStyle = `rgba(${20 + Math.random() * 30},${14 + Math.random() * 20},8,${0.25 + Math.random() * 0.3})`; g.lineWidth = 1 + Math.random() * 2; const x = Math.random() * w; g.beginPath(); g.moveTo(x, 0); g.bezierCurveTo(x + 6, h * 0.3, x - 6, h * 0.6, x + 3, h); g.stroke(); }
+    c3Speckle(g, w, h, 600, ['#2c231b'], 0.5, 2);
+  },
+  grating: (g, w, h) => {
+    g.fillStyle = '#3b4146'; g.fillRect(0, 0, w, h);
+    g.fillStyle = '#7d868d'; for (let x = 0; x < w; x += 8) g.fillRect(x, 0, 2, h); for (let y = 0; y < h; y += 16) g.fillRect(0, y, w, 2);
+    c3Speckle(g, w, h, 300, ['#2a2e31', '#9aa2a8'], 0.4, 2);
+  },
+  hazard: (g, w, h) => { g.fillStyle = '#e2b52c'; g.fillRect(0, 0, w, h); g.fillStyle = '#1a1a1a'; for (let x = -h; x < w + h; x += 32) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x + 16, 0); g.lineTo(x + 16 - h, h); g.lineTo(x - h, h); g.fill(); } },
+  cladding: (g, w, h) => {
+    const gr = g.createLinearGradient(0, 0, w, 0); gr.addColorStop(0, '#9aa1a7'); gr.addColorStop(0.5, '#d3d8dc'); gr.addColorStop(1, '#9aa1a7');
+    g.fillStyle = gr; g.fillRect(0, 0, w, h); g.fillStyle = 'rgba(60,66,72,.55)'; g.fillRect(0, 0, w, 3); g.fillRect(0, h - 3, w, 3);
+  },
+  corrugated: (g, w, h) => { for (let x = 0; x < w; x += 8) { g.fillStyle = x % 16 ? '#59626a' : '#6f7880'; g.fillRect(x, 0, 8, h); } c3Blot(g, w, h, 10, '#3a3f44', 40, 0.4); },
+  sky: (g, w, h) => { const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#4f637a'); gr.addColorStop(0.6, '#93a2b1'); gr.addColorStop(1, '#b7c1ca'); g.fillStyle = gr; g.fillRect(0, 0, w, h); }
+};
+// окраска цистерны: u — вокруг (смещение 0,25: +Z в x=256, верх в x=512, −Z в x=768), v — вдоль
+function c3TankPaint(g, w, h, cont) {
+  g.fillStyle = '#b4babe'; g.fillRect(0, 0, w, h);
+  const bot = g.createLinearGradient(0, 0, w, 0);
+  bot.addColorStop(0, 'rgba(70,64,56,.45)'); bot.addColorStop(0.12, 'rgba(70,64,56,0)'); bot.addColorStop(0.88, 'rgba(70,64,56,0)'); bot.addColorStop(1, 'rgba(70,64,56,.45)');
+  g.fillStyle = bot; g.fillRect(0, 0, w, h);
+  c3Blot(g, w, h, 40, '#7d766b', 50, 0.2); c3Speckle(g, w, h, 5000, ['#a3a9ad', '#c8cdd0'], 0.4, 1.5);
+  g.fillStyle = 'rgba(90,96,102,.55)'; for (const y of [0.18, 0.41, 0.59, 0.82]) g.fillRect(0, y * h - 1, w, 3);
+  g.fillRect(w * 0.94, 0, 3, h);
+  const side = (cx, rot) => {
+    g.save(); g.translate(cx, h / 2); g.rotate(rot);
+    g.fillStyle = '#1d2226'; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.font = '700 74px Arial, sans-serif'; g.fillText(NM.cont(cont), -h * 0.12, -12);
+    g.font = '600 26px Arial, sans-serif'; g.fillText(t('c3_tank_txt'), -h * 0.12, 48);
+    // знак опасности класса 4.2: ромб, верх белый, низ красный
+    g.translate(h * 0.3, 8); g.rotate(Math.PI / 4);
+    g.fillStyle = '#fff'; g.fillRect(-46, -46, 92, 92); g.fillStyle = '#d0281f';
+    g.beginPath(); g.moveTo(46, -46); g.lineTo(46, 46); g.lineTo(-46, 46); g.closePath(); g.fill();
+    g.strokeStyle = '#111'; g.lineWidth = 4; g.strokeRect(-46, -46, 92, 92);
+    g.rotate(-Math.PI / 4); g.fillStyle = '#111'; g.font = '700 30px Arial'; g.fillText('4', 0, 36);
+    g.restore();
+  };
+  side(w * 0.25, Math.PI / 2); side(w * 0.75, -Math.PI / 2);
+}
+function c3SignPaint(g, w, h, n) {
+  g.fillStyle = '#1f4f8a'; g.fillRect(0, 0, w, h); g.strokeStyle = '#fff'; g.lineWidth = 6; g.strokeRect(8, 8, w - 16, h - 16);
+  g.fillStyle = '#fff'; g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.font = '700 54px Arial, sans-serif'; g.fillText(t('c3_sign', { n }), w / 2, h * 0.42);
+  g.font = '600 22px Arial, sans-serif'; g.fillText(t('c3_sign_sub'), w / 2, h * 0.78);
+}
+
 // частицы с размером и прозрачностью на каждую точку
 function c3Particles(T, scene, max, additive) {
   const g = new T.BufferGeometry();
@@ -3932,18 +4101,19 @@ function c3Build() {
   R.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
   R.localClippingEnabled = true;
   R.shadowMap.enabled = true; R.shadowMap.type = T.PCFSoftShadowMap;
-  R.toneMapping = T.ACESFilmicToneMapping; R.toneMappingExposure = 1.25;
+  R.toneMapping = T.ACESFilmicToneMapping; R.toneMappingExposure = 0.98;
   R.domElement.className = 'c3-gl';
   const scene = new T.Scene();
-  scene.background = new T.Color(0x0f1317);
-  scene.fog = new T.Fog(0x0f1317, 30, 80);
+  const sky = c3Tex(T, c3Canvas(4, 256, C3TEX.sky)); sky.wrapS = sky.wrapT = T.ClampToEdgeWrapping;
+  scene.background = sky;
+  scene.fog = new T.Fog(0xb7c1ca, 45, 150);
   const cam = new T.PerspectiveCamera(50, 16 / 9, 0.1, 200);
   C3.sprite = c3Sprite(T);
   Object.assign(C3, { R, scene, cam, tgt: new T.Vector3(0, 4.35, 0), camPos: new T.Vector3(2.5, 6.6, 1.75), v3: new T.Vector3() });
 
   // свет: небо, солнце с тенями, прожектор под навесом эстакады
-  scene.add(new T.HemisphereLight(0xc9d6f2, 0x23282d, 1.7));
-  const sun = new T.DirectionalLight(0xfff1dc, 2.2);
+  scene.add(new T.HemisphereLight(0xe4ebf2, 0x55595c, 1.35));
+  const sun = new T.DirectionalLight(0xfff3e0, 2.4);
   sun.position.set(12, 22, 10); sun.castShadow = true;
   sun.shadow.mapSize.set(1024, 1024);
   Object.assign(sun.shadow.camera, { left: -16, right: 16, top: 16, bottom: -16, near: 1, far: 70 });
@@ -3954,12 +4124,24 @@ function c3Build() {
   scene.add(flood, flood.target);
 
   const M = (color, o) => new T.MeshStandardMaterial(Object.assign({ color, roughness: 0.65, metalness: 0.25 }, o || {}));
+  const tx = {
+    dirt: c3Tex(T, c3Canvas(256, 256, C3TEX.dirt)), conc: c3Tex(T, c3Canvas(256, 256, C3TEX.concrete)),
+    ballast: c3Tex(T, c3Canvas(256, 128, C3TEX.ballast)), wood: c3Tex(T, c3Canvas(64, 256, C3TEX.wood)),
+    grate: c3Tex(T, c3Canvas(64, 64, C3TEX.grating)), haz: c3Tex(T, c3Canvas(128, 32, C3TEX.hazard)),
+    clad: c3Tex(T, c3Canvas(64, 64, C3TEX.cladding)), corr: c3Tex(T, c3Canvas(128, 128, C3TEX.corrugated))
+  };
   const mats = {
-    ground: M(0x1b2024, { roughness: 1, metalness: 0 }), pad: M(0x262c31, { roughness: 0.95, metalness: 0 }),
-    steel: M(0x7d8790, { roughness: 0.45, metalness: 0.6 }), dark: M(0x2f363c, { roughness: 0.6, metalness: 0.5 }),
-    rail: M(0x8f979e, { roughness: 0.35, metalness: 0.8 }), sleeper: M(0x3a332c, { roughness: 1, metalness: 0 }),
-    yellow: M(0xd6b445, { roughness: 0.5, metalness: 0.2 }), pipe: M(0xb7c0c7, { roughness: 0.35, metalness: 0.55 }),
-    red: M(0xb2372b, { roughness: 0.5 }), bldg: M(0x252b30, { roughness: 0.9, metalness: 0.05 })
+    ground: M(0xffffff, { map: c3Rep(tx.dirt, 50, 50), roughness: 1, metalness: 0 }),
+    pad: M(0xffffff, { map: c3Rep(tx.conc, 6, 2.5), roughness: 0.95, metalness: 0 }),
+    ballast: M(0xffffff, { map: c3Rep(tx.ballast, 30, 1.5), roughness: 1, metalness: 0 }),
+    steel: M(0x8a949c, { roughness: 0.45, metalness: 0.6 }), dark: M(0x3a4248, { roughness: 0.6, metalness: 0.5 }),
+    rail: M(0x9aa1a7, { roughness: 0.3, metalness: 0.85 }), sleeper: M(0xffffff, { map: tx.wood, roughness: 1, metalness: 0 }),
+    yellow: M(0xd9b23a, { roughness: 0.5, metalness: 0.2 }), pipe: M(0xffffff, { map: c3Rep(tx.clad, 1, 14), roughness: 0.4, metalness: 0.5 }),
+    elbow: M(0xc4cacf, { roughness: 0.4, metalness: 0.5 }),
+    red: M(0xb2372b, { roughness: 0.5 }), bldg: M(0xffffff, { map: c3Rep(tx.corr, 8, 1), roughness: 0.75, metalness: 0.35 }),
+    deck: M(0xffffff, { map: c3Rep(tx.grate, 18, 3.4), roughness: 0.6, metalness: 0.5 }),
+    haz: M(0xffffff, { map: c3Rep(tx.haz, 24, 1), roughness: 0.6 }),
+    glass: M(0xcfe3ee, { roughness: 0.08, metalness: 0, transparent: true, opacity: 0.32, depthWrite: false })
   };
   const add = (geo, mat, x, y, z, shadow = true) => { const m = new T.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = shadow; m.receiveShadow = true; scene.add(m); return m; };
   const box = (w, h, d, mat, x, y, z) => add(new T.BoxGeometry(w, h, d), mat, x, y, z);
@@ -3974,6 +4156,7 @@ function c3Build() {
   // земля, площадка, рельсы со шпалами
   const ground = new T.Mesh(new T.PlaneGeometry(160, 160), mats.ground); ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
   box(22, 0.04, 9.5, mats.pad, -1.5, 0.02, 1.6);
+  box(60, 0.07, 3.1, mats.ballast, 0, 0.035, 0);
   box(60, 0.14, 0.09, mats.rail, 0, 0.17, -0.72); box(60, 0.14, 0.09, mats.rail, 0, 0.17, 0.72);
   const sl = []; for (let x = -29; x <= 29; x += 0.7) sl.push([x, 0.06, 0]);
   inst(new T.BoxGeometry(0.24, 0.1, 2.5), mats.sleeper, sl);
@@ -3986,28 +4169,46 @@ function c3Build() {
   for (const x of [-3.6, 3.6]) box(0.6, 0.45, 2.0, mats.dark, x, 1.45, 0);
 
   // цистерна: полупрозрачная обечайка, чтобы был виден уровень, и непрозрачные бандажи
-  const shellMat = M(0x9aa5ae, { roughness: 0.3, metalness: 0.6, transparent: true, opacity: 0.3, depthWrite: false, side: T.DoubleSide });
-  const shellG = new T.CylinderGeometry(TR_, TR_, TL, 56, 1, true); shellG.rotateZ(Math.PI / 2);
-  const shell = new T.Mesh(shellG, shellMat); shell.position.set(0, yc, 0); shell.renderOrder = 4; scene.add(shell);
-  for (const sx of [-1, 1]) { const cap = new T.Mesh(new T.SphereGeometry(TR_, 40, 20), shellMat); cap.scale.set(0.3, 1, 1); cap.position.set(sx * TL / 2, yc, 0); cap.renderOrder = 4; scene.add(cap); }
+  const tankCanvas = c3Canvas(1024, 1024, () => {}), tankTex = c3Tex(T, tankCanvas); tankTex.offset.x = 0.25;
+  const shellPaint = M(0xffffff, { map: tankTex, roughness: 0.5, metalness: 0.15 }), capPaint = M(0xa9afb3, { roughness: 0.5, metalness: 0.15 });
+  const shellGlass = M(0x9aa5ae, { roughness: 0.3, metalness: 0.6, transparent: true, opacity: 0.28, depthWrite: false, side: T.DoubleSide });
+  const shellG = new T.CylinderGeometry(TR_, TR_, TL, 64, 1, true); shellG.rotateZ(Math.PI / 2);
+  const shell = new T.Mesh(shellG, shellPaint); shell.position.set(0, yc, 0); scene.add(shell);
+  const shellParts = [shell];
+  for (const sx of [-1, 1]) { const cap = new T.Mesh(new T.SphereGeometry(TR_, 40, 20), capPaint); cap.scale.set(0.3, 1, 1); cap.position.set(sx * TL / 2, yc, 0); scene.add(cap); shellParts.push(cap); }
   const ringG = new T.TorusGeometry(TR_ + 0.015, 0.04, 8, 56); ringG.rotateY(Math.PI / 2);
   for (const x of [-4.8, -2.4, 2.4, 4.8]) add(ringG, mats.dark, x, yc, 0);
-  const plate = new T.Mesh(new T.PlaneGeometry(0.7, 0.5), new T.MeshStandardMaterial({ map: c3Plate(T), roughness: 0.6 }));
-  plate.position.set(-3.4, yc + 0.1, TR_ + 0.03); scene.add(plate);
+  const plateMat = new T.MeshStandardMaterial({ map: c3Plate(T), roughness: 0.6 });
+  const plate = new T.Mesh(new T.PlaneGeometry(0.7, 0.5), plateMat); plate.position.set(-4.3, yc + 0.1, TR_ + 0.03); scene.add(plate);
+  const plate2 = new T.Mesh(new T.PlaneGeometry(0.7, 0.5), plateMat); plate2.position.set(3.6, yc + 0.1, -TR_ - 0.03); plate2.rotation.y = Math.PI; scene.add(plate2);
+  // мерные стёкла на обоих бортах: столбик фосфора, слой воды и отметка 90%
+  const gH = 2.3, gY0 = yc - gH / 2;
+  const colMat = M(0xe0ac2c, { roughness: 0.3, metalness: 0, emissive: 0x5a3c00, emissiveIntensity: 0.8 }), watMat = M(0x4f9cc4, { roughness: 0.2, metalness: 0, emissive: 0x0b2a3a });
+  const gauges = [[-2.9, 1], [-1.7, -1]].map(([gx, sz]) => {
+    const gz = sz * (TR_ + 0.16);
+    const tube = cylY(0.11, gH + 0.12, mats.glass, gx, yc, gz, 16); tube.castShadow = false;
+    for (const yy of [yc - 0.9, yc + 0.9]) { const zt = Math.sqrt(TR_ * TR_ - 0.81); box(0.1, 0.06, Math.abs(gz) - zt + 0.05, mats.dark, gx, yy, sz * (zt + Math.abs(gz)) / 2); }
+    for (const yy of [gY0 - 0.08, gY0 + gH + 0.08]) cylY(0.14, 0.07, mats.dark, gx, yy, gz, 16);
+    const mark = add(new T.TorusGeometry(0.125, 0.018, 6, 18), mats.red, gx, gY0 + gH * 0.9, gz); mark.rotation.x = Math.PI / 2;
+    const col = new T.Mesh(new T.CylinderGeometry(0.085, 0.085, 1, 14), colMat), wat = new T.Mesh(new T.CylinderGeometry(0.085, 0.085, 1, 14), watMat);
+    col.position.set(gx, gY0, gz); wat.position.set(gx, gY0, gz); scene.add(col, wat);
+    return { col, wat };
+  });
 
   // фосфор и слой воды внутри: срезаются плоскостями на текущем уровне
   const pPhos = new T.Plane(new T.Vector3(0, -1, 0), yc), pWlo = new T.Plane(new T.Vector3(0, 1, 0), -yc), pWhi = new T.Plane(new T.Vector3(0, -1, 0), yc);
   const phosMat = M(0xd9a630, { roughness: 0.3, metalness: 0, emissive: 0x4a3200, emissiveIntensity: 0.7, clippingPlanes: [pPhos], side: T.DoubleSide });
-  const waterMat = M(0x3f86ad, { roughness: 0.15, metalness: 0, transparent: true, opacity: 0.5, depthWrite: false, clippingPlanes: [pWlo, pWhi], side: T.DoubleSide });
+  const waterMat = M(0x23668c, { roughness: 0.15, metalness: 0, transparent: true, opacity: 0.6, depthWrite: false, clippingPlanes: [pWlo, pWhi], side: T.DoubleSide });
+  const innerMeshes = [];
   const inner = mat => {
     const g = new T.CylinderGeometry(TR_ - 0.04, TR_ - 0.04, TL - 0.02, 48); g.rotateZ(Math.PI / 2);
-    const m = new T.Mesh(g, mat); m.position.set(0, yc, 0); scene.add(m);
-    for (const sx of [-1, 1]) { const cap = new T.Mesh(new T.SphereGeometry(TR_ - 0.04, 32, 16), mat); cap.scale.set(0.29, 1, 1); cap.position.set(sx * TL / 2, yc, 0); scene.add(cap); }
+    const m = new T.Mesh(g, mat); m.position.set(0, yc, 0); scene.add(m); innerMeshes.push(m);
+    for (const sx of [-1, 1]) { const cap = new T.Mesh(new T.SphereGeometry(TR_ - 0.04, 32, 16), mat); cap.scale.set(0.29, 1, 1); cap.position.set(sx * TL / 2, yc, 0); scene.add(cap); innerMeshes.push(cap); }
   };
   inner(phosMat); inner(waterMat);
   const surfG = new T.PlaneGeometry(1, 1); surfG.rotateX(-Math.PI / 2);
-  const phosTop = new T.Mesh(surfG, M(0xe7b947, { roughness: 0.25, metalness: 0, emissive: 0x5a3c00, emissiveIntensity: 0.8 }));
-  const waterTop = new T.Mesh(surfG, M(0x5aa3c8, { roughness: 0.1, metalness: 0, transparent: true, opacity: 0.55, depthWrite: false }));
+  const phosTop = new T.Mesh(surfG, M(0xe0a628, { roughness: 0.3, metalness: 0, emissive: 0x5a3c00, emissiveIntensity: 0.9 }));
+  const waterTop = new T.Mesh(surfG, M(0x1f5f85, { roughness: 0.2, metalness: 0, transparent: true, opacity: 0.7, depthWrite: false }));
   scene.add(phosTop, waterTop);
 
   // горловина: патрубок и откидная крышка
@@ -4023,15 +4224,18 @@ function c3Build() {
   // эстакада налива: стойки, настил, ограждение, навес, лестница и мостик к горловине
   const ez = 2.75;
   for (const x of [-4.4, 0, 4.4]) for (const z of [ez - 0.75, ez + 0.75]) box(0.2, 7.2, 0.2, mats.dark, x, 3.6, z);
-  box(9.2, 0.1, 1.7, mats.steel, 0, G3.deckY, ez);
+  box(9.2, 0.1, 1.7, mats.deck, 0, G3.deckY, ez);
+  for (const z of [ez - 0.86, ez + 0.86]) box(9.2, 0.15, 0.025, mats.haz, 0, G3.deckY + 0.12, z);
   box(9.6, 0.12, 2.1, mats.dark, 0, 7.25, ez);
+  const signCanvas = c3Canvas(512, 128, () => {}), signTex = c3Tex(T, signCanvas), signMat = new T.MeshStandardMaterial({ map: signTex, roughness: 0.55, emissive: 0x1a3050, emissiveIntensity: 0.25 });
+  for (const sz of [-1, 1]) { const sg = new T.Mesh(new T.PlaneGeometry(2.6, 0.65), signMat); sg.position.set(-1.6, 6.82, ez + sz * 1.07); if (sz < 0) sg.rotation.y = Math.PI; scene.add(sg); }
   for (const z of [ez + 0.83]) { box(9.2, 0.06, 0.06, mats.yellow, 0, G3.deckY + 1.05, z); box(9.2, 0.05, 0.05, mats.yellow, 0, G3.deckY + 0.55, z); }
   const posts = []; for (let x = -4.5; x <= 4.6; x += 1.5) posts.push([x, G3.deckY + 0.53, ez + 0.83]);
   inst(new T.BoxGeometry(0.06, 1.05, 0.06), mats.yellow, posts);
-  const bridge = box(1.0, 0.06, 1.55, mats.steel, -1.3, G3.deckY - 0.12, 1.25); bridge.rotation.x = 0.12;
+  const bridge = box(1.0, 0.06, 1.55, new T.MeshStandardMaterial({ map: c3Rep(tx.grate, 2, 3), roughness: 0.6, metalness: 0.5 }), -1.3, G3.deckY - 0.12, 1.25); bridge.rotation.x = 0.12;
   // лестница спускается от края настила к земле
   const steps = []; for (let i = 0; i < 14; i++) steps.push([4.85 + i * 0.25, G3.deckY - 0.35 * (i + 0.5), ez]);
-  inst(new T.BoxGeometry(0.28, 0.05, 1.1), mats.steel, steps);
+  inst(new T.BoxGeometry(0.28, 0.05, 1.1), new T.MeshStandardMaterial({ map: c3Rep(tx.grate, 1, 3), roughness: 0.6, metalness: 0.5 }), steps);
   for (const z of [ez - 0.58, ez + 0.58]) { const s = box(6.0, 0.08, 0.06, mats.yellow, 6.5, 2.45, z); s.rotation.z = -Math.atan2(4.9, 3.5); }
   // лампа насоса на стойке: зелёная — налив идёт, красная — насос остановлен
   const pumpLamp = new T.Mesh(new T.SphereGeometry(0.11, 12, 8), new T.MeshStandardMaterial({ color: 0x222, emissive: 0x33ff66, emissiveIntensity: 1.4 }));
@@ -4046,7 +4250,7 @@ function c3Build() {
   add(new T.SphereGeometry(0.17, 16, 10), mats.red, -1.4, PY, 0); cylY(0.025, 0.3, mats.dark, -1.4, PY + 0.25, 0);
   const wheel = add(new T.TorusGeometry(0.17, 0.025, 6, 20), mats.red, -1.4, PY + 0.4, 0); wheel.rotation.x = Math.PI / 2;
   // колено над горловиной и опускной рукав: при открытии люка рукав втягивается вверх
-  add(new T.TorusGeometry(0.3, 0.1, 10, 16, Math.PI / 2), mats.pipe, -0.3, PY - 0.3, 0);
+  add(new T.TorusGeometry(0.3, 0.1, 10, 16, Math.PI / 2), mats.elbow, -0.3, PY - 0.3, 0);
   const flowTex = c3Stripes(T, false), flowGlow = c3Stripes(T, true);
   const drop = new T.Mesh(new T.CylinderGeometry(0.1, 0.1, 1, 16), new T.MeshStandardMaterial({ map: flowTex, emissiveMap: flowGlow, emissive: 0xffffff, emissiveIntensity: 0.9, roughness: 0.4, metalness: 0.4 }));
   drop.castShadow = true; scene.add(drop);
@@ -4063,7 +4267,7 @@ function c3Build() {
   camLight.position.set(2.9, 7.7, -4.7); camLight.target.position.set(0, 4.3, 0); scene.add(camLight, camLight.target);
 
   // фон: насосная, резервуары склада, прожекторная мачта
-  box(7, 4.2, 5, mats.bldg, -16, 2.1, 7.5);
+  box(7, 4.2, 5, mats.bldg, -16, 2.1, 7.5); box(7.4, 0.2, 5.4, mats.dark, -16, 4.3, 7.5);
   for (const [x, z] of [[-22, -9], [-14, -12], [-6, -14]]) cylY(3, 6.5, mats.bldg, x, 3.25, z, 32);
   box(0.25, 10, 0.25, mats.dark, 9.5, 5, 5.5);
 
@@ -4078,7 +4282,8 @@ function c3Build() {
   const leakLight = new T.PointLight(0xff8a2a, 0, 14, 1.6); leakLight.position.set(G3.flangeX, 1.2, 0); scene.add(leakLight);
 
   Object.assign(C3, {
-    planes: { pPhos, pWlo, pWhi }, phosTop, waterTop, lidPivot, drop, flowTex, flowGlow, sensorLamp, pumpLamp, puddleF, puddleO, fireLight, leakLight, nozzles,
+    planes: { pPhos, pWlo, pWhi }, phosTop, waterTop, lidPivot, drop, flowTex, flowGlow,
+    tankCanvas, tankTex, shellParts, shellPaint, capPaint, shellGlass, innerMeshes, gauges, gauge: { h: gH, y0: gY0 }, signCanvas, signTex, sensorLamp, pumpLamp, puddleF, puddleO, fireLight, leakLight, nozzles,
     smoke: c3Particles(T, scene, 360, false), fire: c3Particles(T, scene, 220, true), spray: c3Particles(T, scene, 520, false),
     drip: c3Particles(T, scene, 120, false), spill: c3Particles(T, scene, 260, false),
     lid: 0, lift: 0, levelY: yc, k: new T.Vector3()
@@ -4089,6 +4294,17 @@ function c3Build() {
 function c3Update(dt, now) {
   const tr = curPost(), { R: TR_, L: TL, yc } = G3;
   if (C3.post !== tr.id) { C3.post = tr.id; [C3.smoke, C3.fire, C3.spray, C3.drip, C3.spill].forEach(c3Clear); }
+  // номер контейнера на цистерне и табличка поста: перерисовать при смене контейнера, поста или языка
+  const tk = tr.cont + LANG;
+  if (C3.tankKey !== tk) { C3.tankKey = tk; const g = C3.tankCanvas.getContext('2d'); c3TankPaint(g, 1024, 1024, tr.cont); C3.tankTex.needsUpdate = true; }
+  const sk = tr.id + LANG;
+  if (C3.signKey !== sk) { C3.signKey = sk; c3SignPaint(C3.signCanvas.getContext('2d'), 512, 128, tr.id + 1); C3.signTex.needsUpdate = true; }
+  // «Разрез»: стеклянная цистерна и фосфор внутри; иначе окрашенная, как на настоящей камере
+  if (C3.xrApplied !== C3.xray) {
+    const xr = C3.xray; C3.xrApplied = xr;
+    C3.shellParts.forEach((m, i) => { m.material = xr ? C3.shellGlass : (i ? C3.capPaint : C3.shellPaint); m.castShadow = !xr; m.receiveShadow = !xr; m.renderOrder = xr ? 4 : 0; });
+    C3.innerMeshes.forEach(m => { m.visible = xr; });
+  }
   // уровень: жидкость в цистерне, сверху слой воды
   const f = clamp((tr.level || 0) / 100, 0, 1);
   const top = yc - TR_ + 2 * TR_ * f;
@@ -4098,7 +4314,13 @@ function c3Update(dt, now) {
   const half = y => Math.sqrt(Math.max(0, TR_ * TR_ - (y - yc) * (y - yc))) - 0.05;
   C3.phosTop.position.set(0, pTop, 0); C3.phosTop.scale.set(TL - 0.1, 1, Math.max(0.001, 2 * half(pTop)));
   C3.waterTop.position.set(0, wTop, 0); C3.waterTop.scale.set(TL - 0.1, 1, Math.max(0.001, 2 * half(wTop)));
-  C3.phosTop.visible = f > 0.02; C3.waterTop.visible = f > 0.02;
+  C3.phosTop.visible = C3.xray && f > 0.02; C3.waterTop.visible = C3.xray && f > 0.02;
+  // мерные стёкла: столбик фосфора и слой воды над ним
+  const gq = clamp((C3.levelY - (yc - TR_)) / (2 * TR_), 0, 1), gw = Math.min(gq, 0.07), gp = Math.max(0.001, gq - gw);
+  for (const gg of C3.gauges) {
+    gg.col.scale.y = C3.gauge.h * gp; gg.col.position.y = C3.gauge.y0 + gg.col.scale.y / 2;
+    gg.wat.visible = gq > 0.02; gg.wat.scale.y = Math.max(0.001, C3.gauge.h * gw); gg.wat.position.y = C3.gauge.y0 + gg.col.scale.y + gg.wat.scale.y / 2;
+  }
   // люк открыт при выбросе и пожаре; рукав поднимается
   const open = tr.smokeTarget > 0 || tr.smoke > 0.05 || tr.fire > 0.05 ? 1 : 0;
   C3.lid += (open - C3.lid) * Math.min(1, dt * 2.5);
@@ -4295,6 +4517,7 @@ function setupCam3d() {
   document.addEventListener('click', e => {
     const v = e.target.closest('[data-c3view]'); if (v) { c3SetView(v.dataset.c3view); return; }
     if (e.target.closest('#c3Full')) c3SetFull(!C3.full);
+    else if (e.target.closest('#c3Xray')) c3SetXray(!C3.xray);
   });
   document.addEventListener('pointerdown', e => {
     const vp = e.target.closest('.c3-vp'); if (!vp || C3.st !== 'ready') return;
@@ -4347,15 +4570,28 @@ function renderObj(force) {
   if (s.type === 'post') return postView(box, fresh);
   if (s.type === 'cont') return contView(box, fresh);
 }
+/* плашка «идёт случай»: что сейчас смотреть на этой странице */
+const CASE_POST = { sensor: 0, smoke: 1, leak: 2 };
+function renderCaseHint() {
+  const el = $('#caseHint'); if (!el) return;
+  const h = S.caseHint, s = S.sel;
+  const show = h && s && ((s.type === 'post' && CASE_POST[h.k] === s.id) || (s.type === 'cont' && h.k === 'tleak'));
+  setHTML(el, show ? `<div class="case-hint"><div><b>${esc(t('cw_h', { name: t('case_' + h.k) }))}</b><p>${esc(t('cw_' + h.k))}</p></div><button class="btn btn-sm" data-act="hint-close">${esc(t('cw_close'))}</button></div>` : '');
+}
+
 /* пост налива */
 function postView(box, fresh) {
   const tr = posts[S.sel.id]; S.selPost = tr.id; CUR_POST = tr.id;
   if (fresh) {
     box.innerHTML = `
-      <div class="ins-head"><div class="eyebrow">${esc(t('tr_eyebrow'))}</div><h1 id="trTitle"></h1><div class="chips" id="pvChips"></div></div>
+      <div class="ins-head"><div class="eyebrow">${esc(t('tr_eyebrow'))}</div><h1 id="trTitle"></h1><p class="pg-lead" id="pvLead"></p><div class="chips" id="pvChips"></div></div>
+      <div id="caseHint"></div>
+      <div id="trDecision"></div>
       <div class="pg-cols">
         <div class="col">
-          <div id="trDecision"></div>
+          <section class="sec"><div class="row-btns" style="justify-content:space-between;align-items:center"><h3 class="h3" id="h-cam"></h3><span id="camState"></span></div>${cam3dHTML()}</section>
+        </div>
+        <div class="col">
           <div class="kpis" id="trKpis"></div>
           <div class="legend"><span><i class="sw"></i>${esc(t('lg_sensor'))}</span><span id="lgEst"><i class="sw s-est"></i>${esc(t('lg_est'))}</span><span id="lgFc"><i class="sw s-fc"></i>${esc(t('lg_fc'))}</span></div>
           <div class="chart" id="trChart"></div>
@@ -4363,11 +4599,10 @@ function postView(box, fresh) {
           <div id="pvTank"></div>
           <div class="row-btns"><button class="btn" id="btnPumpStart">${esc(t('btn_start'))}</button><button class="btn btn-danger" id="btnPumpStop">${esc(t('btn_stop'))}</button></div>
         </div>
-        <div class="col">
-          <section class="sec"><div class="row-btns" style="justify-content:space-between;align-items:center"><h3 class="h3" id="h-cam"></h3><span id="camState"></span></div>${cam3dHTML()}</section>
-          <section class="sec"><h3 class="h3">${esc(t('h_explain'))}</h3><ul class="ex-list" id="trAI"></ul></section>
-          <section class="sec"><h3 class="h3" id="h-postlog"></h3><ul class="mini-log" id="postLog"></ul></section>
-        </div>
+      </div>
+      <div class="pg-cols pg-cols-even">
+        <section class="sec"><h3 class="h3">${esc(t('h_explain'))}</h3><ul class="ex-list" id="trAI"></ul></section>
+        <section class="sec"><h3 class="h3" id="h-postlog"></h3><ul class="mini-log" id="postLog"></ul></section>
       </div>
       <section class="sec"><h3 class="h3">${esc(t('pv_scn_h'))}</h3><div class="scn-grid">
         ${['sensor', 'smoke', 'leak', 'reset'].map(k => `<button class="scn" data-pscn="${k}"><span class="scn-k">${esc(t('scn_' + k + '_k'))}</span><span class="scn-t">${esc(t('scn_' + k + '_t'))}</span></button>`).join('')}
@@ -4378,6 +4613,8 @@ function postView(box, fresh) {
   }
   CUR_POST = tr.id;
   $('#trTitle').textContent = t('pv_post', { post: tr.id }) + ' · ' + NM.cont(tr.cont);
+  $('#pvLead').textContent = t('lead_post', { c: NM.cont(tr.cont) });
+  renderCaseHint();
   const [sv, tx] = trState(tr), nz = peopleInZone(tr.id);
   $('#pvChips').innerHTML = chip(sv, tx) + (hz[tr.id] && hz[tr.id].active ? chip(nz ? 'critical' : 'good', t('pv_people_zone', { n: nz })) : '');
   $('#h-cam').textContent = t('h_cam', { post: tr.id });
@@ -4397,7 +4634,8 @@ function contView(box, fresh) {
   if (fresh) {
     box.innerHTML = `
       <button class="btn btn-sm back" data-nav="trains">${esc(t('obj_back_train', { n: T.num }))}</button>
-      <div class="ins-head"><h1 id="cdTitle"></h1><div class="chips" id="cdChip"></div></div>
+      <div class="ins-head"><h1 id="cdTitle"></h1><p class="pg-lead">${esc(t('lead_cont'))}</p><div class="chips" id="cdChip"></div></div>
+      <div id="caseHint"></div>
       <div class="pg-cols">
         <div class="col">
           <div class="plate-wrap"><div class="plate" aria-label="${esc(t('plate_aria'))}"><span>46</span><span>1381</span></div><div class="plate-cap" id="cdMeta"></div></div>
@@ -4417,6 +4655,7 @@ function contView(box, fresh) {
   }
   const loc = locate(T.km);
   $('#cdTitle').textContent = t('cd_title', { c: c.id });
+  renderCaseHint();
   $('#cdChip').innerHTML = chip(c.sev, `${t('sev_' + c.sev)} · ${Math.round(c.risk)}`);
   $('#cdMeta').innerHTML = `${esc(t('cd_meta1', { w: c.wagon }))}<br>${esc(t('cd_meta2', { n: T.num, loc }))}`;
   $('#cdKpis').innerHTML = `
@@ -4470,7 +4709,7 @@ function renderShift(force) {
   if (force || S.shiftLang !== LANG || !$('#shKpis')) {
     S.shiftLang = LANG;
     box.innerHTML = `
-      <div class="ins-head"><div class="eyebrow">${esc(t('ov_eyebrow'))}</div><h1 id="shTitle"></h1></div>
+      <div class="ins-head"><div class="eyebrow">${esc(t('ov_eyebrow'))}</div><h1 id="shTitle"></h1><p class="pg-lead">${esc(t('lead_shift'))}</p></div>
       <div class="kpis" id="shKpis"></div>
       <section class="sec"><h3 class="h3">${esc(t('sh_posts'))}</h3><div id="shPosts"></div></section>
       <section class="sec"><h3 class="h3">${esc(t('ov_cmp_h'))} <span class="note" style="text-transform:none;letter-spacing:0">· ${esc(t('ov_cmp_note'))}</span></h3>
@@ -4612,10 +4851,13 @@ function runScenario(i, k) {
 }
 function runSb(k) {
   wake();
-  if (k === 'sensor') { runScenario(0, 'sensor'); pick('post:0'); }
-  else if (k === 'smoke') { runScenario(1, 'smoke'); pick('post:1'); }
-  else if (k === 'leak') { runScenario(2, 'leak'); pick('post:2'); }
-  else if (k === 'tleak') { tsScenario('leak'); const A = ts.trains[0]; pick(`cont:${A.key}:${A.conts[A.conts.length - 1].id}`); }
+  // плашка «идёт случай» и камера на нужном месте
+  S.caseHint = k === 'reset' ? null : { k };
+  if (k !== 'reset') c3Focus(k);
+  if (k === 'sensor') { runScenario(0, 'sensor'); pick('post:0', true); }
+  else if (k === 'smoke') { runScenario(1, 'smoke'); pick('post:1', true); }
+  else if (k === 'leak') { runScenario(2, 'leak'); pick('post:2', true); }
+  else if (k === 'tleak') { tsScenario('leak'); const A = ts.trains[0]; pick(`cont:${A.key}:${A.conts[A.conts.length - 1].id}`, true); }
   else if (k === 'reset') {
     postsInit(); peopleInit(); tsScenario('reset');
     S.objKey = null; S.trainNum = null;
@@ -4776,6 +5018,7 @@ function init() {
     else if (b.dataset.run) runSb(b.dataset.run);
     else if (b.dataset.act === 'tour') runTour();
     else if (b.dataset.act === 'summary') exportSummary();
+    else if (b.dataset.act === 'hint-close') { S.caseHint = null; renderCaseHint(); }
     else if (b.dataset.incOpen) { S.selInc = Number(b.dataset.incOpen); nav('inc', true); }
   });
   $('#menuBtn').addEventListener('click', () => setNavOpen(!document.body.classList.contains('nav-open')));
@@ -4810,7 +5053,9 @@ function init() {
   setupUX();
   renderTourBar(); renderReplay();
   if (window.ResizeObserver) new ResizeObserver(measureHeader).observe($('#topbar'));
-  nav('home');
+  const start = navFromHash();
+  nav(start || 'home');
+  addEventListener('popstate', () => { S.fromPop = true; nav(navFromHash() || 'home'); S.fromPop = false; });
   resetHistory();
   setSpeed(0.5);
   setInterval(() => {
@@ -4835,7 +5080,7 @@ function init() {
   requestAnimationFrame(camFrame);
   let seen = false;
   try { seen = localStorage.getItem('fosfor-tara-guide') === '1'; } catch (e) { /* без сохранения */ }
-  if (!seen) runTour(true);
+  if (!seen && !start) runTour(true);
 }
 
 /* ---------- время: пауза и перемотка ---------- */
