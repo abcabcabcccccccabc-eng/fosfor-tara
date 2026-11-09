@@ -7,6 +7,13 @@
 <meta property="og:title" content="Фосфор-Тара">
 <meta property="og:description" content="ИИ следит за наливом жёлтого фосфора, людьми и контейнерами в пути и предотвращает аварии. Прототип для INNOVATION AI HACKATHON 2026.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://abcabcabcccccccabc-eng.github.io/fosfor-tara/">
+<meta property="og:image" content="https://abcabcabcccccccabc-eng.github.io/fosfor-tara/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Фосфор-Тара: 3D-модель поста налива жёлтого фосфора">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="icon-180.png">
 <meta name="theme-color" content="#0d1013">
 <meta name="color-scheme" content="dark light">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 34 34%22%3E%3Crect x=%221%22 y=%221%22 width=%2232%22 height=%2232%22 rx=%229%22 fill=%22%234a5f8f%22/%3E%3Crect x=%226%22 y=%2211%22 width=%2222%22 height=%2214%22 rx=%227%22 fill=%22%23f7f9f8%22/%3E%3Crect x=%226%22 y=%2219%22 width=%2222%22 height=%226%22 rx=%223%22 fill=%22%23dfbe55%22/%3E%3C/svg%3E">
@@ -568,6 +575,28 @@ kbd{font-family:var(--f-mono);font-size:12px;padding:1px 6px;border:1px solid va
 .case-hint p{color:var(--ink-2);margin-top:3px;max-width:80ch}
 .pg-cols-even{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 
+/* ---------- живая сцена на главной, плавность, загрузка, пустые места ---------- */
+.hero-split{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);align-items:stretch;gap:0;padding:0;overflow:hidden}
+.hero-split .hero-txt{padding:26px 28px;display:grid;gap:10px;align-content:center}
+.hero3d{position:relative;min-height:320px;background:radial-gradient(ellipse at 60% 40%,#223142,#0d1013 72%);border-left:1px solid var(--line)}
+.h3d-vp{position:absolute;inset:0;overflow:hidden}
+.h3d-vp canvas{display:block;width:100%;height:100%}
+.hero3d::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,var(--panel) 0,transparent 16%)}
+.page:not([hidden]){animation:pgIn .28s ease-out}
+@keyframes pgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.c3-loading .c3-vp::before,.c3-loading .h3d-vp::before{content:"";position:absolute;inset:0;z-index:3;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.07) 50%,transparent 70%);background-size:200% 100%;animation:shimmer 1.2s linear infinite}
+@keyframes shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
+.empty{display:grid;justify-items:center;gap:8px;text-align:center;padding:18px 12px;color:var(--muted)}
+.empty svg{width:34px;height:34px;fill:none;stroke:var(--line-2);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.empty p{max-width:42ch;font-size:13.5px}
+.feed-empty{list-style:none}
+.side-ctl{display:grid;gap:6px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.side-ctl .top-actions{display:grid;gap:8px;margin:0;padding:0 4px}
+.side-ctl .top-actions .seg{width:100%}
+.side-ctl .top-actions .seg button{flex:1 1 0}
+.side-ctl .top-actions .btn,.side-ctl .top-actions .switch{width:100%;justify-content:center}
+.mbar{display:none}
+
 /* ---------- минимальный стиль: тонкие контуры вместо заливок и теней ---------- */
 .topbar{background:var(--bg)}
 body::before{background:var(--bg)}
@@ -627,11 +656,28 @@ body::before{background:var(--bg)}
   .nav-open .side{transform:none;visibility:visible}
   .pg-inc{grid-template-columns:minmax(0,1fr)}
   .pg-inc .inc-list{position:static;max-height:none}
+  .hero-split{grid-template-columns:minmax(0,1fr)}
+  .hero3d{min-height:230px;order:-1;border-left:0;border-bottom:1px solid var(--line)}
+  .hero3d::after{background:linear-gradient(0deg,var(--panel) 0,transparent 22%)}
   .cols2{grid-template-columns:minmax(0,1fr)}
 }
 @media (max-width:700px){
-  .topbar{position:static}
-  .top-actions{margin-left:0}
+  .topbar-inner{flex-wrap:nowrap;gap:8px}
+  .brand svg{width:28px;height:28px}
+  .brand-name{font-size:17px;white-space:nowrap}
+  .brand-sub,.shiftbox .k{display:none}
+  .shiftbox{margin-left:auto;padding:3px 6px;gap:6px}
+  .shiftbox .v{font-size:14px}
+  .shiftbox .iconbtn{width:28px;height:28px}
+  #hsChip .chip{font-size:11px;padding:3px 7px 3px 6px}
+  .mbar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:fixed;left:0;right:0;bottom:0;z-index:42;background:var(--bg);border-top:1px solid var(--line);padding:4px max(6px,env(safe-area-inset-right,0px)) calc(4px + env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px))}
+  .mbar button{position:relative;display:grid;justify-items:center;gap:2px;padding:6px 2px;border:0;background:none;color:var(--muted);font-size:11px;font-weight:600;cursor:pointer}
+  .mbar button[aria-current="page"]{color:var(--accent)}
+  .mbar svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .mbar .badge{position:absolute;top:2px;left:calc(50% + 6px)}
+  body{padding-bottom:calc(66px + env(safe-area-inset-bottom,0px))}
+  .toasts{bottom:calc(78px + env(safe-area-inset-bottom,0px))}
+  .hero-split .hero-txt{padding:18px}
   .lc-row{grid-template-columns:minmax(0,1fr) auto}
   .lc-row .lc-bar{grid-column:1/-1;grid-row:2}
   .modal{padding:16px}
@@ -642,7 +688,12 @@ body::before{background:var(--bg)}
   .pad{padding:14px}
   .scn{padding:8px 10px}
 }
+@media (max-width:420px){
+  #hsChip .chip{font-size:0;gap:0;padding:6px}
+}
 @media (prefers-reduced-motion:reduce){
+  .page:not([hidden]){animation:none}
+  .c3-loading .c3-vp::before,.c3-loading .h3d-vp::before{animation:none}
   .guide-focus,.side,.case{transition:none}
   .tourbar .tb-text.wait::before{animation:none}
   .alert.unacked .chip i{animation:none}
@@ -693,6 +744,7 @@ body::before{background:var(--bg)}
 <div class="wrap app">
   <nav class="side" id="side" data-ta="aria-label:nav_aria">
     <button class="side-search" id="searchBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><span data-t="nav_search"></span><kbd>/</kbd></button>
+    <div class="side-ctl" id="sideCtl" hidden><div class="side-h" data-t="side_ctl"></div></div>
     <div class="side-list">
       <button class="nav-it" data-nav="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg><span data-t="nav_home"></span></button>
       <div class="side-h" data-t="nav_g_load"></div>
@@ -769,6 +821,13 @@ body::before{background:var(--bg)}
   </main>
 </div>
 
+<nav class="mbar" id="mbar" data-ta="aria-label:mb_aria">
+  <button data-nav="home" data-mb="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg><span data-t="mb_home"></span></button>
+  <button data-nav="post:0" data-mb="obj" id="mbPosts"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="18" height="9" rx="4.5"/><path d="M12 8V5M9 5h6M7 20l1-3M17 20l-1-3"/></svg><span data-t="mb_posts"></span></button>
+  <button data-nav="cases" data-mb="cases"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 13h6l-1 8 8-10h-6z"/></svg><span data-t="mb_cases"></span></button>
+  <button data-nav="inc" data-mb="inc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M12 8v5M12 16v.5"/></svg><span data-t="mb_inc"></span><span class="badge" id="mbIncBadge" hidden>0</span></button>
+  <button id="mbMenu" aria-controls="side"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span data-t="mb_menu"></span></button>
+</nav>
 <div class="modal-back search-back" id="search" hidden>
   <div class="search" role="dialog" aria-modal="true" data-ta="aria-label:search_aria">
     <input type="search" id="searchIn" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="true" aria-controls="searchList" data-ta="placeholder:search_ph;aria-label:search_aria">
@@ -2596,6 +2655,33 @@ Object.assign(L.kk, {
   cw_tleak: 'Су қабаты мен болжамға қараңыз: су кетіп жатыр. ЖИ алдын ала ескертіп, пойызды тоқтатуға кеңес береді.'
 });
 
+/* ---------- доводка: вычитка хвостов после смены интерфейса, мобильная панель, пустые экраны — три языка ---------- */
+Object.assign(L.ru, {
+  brand_sub: 'ИИ-безопасность налива · НДФЗ, Тараз',
+  inc_none: 'Инцидентов пока нет. Запустите любой случай в разделе «Случаи».',
+  hero3d_aria: '3D-модель поста налива: камера медленно облетает эстакаду и цистерну',
+  mb_aria: 'Главные разделы', mb_home: 'Сводка', mb_posts: 'Посты', mb_cases: 'Случаи', mb_inc: 'Инциденты', mb_menu: 'Меню',
+  emp_run: 'Выбрать случай', side_ctl: 'Управление'
+});
+Object.assign(L.en, {
+  brand_sub: 'AI loading safety · NDFZ, Taraz',
+  inc_none: 'No incidents yet. Run any case in the “Cases” section.',
+  hero3d_aria: '3D model of the loading post: the camera slowly circles the gantry and the tank',
+  mb_aria: 'Main sections', mb_home: 'Overview', mb_posts: 'Posts', mb_cases: 'Cases', mb_inc: 'Incidents', mb_menu: 'Menu',
+  emp_run: 'Choose a case', side_ctl: 'Controls'
+});
+Object.assign(L.kk, {
+  brand_sub: 'ЖИ құю қауіпсіздігі · НДФЗ, Тараз',
+  inc_none: 'Әзірге оқиға жоқ. «Жағдайлар» бөлімінде кез келген жағдайды іске қосыңыз.',
+  hero3d_aria: 'Құю бекетінің 3D моделі: камера эстакада мен цистернаны баяу айналып ұшады',
+  mb_aria: 'Негізгі бөлімдер', mb_home: 'Шолу', mb_posts: 'Бекеттер', mb_cases: 'Жағдайлар', mb_inc: 'Оқиғалар', mb_menu: 'Мәзір',
+  emp_run: 'Жағдайды таңдау', side_ctl: 'Басқару'
+});
+// раздел «Честно о прототипе»: карты больше нет, вместо неё условная 3D-модель
+L.ru.ab_honest = L.ru.ab_honest.replace('Схемы маршрута и застройки условные.', '3D-модель поста и схема пути условные.');
+L.en.ab_honest = L.en.ab_honest.replace('The route and building layouts are illustrative.', 'The 3D model of the post and the route diagram are illustrative.');
+L.kk.ab_honest = L.kk.ab_honest.replace('Бағыт пен құрылыс сызбалары шартты.', 'Бекеттің 3D моделі мен жол сызбасы шартты.');
+
 /* ---------- состояние ---------- */
 const SEV_CLS = { good: 's-good', info: 's-info', warning: 's-warning', serious: 's-serious', critical: 's-critical' };
 const chip = (sev, label) => `<span class="chip ${SEV_CLS[sev]}"><i aria-hidden="true"></i>${esc(label ?? t('sev_' + sev))}</span>`;
@@ -3125,6 +3211,11 @@ function nearOf(p) {
   return best.near;
 }
 /* ---------- общие части интерфейса: уведомления, графики, камера, объяснения ИИ, инциденты ---------- */
+// пустое место: иконка, понятная фраза и кнопка, что нажать
+const EMPTY_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>';
+function emptyState(text, btn) {
+  return `<div class="empty">${EMPTY_ICON}<p>${esc(text)}</p>${btn ? `<button class="btn btn-sm" data-nav="${btn.nav}">${esc(btn.label)}</button>` : ''}</div>`;
+}
 function toast(to, k, p, sev) {
   if (S.tour) return; // во время демо всё объясняет полоса сверху
   const box = $('#toasts');
@@ -3521,7 +3612,7 @@ function renderIncidents(force) {
   if (!force && key === S.incKey) return;
   S.incKey = key;
   $('#incList').innerHTML = S.incidents.map(i => `<button class="inc-item" data-inc="${i.n}" aria-current="${i.n === S.selInc}"><span class="inc-it-top">${statusChip(i.status)}<time>${clock(i.time)}</time></span><span class="inc-it-title">${esc(incTitle(i))}</span><span class="inc-it-sub">${esc(modLabel(i.mod))} · ${NM.inc(i.n)}${i.example ? ' · ' + esc(t('inc_example')) : ''}</span></button>`).join('');
-  if (!inc) { $('#incDetail').innerHTML = `<div class="panel"><div class="pb"><p>${esc(t('inc_none'))}</p></div></div>`; return; }
+  if (!inc) { $('#incDetail').innerHTML = `<div class="panel">${emptyState(t('inc_none'), { nav: 'cases', label: t('emp_run') })}</div>`; return; }
   if (inc.post != null) CUR_POST = inc.post;
   const z = zone(inc), acts = incActs(inc), rep = inc.report;
   const facts = incFacts(inc);
@@ -3644,6 +3735,12 @@ function navFromHash() {
 const pick = (str, user) => nav(str, user);
 const setTab = tab => nav(tab);
 
+function placeActions() {
+  const acts = $('.top-actions'), ctl = $('#sideCtl'), narrow = matchMedia('(max-width:700px)').matches;
+  if (narrow && acts.parentNode !== ctl) { ctl.appendChild(acts); ctl.hidden = false; }
+  else if (!narrow && acts.parentNode === ctl) { $('.topbar-inner').appendChild(acts); ctl.hidden = true; }
+  measureHeader();
+}
 function setNavOpen(on) {
   document.body.classList.toggle('nav-open', on);
   $('#sideBack').hidden = !on;
@@ -3662,6 +3759,10 @@ function renderNav() {
   $('#nd-trains').className = 'nd nd-' + sev;
   setHTML($('#ns-trains'), esc(na ? t('st_need', { n: na }) : t('st_ok')));
   const cur = S.tab === 'obj' && S.sel && S.sel.type === 'cont' ? 'trains' : S.page;
+  const mbKind = S.tab === 'obj' && S.sel && S.sel.type === 'post' ? 'obj' : S.tab;
+  $$('#mbar [data-mb]').forEach(b => { if (b.dataset.mb === mbKind) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+  $('#mbPosts').dataset.nav = 'post:' + (S.selPost || 0);
+  const ib = $('#incBadge'), mb = $('#mbIncBadge'); mb.hidden = ib.hidden; mb.textContent = ib.textContent;
   $$('.nav-it[data-nav]').forEach(b => { if (b.dataset.nav === cur) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
 }
 
@@ -3680,11 +3781,14 @@ function renderHome(force) {
     S.homeKey = key;
     box.innerHTML = `
       <div class="home">
-        <section class="panel hero">
+        <section class="panel hero hero-split">
+          <div class="hero-txt">
           <div class="eyebrow">${esc(t('home_eyebrow'))}</div>
           <h1 id="hmTitle"></h1>
           <p id="hmLead"></p>
           <div class="row-btns hero-btns"><button class="btn btn-primary btn-lg" data-act="tour">${esc(t('home_demo'))}</button><button class="btn btn-lg" data-nav="cases">${esc(t('home_cases'))}</button>${S.dl ? `<button class="btn btn-lg" data-act="summary">${esc(t('sum_btn'))}</button>` : ''}<span class="note">${esc(t('home_demo'))}: ${esc(t('home_demo_note'))}</span></div>
+          </div>
+          <div class="hero3d" id="hero3d" role="img" aria-label="${esc(t('hero3d_aria'))}"><div class="h3d-vp"></div></div>
         </section>
         <section class="start" aria-labelledby="startH"><h3 class="h3" id="startH">${esc(t('start_h'))}</h3><div class="start-grid">
           <button class="card start-card" data-act="tour"><span class="start-n">1</span><b>${esc(t('start1_h'))}</b><span class="note">${esc(t('start1'))}</span></button>
@@ -3708,6 +3812,7 @@ function renderHome(force) {
         <section class="panel pad"><div class="card-top"><h3 class="h3">${esc(t('home_inc_h'))}</h3><span class="note" id="hiSum"></span></div><div class="inc-mini" id="hiList"></div></section>
       </div>`;
   }
+  if (C3.st === 'idle') c3Load(); else c3Status();
   const items = alertItems();
   $('#hmTitle').textContent = items.length ? t('home_alert_h', { n: items.length }) : t('home_calm_h');
   $('#hmLead').textContent = items.length ? t('home_alert_lead') : t('home_lead');
@@ -3729,7 +3834,7 @@ function renderHome(force) {
   const st = shiftStats();
   $('#hiSum').textContent = t('home_inc_sum', { prev: st.prev, act: st.act });
   const list = S.incidents.slice(0, 4);
-  setHTML($('#hiList'), list.length ? list.map(i => `<button data-inc-open="${i.n}">${statusChip(i.status)}<span>${esc(incTitle(i))}</span><time class="mono">${hm(i.time)}</time></button>`).join('') : `<p class="note">${esc(t('home_inc_none'))}</p>`);
+  setHTML($('#hiList'), list.length ? list.map(i => `<button data-inc-open="${i.n}">${statusChip(i.status)}<span>${esc(incTitle(i))}</span><time class="mono">${hm(i.time)}</time></button>`).join('') : emptyState(t('home_inc_none'), { nav: 'cases', label: t('emp_run') }));
 }
 
 /* ---------- поезда в пути ---------- */
@@ -3805,12 +3910,21 @@ function effectHTML() {
     </tbody></table></div>
   </section>`;
 }
+// число плавно набегает до нового значения (без анимации при «уменьшить движение»)
+function countTo(el, v) {
+  if (el._v === v) return;
+  const from = el._v == null ? 0 : el._v; el._v = v;
+  if (matchMedia('(prefers-reduced-motion:reduce)').matches || from === v) { el.textContent = v; return; }
+  const t0 = performance.now(), d = 700;
+  const step = now => { if (el._v !== v) return; const k = Math.min(1, (now - t0) / d), e = 1 - Math.pow(1 - k, 3); el.textContent = Math.round(from + (v - from) * e); if (k < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
 function renderEffect() {
   if (!$('#efPrev')) return;
   const st = shiftStats();
-  $('#efPrev').textContent = st.prev;
+  countTo($('#efPrev'), st.prev);
   $('#efLead').textContent = st.lead != null ? dur(st.lead) : '—';
-  $('#efEvac').textContent = S.shift.evac || 0;
+  countTo($('#efEvac'), S.shift.evac || 0);
   $('#efTons').innerHTML = `${f1(st.tons)}<small> ${esc(t('u_t'))}</small>`;
 }
 
@@ -3911,6 +4025,8 @@ function c3Load() {
   }).catch(() => { C3.st = 'fail'; c3Status(); });
 }
 function c3Status() {
+  // индикатор загрузки на камере поста и на главной
+  for (const id of ['cam3d', 'hero3d']) { const el = document.getElementById(id); if (el) { el.classList.toggle('c3-loading', C3.st === 'loading'); el.classList.toggle('c3-failed', C3.st === 'fail'); } }
   const note = document.getElementById('c3Note'); if (!note) return;
   note.textContent = C3.st === 'loading' ? t('c3_loading') : C3.st === 'fail' ? t('c3_fail') : C3.st === 'ready' ? t('c3_hint') : '';
 }
@@ -3933,6 +4049,7 @@ function c3Attach() {
   const vp = host.querySelector('.c3-vp'), gl = C3.R.domElement;
   if (gl.parentNode !== vp) vp.insertBefore(gl, vp.firstChild);
   host.classList.add('on');
+  C3.vp = vp; C3.kind = 'cam'; C3.size = null;
   c3Resize();
 }
 function c3SetView(v) {
@@ -4434,14 +4551,24 @@ function c3Camera(dt) {
   [C3.smoke, C3.fire, C3.spray, C3.drip, C3.spill].forEach(P => { P.mat.uniforms.uScale.value = scale; });
 }
 function c3Resize() {
-  if (C3.st !== 'ready' || !C3.host) return;
-  const vp = C3.host.querySelector('.c3-vp'), w = vp.clientWidth, h = vp.clientHeight;
+  if (C3.st !== 'ready' || !C3.vp) return;
+  const vp = C3.vp, w = vp.clientWidth, h = vp.clientHeight;
   if (!w || !h) return;
   C3.R.setSize(w, h, false);
   C3.cam.aspect = w / h; C3.cam.updateProjectionMatrix();
-  const hud = document.getElementById('c3Hud'), dpr = Math.min(devicePixelRatio || 1, 2);
-  hud.width = Math.round(w * dpr); hud.height = Math.round(h * dpr);
+  const hud = C3.kind === 'cam' && document.getElementById('c3Hud'), dpr = Math.min(devicePixelRatio || 1, 2);
+  if (hud) { hud.width = Math.round(w * dpr); hud.height = Math.round(h * dpr); }
   C3.size = [w, h];
+}
+// главная: камера медленно облетает пост, без надписей видеонаблюдения
+function c3HeroCam(now) {
+  const cam = C3.cam, reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const th = -0.75 + (reduce ? 0 : 0.42 * Math.sin(now / 1000 * 0.09)), r = 19, ph = 0.3, at = [-0.6, 2.8, 0.3];
+  cam.position.set(at[0] + r * Math.cos(ph) * Math.sin(th), at[1] + r * Math.sin(ph), at[2] + r * Math.cos(ph) * Math.cos(th));
+  cam.lookAt(at[0], at[1], at[2]);
+  if (cam.fov !== 40) { cam.fov = 40; cam.updateProjectionMatrix(); }
+  const scale = C3.R.domElement.height / 2 / Math.tan(cam.fov * Math.PI / 360);
+  [C3.smoke, C3.fire, C3.spray, C3.drip, C3.spill].forEach(P => { P.mat.uniforms.uScale.value = scale; });
 }
 
 /* ---------- надписи камеры и рамки ИИ поверх картинки ---------- */
@@ -4497,19 +4624,24 @@ function c3Hud(now) {
 function c3Loop(now) {
   requestAnimationFrame(c3Loop);
   if (C3.st !== 'ready' || document.hidden) return;
-  const host = document.getElementById('cam3d');
   // видимость через размеры: у блока «на весь экран» (position: fixed) offsetParent пустой
-  if (!host || !host.getClientRects().length) { C3.last = now; return; }
-  if (host !== C3.host) c3Attach();
+  const vis = el => el && el.getClientRects().length > 0;
+  const host = document.getElementById('cam3d'), hero = document.getElementById('hero3d');
+  if (vis(host)) { if (host !== C3.host || C3.kind !== 'cam') c3Attach(); }
+  else if (vis(hero)) {
+    const vp = hero.querySelector('.h3d-vp'), gl = C3.R.domElement;
+    if (gl.parentNode !== vp) { vp.insertBefore(gl, vp.firstChild); C3.size = null; }
+    hero.classList.add('on'); C3.vp = vp; C3.kind = 'hero'; C3.host = null;
+  } else { C3.last = now; return; }
   if (now - C3.last < 30) return;
   const dt = Math.min(0.1, (now - (C3.last || now)) / 1000); C3.last = now;
-  const vp = host.querySelector('.c3-vp');
+  const vp = C3.vp;
   if (!C3.size || vp.clientWidth !== C3.size[0] || vp.clientHeight !== C3.size[1]) c3Resize();
   if (!C3.size) return;
   c3Update(S.paused || S.hold ? 0 : dt, now);
-  c3Camera(dt);
+  if (C3.kind === 'hero') c3HeroCam(now); else c3Camera(dt);
   C3.R.render(C3.scene, C3.cam);
-  c3Hud(now);
+  if (C3.kind === 'cam') c3Hud(now);
 }
 
 /* ---------- управление: ракурсы, перетаскивание, колесо, весь экран ---------- */
@@ -4520,7 +4652,7 @@ function setupCam3d() {
     else if (e.target.closest('#c3Xray')) c3SetXray(!C3.xray);
   });
   document.addEventListener('pointerdown', e => {
-    const vp = e.target.closest('.c3-vp'); if (!vp || C3.st !== 'ready') return;
+    const vp = e.target.closest('.c3-vp'); if (!vp || C3.st !== 'ready' || C3.kind !== 'cam') return;
     C3.drag = { x: e.clientX, y: e.clientY, th: C3.orbit.th, ph: C3.orbit.ph, moved: false, id: e.pointerId };
   });
   document.addEventListener('pointermove', e => {
@@ -4555,7 +4687,7 @@ function setupCam3d() {
 /* ---------- инспектор: данные выбранного объекта ---------- */
 const kvRows = rows => `<dl class="kv">${rows.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${v}</dd></div>`).join('')}</dl>`;
 function miniLog(list) {
-  if (!list.length) return `<li style="display:block"><span class="note">${esc(t('log_empty'))}</span></li>`;
+  if (!list.length) return `<li style="display:block">${emptyState(t('log_empty'))}</li>`;
   return list.slice(0, 8).map(e => `<li><div class="ml-top">${chip(e.sev)}<time>${hm(e.t)}</time></div><p>${esc(t(e.k, e.p))}</p></li>`).join('');
 }
 const peopleInZone = i => people.filter(p => inZone(p, i)).length;
@@ -4795,7 +4927,7 @@ function renderFeed() {
   if ($('#tab-log').hidden && !S.feedConfirm) { S.feedDirty = true; return; }
   S.feedDirty = false;
   const list = S.events.filter(feedMatch);
-  $('#feed').innerHTML = list.length ? list.map(evLi).join('') : `<li class="feed-empty">${esc(t('feed_empty'))}</li>`;
+  $('#feed').innerHTML = list.length ? list.map(evLi).join('') : `<li class="feed-empty">${emptyState(t('feed_empty'), { nav: 'cases', label: t('emp_run') })}</li>`;
   $('#feedCount').textContent = t('feed_count', { n: list.length });
   let opts = [];
   if (S.feedSec === 'transfer' || S.feedSec === 'people') opts = [['', t('feed_obj_all_posts')], ...posts.map(x => [String(x.id), t('post_name', { i: x.id + 1 })])];
@@ -5022,6 +5154,9 @@ function init() {
     else if (b.dataset.incOpen) { S.selInc = Number(b.dataset.incOpen); nav('inc', true); }
   });
   $('#menuBtn').addEventListener('click', () => setNavOpen(!document.body.classList.contains('nav-open')));
+  $('#mbMenu').addEventListener('click', () => setNavOpen(true));
+  placeActions();
+  try { matchMedia('(max-width:700px)').addEventListener('change', placeActions); } catch (e) { addEventListener('resize', placeActions); }
   $('#sideBack').addEventListener('click', () => setNavOpen(false));
   $('#hkBtn').addEventListener('click', () => openAbout(true));
   $('#tab-obj').addEventListener('click', e => {
