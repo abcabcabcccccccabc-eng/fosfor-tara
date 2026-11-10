@@ -2682,6 +2682,11 @@ L.ru.ab_honest = L.ru.ab_honest.replace('Схемы маршрута и заст
 L.en.ab_honest = L.en.ab_honest.replace('The route and building layouts are illustrative.', 'The 3D model of the post and the route diagram are illustrative.');
 L.kk.ab_honest = L.kk.ab_honest.replace('Бағыт пен құрылыс сызбалары шартты.', 'Бекеттің 3D моделі мен жол сызбасы шартты.');
 
+/* ---------- таблички на 3D-площадке — три языка ---------- */
+Object.assign(L.ru, { c3_danger: 'ОПАСНО', c3_danger_sub: 'ЖЁЛТЫЙ ФОСФОР · НЕ КУРИТЬ', c3_assembly: 'ТОЧКА СБОРА', c3_furnace: 'ЦЕХ №7 · ЭЛЕКТРОПЕЧИ' });
+Object.assign(L.en, { c3_danger: 'DANGER', c3_danger_sub: 'YELLOW PHOSPHORUS · NO SMOKING', c3_assembly: 'ASSEMBLY POINT', c3_furnace: 'WORKSHOP No. 7 · FURNACES' });
+Object.assign(L.kk, { c3_danger: 'ҚАУІПТІ', c3_danger_sub: 'САРЫ ФОСФОР · ТЕМЕКІ ШЕГУГЕ БОЛМАЙДЫ', c3_assembly: 'ЖИНАЛУ ОРНЫ', c3_furnace: '№7 ЦЕХ · ЭЛЕКТР ПЕШТЕРІ' });
+
 /* ---------- состояние ---------- */
 const SEV_CLS = { good: 's-good', info: 's-info', warning: 's-warning', serious: 's-serious', critical: 's-critical' };
 const chip = (sev, label) => `<span class="chip ${SEV_CLS[sev]}"><i aria-hidden="true"></i>${esc(label ?? t('sev_' + sev))}</span>`;
@@ -4008,7 +4013,7 @@ const C3 = {
 // размеры поста, м: цистерна вдоль оси X, эстакада со стороны +Z
 const G3 = { R: 1.45, L: 10.4, yc: 2.85, hatchY: 4.55, flangeX: -6.8, pipeY: 6.0, deckY: 4.9 };
 const VIEWS = {
-  hatch: { pos: [2.6, 7.3, -4.6], at: [-0.2, 4.4, 0.4], fov: 42 },
+  hatch: { pos: [2.6, 7.3, -4.6], at: [-0.2, 4.85, 0.4], fov: 42 },
   overview: { pos: [-12.5, 7.8, 13.5], at: [-0.6, 2.6, 0.4], fov: 42 },
   flange: { pos: [-11.0, 6.2, 6.0], at: [-6.7, 3.6, 0], fov: 50 }
 };
@@ -4223,8 +4228,8 @@ function c3Build() {
   const scene = new T.Scene();
   const sky = c3Tex(T, c3Canvas(4, 256, C3TEX.sky)); sky.wrapS = sky.wrapT = T.ClampToEdgeWrapping;
   scene.background = sky;
-  scene.fog = new T.Fog(0xb7c1ca, 45, 150);
-  const cam = new T.PerspectiveCamera(50, 16 / 9, 0.1, 200);
+  scene.fog = new T.Fog(0xb7c1ca, 40, 420);
+  const cam = new T.PerspectiveCamera(50, 16 / 9, 0.1, 700);
   C3.sprite = c3Sprite(T);
   Object.assign(C3, { R, scene, cam, tgt: new T.Vector3(0, 4.35, 0), camPos: new T.Vector3(2.5, 6.6, 1.75), v3: new T.Vector3() });
 
@@ -4248,7 +4253,7 @@ function c3Build() {
     clad: c3Tex(T, c3Canvas(64, 64, C3TEX.cladding)), corr: c3Tex(T, c3Canvas(128, 128, C3TEX.corrugated))
   };
   const mats = {
-    ground: M(0xffffff, { map: c3Rep(tx.dirt, 50, 50), roughness: 1, metalness: 0 }),
+    ground: M(0xffffff, { map: c3Rep(tx.dirt, 250, 250), roughness: 1, metalness: 0 }),
     pad: M(0xffffff, { map: c3Rep(tx.conc, 6, 2.5), roughness: 0.95, metalness: 0 }),
     ballast: M(0xffffff, { map: c3Rep(tx.ballast, 30, 1.5), roughness: 1, metalness: 0 }),
     steel: M(0x8a949c, { roughness: 0.45, metalness: 0.6 }), dark: M(0x3a4248, { roughness: 0.6, metalness: 0.5 }),
@@ -4271,7 +4276,7 @@ function c3Build() {
   };
 
   // земля, площадка, рельсы со шпалами
-  const ground = new T.Mesh(new T.PlaneGeometry(160, 160), mats.ground); ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
+  const ground = new T.Mesh(new T.PlaneGeometry(800, 800), mats.ground); ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
   box(22, 0.04, 9.5, mats.pad, -1.5, 0.02, 1.6);
   box(60, 0.07, 3.1, mats.ballast, 0, 0.035, 0);
   box(60, 0.14, 0.09, mats.rail, 0, 0.17, -0.72); box(60, 0.14, 0.09, mats.rail, 0, 0.17, 0.72);
@@ -4383,10 +4388,10 @@ function c3Build() {
   const camLight = new T.SpotLight(0xdfe8ff, 70, 16, Math.PI / 6, 0.7, 1.6);
   camLight.position.set(2.9, 7.7, -4.7); camLight.target.position.set(0, 4.3, 0); scene.add(camLight, camLight.target);
 
-  // фон: насосная, резервуары склада, прожекторная мачта
+  // рядом с постом: насосная и прожекторная мачта; остальной завод — в c3Plant
   box(7, 4.2, 5, mats.bldg, -16, 2.1, 7.5); box(7.4, 0.2, 5.4, mats.dark, -16, 4.3, 7.5);
-  for (const [x, z] of [[-22, -9], [-14, -12], [-6, -14]]) cylY(3, 6.5, mats.bldg, x, 3.25, z, 32);
   box(0.25, 10, 0.25, mats.dark, 9.5, 5, 5.5);
+  const plant = c3Plant({ T, scene, mats, tx, M, add, box, cylX, cylY, inst });
 
   // лужи разлитого фосфора (под фланцем и у борта цистерны)
   const puddleMat = M(0xc8901f, { roughness: 0.25, metalness: 0, emissive: 0x5a3600, emissiveIntensity: 0.6, transparent: true, opacity: 0.9 });
@@ -4399,7 +4404,7 @@ function c3Build() {
   const leakLight = new T.PointLight(0xff8a2a, 0, 14, 1.6); leakLight.position.set(G3.flangeX, 1.2, 0); scene.add(leakLight);
 
   Object.assign(C3, {
-    planes: { pPhos, pWlo, pWhi }, phosTop, waterTop, lidPivot, drop, flowTex, flowGlow,
+    plant, planes: { pPhos, pWlo, pWhi }, phosTop, waterTop, lidPivot, drop, flowTex, flowGlow,
     tankCanvas, tankTex, shellParts, shellPaint, capPaint, shellGlass, innerMeshes, gauges, gauge: { h: gH, y0: gY0 }, signCanvas, signTex, sensorLamp, pumpLamp, puddleF, puddleO, fireLight, leakLight, nozzles,
     smoke: c3Particles(T, scene, 360, false), fire: c3Particles(T, scene, 220, true), spray: c3Particles(T, scene, 520, false),
     drip: c3Particles(T, scene, 120, false), spill: c3Particles(T, scene, 260, false),
@@ -4529,6 +4534,7 @@ function c3Update(dt, now) {
   });
   const po = tr.overflowed ? 2.6 : 0;
   C3.puddleO.visible = po > 0; C3.puddleO.scale.set(Math.max(po, 0.001), 1, Math.max(po * 0.5, 0.001));
+  c3PlantUpdate(dt, tr, now);
 }
 
 /* ---------- камера: ракурсы, плавный перелёт, свободный обзор ---------- */
@@ -4548,7 +4554,7 @@ function c3Camera(dt) {
   if (Math.abs(cam.fov - fov) > 0.05) { cam.fov += (fov - cam.fov) * k; cam.updateProjectionMatrix(); }
   const h = C3.R.domElement.height;
   const scale = h / 2 / Math.tan(cam.fov * Math.PI / 360);
-  [C3.smoke, C3.fire, C3.spray, C3.drip, C3.spill].forEach(P => { P.mat.uniforms.uScale.value = scale; });
+  [C3.smoke, C3.fire, C3.spray, C3.drip, C3.spill, C3.plant.steam].forEach(P => { P.mat.uniforms.uScale.value = scale; });
 }
 function c3Resize() {
   if (C3.st !== 'ready' || !C3.vp) return;
@@ -4568,7 +4574,7 @@ function c3HeroCam(now) {
   cam.lookAt(at[0], at[1], at[2]);
   if (cam.fov !== 40) { cam.fov = 40; cam.updateProjectionMatrix(); }
   const scale = C3.R.domElement.height / 2 / Math.tan(cam.fov * Math.PI / 360);
-  [C3.smoke, C3.fire, C3.spray, C3.drip, C3.spill].forEach(P => { P.mat.uniforms.uScale.value = scale; });
+  [C3.smoke, C3.fire, C3.spray, C3.drip, C3.spill, C3.plant.steam].forEach(P => { P.mat.uniforms.uScale.value = scale; });
 }
 
 /* ---------- надписи камеры и рамки ИИ поверх картинки ---------- */
@@ -4663,7 +4669,7 @@ function setupCam3d() {
       if (C3.view !== 'free') {
         // начать свободный обзор с текущего положения камеры
         const o = C3.orbit, p = C3.camPos, at = [-0.8, 3.0, 0.6], rx = p.x - at[0], ry = p.y - at[1], rz = p.z - at[2];
-        o.r = clamp(Math.hypot(rx, ry, rz), 6, 40); o.th = Math.atan2(rx, rz); o.ph = Math.asin(clamp(ry / o.r, -0.2, 1));
+        o.r = clamp(Math.hypot(rx, ry, rz), 6, 32); o.th = Math.atan2(rx, rz); o.ph = Math.asin(clamp(ry / o.r, -0.2, 1));
         d.th = o.th; d.ph = o.ph; c3SetView('free'); C3.fly = 0;
       }
     }
@@ -4677,11 +4683,269 @@ function setupCam3d() {
   document.addEventListener('wheel', e => {
     if (C3.view !== 'free' || !e.target.closest('.c3-vp')) return;
     e.preventDefault();
-    C3.orbit.r = clamp(C3.orbit.r * Math.exp(e.deltaY * 0.0012), 5, 40);
+    C3.orbit.r = clamp(C3.orbit.r * Math.exp(e.deltaY * 0.0012), 5, 32);
   }, { passive: false });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && C3.full) { e.preventDefault(); e.stopPropagation(); c3SetFull(false); } }, true);
   addEventListener('resize', () => { if (C3.st === 'ready') c3Resize(); });
   requestAnimationFrame(c3Loop);
+}
+
+/* ---------- 3D-площадка вокруг поста: корпуса завода, трубы с паром, градирня, второй путь,
+   техника, забор, ЛЭП, горы на горизонте, таблички и рабочие, которые уходят при тревоге.
+   Север — это −Z: туда смотрят «Общий вид» и облёт на главной, поэтому завод стоит там. ---------- */
+
+// светлые стеновые панели с рядами окон (часть окон светится) и цоколем
+C3TEX.facade = (g, w, h) => {
+  for (let x = 0; x < w; x += 8) { g.fillStyle = x % 16 ? '#6f7880' : '#78818a'; g.fillRect(x, 0, 8, h); }
+  c3Blot(g, w, h, 14, '#4b5157', 50, 0.3);
+  g.fillStyle = 'rgba(70,76,82,.5)'; g.fillRect(0, h * 0.45, w, 3); g.fillRect(0, h * 0.95, w, 3);
+  for (const [y0, hh] of [[0.12, 0.17], [0.58, 0.17]]) {
+    for (let x = 8; x < w - 24; x += 32) {
+      const lit = Math.random() < 0.2;
+      g.fillStyle = '#4c535a'; g.fillRect(x - 2, y0 * h - 2, 24, hh * h + 4);
+      g.fillStyle = lit ? '#e6c37a' : '#2f3c48'; g.fillRect(x, y0 * h, 20, hh * h);
+      g.fillStyle = 'rgba(255,255,255,.16)'; g.fillRect(x + 2, y0 * h + 2, 5, hh * h - 4);
+    }
+  }
+};
+C3TEX.bands = (g, w, h) => { for (let i = 0; i < 8; i++) { g.fillStyle = i % 2 ? '#e4e4df' : '#b8392e'; g.fillRect(0, i * h / 8, w, h / 8); } };
+C3TEX.asphalt = (g, w, h) => {
+  g.fillStyle = '#44484c'; g.fillRect(0, 0, w, h); c3Speckle(g, w, h, 5000, ['#54585c', '#35383b'], 0.7, 2);
+  g.fillStyle = '#cfd1cc'; for (let x = 0; x < w; x += 64) g.fillRect(x, h / 2 - 2, 34, 4);
+  g.fillStyle = '#a9aca6'; g.fillRect(0, 5, w, 3); g.fillRect(0, h - 8, w, 3);
+};
+C3TEX.sock = (g, w, h) => { for (let i = 0; i < 5; i++) { g.fillStyle = i % 2 ? '#f2f2ee' : '#f07a1a'; g.fillRect(i * w / 5, 0, w / 5, h); } };
+
+// таблички: «Опасно — жёлтый фосфор», «Точка сбора», название цеха — перерисовываются при смене языка
+function c3BoardPaint(g, w, h, kind) {
+  g.textBaseline = 'alphabetic';
+  if (kind === 'danger') {
+    g.fillStyle = '#f2c230'; g.fillRect(0, 0, w, h); g.strokeStyle = '#111'; g.lineWidth = 10; g.strokeRect(5, 5, w - 10, h - 10);
+    g.fillStyle = '#111'; g.beginPath(); g.moveTo(70, 30); g.lineTo(122, 135); g.lineTo(18, 135); g.closePath(); g.fill();
+    g.fillStyle = '#f2c230'; g.font = '700 66px Arial, sans-serif'; g.textAlign = 'center'; g.fillText('!', 70, 126);
+    g.fillStyle = '#111'; g.textAlign = 'left'; g.font = '800 62px Arial, sans-serif'; g.fillText(t('c3_danger'), 146, 92, w - 160);
+    g.font = '700 24px Arial, sans-serif'; g.fillText(t('c3_danger_sub'), 146, 136, w - 160);
+  } else if (kind === 'assembly') {
+    g.fillStyle = '#1f8a4c'; g.fillRect(0, 0, w, h); g.strokeStyle = '#fff'; g.lineWidth = 8; g.strokeRect(6, 6, w - 12, h - 12);
+    g.fillStyle = '#fff'; g.textAlign = 'center'; g.font = '800 50px Arial, sans-serif'; g.fillText(t('c3_assembly'), w / 2, h / 2 + 18, w - 30);
+  } else {
+    g.fillStyle = '#22394f'; g.fillRect(0, 0, w, h); g.strokeStyle = 'rgba(255,255,255,.7)'; g.lineWidth = 4; g.strokeRect(6, 6, w - 12, h - 12);
+    g.fillStyle = '#fff'; g.textAlign = 'center'; g.font = '700 60px Arial, sans-serif'; g.fillText(t('c3_furnace'), w / 2, h / 2 + 21, w - 40);
+  }
+}
+
+// рабочий в каске и жилете со светоотражающей полосой; ноги и руки качаются при ходьбе
+function c3Worker(T, scene, vest) {
+  const g = new T.Group(), M = (c, o) => new T.MeshStandardMaterial(Object.assign({ color: c, roughness: 0.7 }, o || {}));
+  const vestM = M(vest, { emissive: vest, emissiveIntensity: 0.15 });
+  const mk = (geo, mat, x, y, z) => { const m = new T.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = true; g.add(m); return m; };
+  const legG = new T.BoxGeometry(0.16, 0.86, 0.18); legG.translate(0, -0.43, 0);
+  const armG = new T.BoxGeometry(0.12, 0.6, 0.14); armG.translate(0, -0.28, 0);
+  const legM = M(0x2b3440);
+  const w = { g, legL: mk(legG, legM, -0.1, 0.88, 0), legR: mk(legG, legM, 0.1, 0.88, 0) };
+  mk(new T.BoxGeometry(0.46, 0.66, 0.26), vestM, 0, 1.2, 0);
+  mk(new T.BoxGeometry(0.47, 0.06, 0.27), M(0xe8e8e0, { emissive: 0x77776f }), 0, 1.12, 0);
+  mk(new T.SphereGeometry(0.13, 12, 10), M(0xc99a78), 0, 1.66, 0);
+  mk(new T.SphereGeometry(0.16, 12, 8, 0, Math.PI * 2, 0, Math.PI / 2), M(0xf2f2ee, { roughness: 0.4 }), 0, 1.7, 0);
+  w.armL = mk(armG, vestM, -0.3, 1.5, 0); w.armR = mk(armG, vestM, 0.3, 1.5, 0);
+  scene.add(g);
+  return w;
+}
+
+function c3Plant(k) {
+  const { T, scene, mats, tx, M, add, box, cylX, cylY, inst } = k, ez = 2.75;
+  // дальние здания не отбрасывают тень: карта теней всё равно покрывает только пост
+  const far = m => { m.castShadow = false; return m; };
+  const facade = c3Tex(T, c3Canvas(256, 256, C3TEX.facade));
+  const fMat = (rx, ry) => M(0xffffff, { map: c3Rep(facade, rx, ry), roughness: 0.85, metalness: 0.15 });
+  const roof = M(0x3a4046, { roughness: 0.85, metalness: 0.3 });
+  const concrete = M(0xffffff, { map: c3Rep(tx.conc, 4, 1), roughness: 0.95, metalness: 0 });
+  const asphalt = c3Tex(T, c3Canvas(256, 64, C3TEX.asphalt));
+  const glassDark = M(0x1e2a33, { roughness: 0.2, metalness: 0.6 });
+  // балка или цилиндр между двумя точками: провода, галерея конвейера
+  const between = (a, b, r, mat, sect) => {
+    const A = new T.Vector3(...a), B = new T.Vector3(...b), dir = B.clone().sub(A), len = dir.length();
+    const geo = sect ? new T.BoxGeometry(len, sect[0], sect[1]) : new T.CylinderGeometry(r, r, len, 6).rotateZ(Math.PI / 2);
+    const m = new T.Mesh(geo, mat); m.position.copy(A).add(B).multiplyScalar(0.5);
+    m.quaternion.setFromUnitVectors(new T.Vector3(1, 0, 0), dir.normalize()); scene.add(m); return m;
+  };
+
+  // второй путь за постом: две цистерны и маневровый тепловоз
+  box(80, 0.07, 3.1, mats.ballast, 0, 0.035, -10);
+  box(80, 0.14, 0.09, mats.rail, 0, 0.17, -10.72); box(80, 0.14, 0.09, mats.rail, 0, 0.17, -9.28);
+  const sl = []; for (let x = -39.5; x <= 39.5; x += 0.7) sl.push([x, 0.06, -10]);
+  inst(new T.BoxGeometry(0.24, 0.1, 2.5), mats.sleeper, sl);
+  const carPaint = M(0x3d4349, { roughness: 0.55, metalness: 0.3 }), truckTank = M(0xb9bfc3, { roughness: 0.45, metalness: 0.35 });
+  const wh2 = [];
+  for (const x of [-17, -5.5]) {
+    box(10.6, 0.3, 2.3, mats.dark, x, 1.15, -10);
+    for (const dx of [-3.8, 3.8]) { box(2.3, 0.45, 2, mats.dark, x + dx, 0.62, -10); for (const ddx of [-0.85, 0.85]) for (const z of [-10.72, -9.28]) wh2.push([x + dx + ddx, 0.42, z, Math.PI / 2]); }
+    cylX(1.4, 9.4, carPaint, x, 2.75, -10, 32);
+    for (const sx of [-1, 1]) { const c = add(new T.SphereGeometry(1.4, 24, 12), carPaint, x + sx * 4.7, 2.75, -10); c.scale.set(0.3, 1, 1); }
+    cylY(0.38, 0.35, mats.dark, x, 4.25, -10, 16);
+    box(9.4, 0.06, 0.5, mats.deck, x, 4.18, -10);
+  }
+  const loco = M(0x2c6aa8, { roughness: 0.5, metalness: 0.3 }), locoY = M(0xe0b83a, { roughness: 0.5 });
+  box(13, 0.4, 2.8, mats.dark, 8.5, 1.15, -10);
+  box(8.8, 2.4, 2.2, loco, 6.6, 2.55, -10); box(3.2, 3.4, 2.8, loco, 12.3, 3.05, -10);
+  box(13.1, 0.25, 2.85, locoY, 8.5, 1.5, -10);
+  box(3.0, 0.9, 2.85, glassDark, 12.3, 3.7, -10);
+  cylY(0.2, 0.8, mats.dark, 5.0, 4.1, -10, 10);
+  for (const dx of [-4.2, 4.2]) { box(2.6, 0.55, 2.1, mats.dark, 8.5 + dx, 0.6, -10); for (const ddx of [-0.9, 0.9]) for (const z of [-10.72, -9.28]) wh2.push([8.5 + dx + ddx, 0.42, z, Math.PI / 2]); }
+  inst(new T.CylinderGeometry(0.42, 0.42, 0.12, 16), mats.steel, wh2);
+
+  // автоцистерна между путями
+  const truckBlue = M(0x24557f, { roughness: 0.5, metalness: 0.3 });
+  box(7.2, 0.35, 1.9, mats.dark, 15.5, 0.85, -4.2);
+  box(2.2, 2.3, 2.3, truckBlue, 19.6, 1.95, -4.2); box(0.06, 0.9, 2.0, glassDark, 20.72, 2.45, -4.2);
+  cylX(1.0, 5.6, truckTank, 15.0, 2.05, -4.2, 24);
+  const tw = []; for (const x of [12.8, 14.2, 19.4]) for (const z of [-5.2, -3.2]) tw.push([x, 0.48, z, Math.PI / 2]);
+  inst(new T.CylinderGeometry(0.48, 0.48, 0.3, 16), M(0x1b1d1f, { roughness: 0.9 }), tw);
+
+  // эстакада трубопроводов через весь завод
+  const rack = []; for (let x = -45; x <= 45; x += 7.5) for (const z of [-21.8, -20.2]) rack.push([x, 3.75, z]);
+  inst(new T.BoxGeometry(0.3, 7.5, 0.3), mats.dark, rack);
+  const beams = []; for (let x = -45; x <= 45; x += 7.5) beams.push([x, 7.3, -21]);
+  inst(new T.BoxGeometry(0.25, 0.25, 2.0), mats.dark, beams);
+  for (const [z, r, mat] of [[-21.5, 0.28, mats.pipe], [-21, 0.2, M(0xd9b23a, { roughness: 0.5 })], [-20.5, 0.32, M(0x3f7d5a, { roughness: 0.5 })]]) far(cylX(r, 92, mat, 0, 7.45 + r, z, 12));
+
+  // дороги: вдоль цехов и к складу (переезд через оба пути)
+  far(box(130, 0.03, 7, M(0xffffff, { map: c3Rep(asphalt, 26, 1), roughness: 0.95, metalness: 0 }), 0, 0.02, -28));
+  const ar = far(box(62, 0.03, 7, M(0xffffff, { map: c3Rep(asphalt, 12, 1), roughness: 0.95, metalness: 0 }), 26.25, 0.025, 3)); ar.rotation.y = Math.PI / 2;
+
+  // главный корпус с электропечами и пристройка
+  far(box(36, 20, 22, fMat(9, 2.2), 12, 10, -44)); far(box(37, 1, 23, roof, 12, 20.5, -44)); far(box(30, 4, 7, fMat(8, 0.45), 12, 23, -44)); far(box(31, 0.6, 8, roof, 12, 25.3, -44));
+  far(box(16, 11, 14, fMat(4, 1.2), -14, 5.5, -42)); far(box(16.8, 0.8, 14.8, roof, -14, 11.4, -42));
+  far(box(8, 7, 0.3, M(0x50585e, { roughness: 0.7, metalness: 0.4 }), 20, 3.5, -32.9));
+  const furnSign = c3Canvas(1024, 128, () => {}), furnTex = c3Tex(T, furnSign);
+  const fs = new T.Mesh(new T.PlaneGeometry(18, 2.25), new T.MeshStandardMaterial({ map: furnTex, roughness: 0.6 })); fs.position.set(4, 16.6, -32.95); scene.add(fs);
+  // две дымовые трубы за корпусом, из них идёт пар
+  const bands = M(0xffffff, { map: c3Tex(T, c3Canvas(16, 128, C3TEX.bands)), roughness: 0.7 });
+  const stacks = [[21, -60], [28, -60]];
+  for (const [x, z] of stacks) { far(cylY(1.5, 46, bands, x, 23, z, 20)); far(cylY(1.75, 1.2, mats.dark, x, 45.6, z, 20)); }
+  // башня с наклонной галереей конвейера и градирня дальше на северо-востоке
+  far(box(7, 26, 7, fMat(2, 3), 50, 13, -40)); far(box(7.6, 0.8, 7.6, roof, 50, 26.4, -40));
+  far(between([32, 2, -40], [46.5, 23, -40], 0, fMat(6, 0.4), [2.2, 2.4]));
+  for (const [x, hh] of [[37, 9.2], [42, 16.4]]) far(box(0.4, hh, 0.4, mats.dark, x, hh / 2, -40));
+  const towerG = new T.LatheGeometry([[9.5, 0], [8.4, 6], [6.9, 14], [6.6, 18], [7.1, 24], [7.5, 27]].map(([r, y]) => new T.Vector2(r, y)), 40);
+  const ct = new T.Mesh(towerG, M(0xffffff, { map: c3Rep(tx.conc, 10, 3), roughness: 0.95, metalness: 0, side: T.DoubleSide })); ct.position.set(83, 0, -42); scene.add(ct);
+  // склад готовой продукции у конца путей и административный корпус
+  far(box(26, 8, 14, fMat(7, 1), 44, 4, 0));
+  const gable = new T.CylinderGeometry(8.2, 8.2, 26.6, 3, 1); gable.rotateZ(Math.PI / 2); gable.rotateX(-Math.PI / 2);
+  const gm = far(add(gable, M(0x3a4046, { roughness: 0.85, metalness: 0.3, flatShading: true }), 44, 9.25, 0)); gm.scale.set(1, 0.3, 1);
+  far(box(0.3, 5, 4.5, M(0x50585e, { roughness: 0.7, metalness: 0.4 }), 30.9, 2.5, 0));
+  far(box(18, 12, 11, fMat(5, 1.6), -36, 6, 24)); far(box(18.6, 0.6, 11.6, roof, -36, 12.3, 24));
+  // резервуарный парк за обвалованием
+  for (const x of [-52, -44, -36]) { far(cylY(3.2, 7, mats.bldg, x, 3.5, -38, 32)); far(cylY(3.35, 0.4, roof, x, 7.1, -38, 32)); }
+  for (const [w, d, x, z] of [[26, 0.4, -44, -33], [26, 0.4, -44, -43], [0.4, 10, -57, -38], [0.4, 10, -31, -38]]) far(box(w, 1.1, d, concrete, x, 0.55, z));
+
+  // забор по периметру и фонари вдоль дорог
+  const fx0 = -70, fx1 = 100, fz0 = -85, fz1 = 42, fp = [];
+  for (let x = fx0; x <= fx1; x += 3.5) { fp.push([x, 1.1, fz0]); fp.push([x, 1.1, fz1]); }
+  for (let z = fz0; z <= fz1; z += 3.5) { fp.push([fx0, 1.1, z]); fp.push([fx1, 1.1, z]); }
+  far(inst(new T.BoxGeometry(0.1, 2.2, 0.1), mats.dark, fp));
+  const wire = M(0x8a9196, { roughness: 0.5, metalness: 0.6 }), cx = (fx0 + fx1) / 2, cz = (fz0 + fz1) / 2;
+  for (const y of [0.9, 1.9]) { far(box(fx1 - fx0, 0.05, 0.05, wire, cx, y, fz0)); far(box(fx1 - fx0, 0.05, 0.05, wire, cx, y, fz1)); far(box(0.05, 0.05, fz1 - fz0, wire, fx0, y, cz)); far(box(0.05, 0.05, fz1 - fz0, wire, fx1, y, cz)); }
+  const lamps = []; for (let x = -48; x <= 48; x += 16) lamps.push([x, 4.5, -32.2]); for (const z of [-14, 6, 20]) lamps.push([22, 4.5, z]);
+  far(inst(new T.CylinderGeometry(0.1, 0.14, 9, 8), mats.dark, lamps));
+  far(inst(new T.BoxGeometry(0.9, 0.18, 0.4), M(0x2a2f33, { emissive: 0xfff1c8, emissiveIntensity: 0.35 }), lamps.map(([x, , z]) => [x, 9, z])));
+
+  // линия электропередачи за забором
+  const pyl = [], heads = [];
+  for (const z of [-130, -80, -30, 20, 70]) { pyl.push([118, 12, z]); heads.push([118, 22, z]); }
+  far(inst(new T.CylinderGeometry(0.5, 1.8, 24, 4), mats.dark, pyl));
+  far(inst(new T.BoxGeometry(9, 0.4, 0.4), mats.dark, heads));
+  for (let i = 0; i < heads.length - 1; i++) for (const dx of [-4, 0, 4]) between([heads[i][0] + dx, 21.8, heads[i][2]], [heads[i + 1][0] + dx, 21.8, heads[i + 1][2]], 0.04, mats.dark);
+
+  // горы Каратау в дымке на горизонте
+  const mtn = M(0x6e7c89, { roughness: 1, metalness: 0, flatShading: true }), mtn2 = M(0x8b98a4, { roughness: 1, metalness: 0, flatShading: true });
+  let seed = 7; const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+  const peak = (mat, r, h, x, z) => { const m = new T.Mesh(new T.ConeGeometry(r, h, 5), mat); m.position.set(x, h / 2 - 8, z); m.rotation.y = rnd() * 3; scene.add(m); };
+  for (let x = -340; x <= 340; x += 55) peak(mtn, 70 + rnd() * 50, 45 + rnd() * 50, x + rnd() * 30, -260 - rnd() * 30);
+  for (let x = -360; x <= 360; x += 70) peak(mtn2, 90 + rnd() * 60, 70 + rnd() * 50, x + rnd() * 40, -330 - rnd() * 30);
+  for (let z = -230; z <= 90; z += 60) peak(mtn, 60 + rnd() * 40, 35 + rnd() * 40, 290 + rnd() * 40, z);
+  for (let x = -330; x <= 330; x += 60) peak(mtn2, 70 + rnd() * 40, 25 + rnd() * 30, x + rnd() * 30, 300 + rnd() * 40);
+  for (let z = -240; z <= 260; z += 60) peak(mtn2, 70 + rnd() * 40, 25 + rnd() * 35, -300 - rnd() * 40, z);
+
+  // у поста: таблички «Опасно», огнетушители, аварийный душ, точка сбора, ветроуказатель
+  const boardCv = { danger: c3Canvas(512, 170, () => {}), assembly: c3Canvas(512, 128, () => {}) };
+  const boardTex = { danger: c3Tex(T, boardCv.danger), assembly: c3Tex(T, boardCv.assembly) };
+  const dMat = new T.MeshStandardMaterial({ map: boardTex.danger, roughness: 0.6 });
+  for (const x of [-4.4, 4.4]) { const db = new T.Mesh(new T.PlaneGeometry(1.5, 0.5), dMat); db.position.set(x, 1.9, ez + 0.87); scene.add(db); }
+  for (const [x, y, z] of [[0.25, 0.32, ez + 0.95], [-4.15, 0.32, ez + 0.95], [-2.6, G3.deckY + 0.36, ez + 0.6]]) { cylY(0.12, 0.56, mats.red, x, y, z, 12); cylY(0.04, 0.12, mats.dark, x, y + 0.34, z, 8); }
+  const green = M(0x2f9a57, { roughness: 0.5 });
+  cylY(0.06, 2.6, green, 6.6, 1.3, 5.4, 8); cylY(0.25, 0.08, green, 6.6, 2.55, 5.1, 16); box(0.5, 0.05, 0.5, mats.deck, 6.6, 0.03, 5.1);
+  const ax = 13, az = 5.8;
+  cylY(0.06, 3.2, mats.dark, ax, 1.6, az, 8);
+  const ab = new T.Mesh(new T.PlaneGeometry(1.8, 0.45), new T.MeshStandardMaterial({ map: boardTex.assembly, roughness: 0.6, side: T.DoubleSide })); ab.position.set(ax, 2.75, az + 0.05); scene.add(ab);
+  const flag = add(new T.PlaneGeometry(0.9, 0.55), M(0x2f9a57, { side: T.DoubleSide }), ax + 0.48, 3.0, az); flag.castShadow = false;
+  box(4, 0.03, 3, M(0x2f9a57, { roughness: 0.9 }), ax, 0.035, az + 0.6);
+  cylY(0.05, 0.9, mats.dark, 9.5, 10.4, 5.5, 8);
+  const sock = new T.Group(); sock.position.set(9.5, 10.75, 5.5); scene.add(sock);
+  const sockG = new T.CylinderGeometry(0.3, 0.12, 1.8, 14, 1, true); sockG.rotateZ(-Math.PI / 2); sockG.translate(0.95, 0, 0);
+  const sockM = new T.Mesh(sockG, M(0xffffff, { map: c3Tex(T, c3Canvas(80, 16, C3TEX.sock)), side: T.DoubleSide, roughness: 0.8 }));
+  sockM.castShadow = true; sock.add(sockM);
+
+  // рабочие: двое на эстакаде у горловины, один у фланца по ту сторону цистерны.
+  // Путь к точке сбора — по настилу к лестнице, вниз и через площадку; оттуда же назад.
+  const deck = G3.deckY + 0.05, gy = 0.05;
+  const workers = [
+    { home: [-0.9, deck, 2.35], face: Math.PI, evac: [[4.4, deck, 2.6], [8.4, gy, 2.6], [12.2, gy, 5.1]], vest: 0xf07a1a },
+    { home: [2.1, deck, 3.05], face: Math.PI * 0.85, evac: [[4.4, deck, 2.95], [8.4, gy, 2.95], [13.8, gy, 5.3]], vest: 0xe4d23a },
+    { home: [-5.2, gy, -2.7], face: -0.55, evac: [[-7.8, gy, -1.8], [-7.8, gy, 2.6], [-3.0, gy, 6.6], [13.0, gy, 7.0]], vest: 0xf07a1a }
+  ].map(w => Object.assign(c3Worker(T, scene, w.vest), w, { pos: w.home.slice(), path: [], mode: 'home', phase: Math.random() * 6 }));
+  workers.forEach(w => { w.g.position.set(...w.home); w.g.rotation.y = w.face; });
+
+  // пар над трубами и градирней
+  const steam = c3Particles(T, scene, 160, false);
+  return { workers, sock, steam, stacks, tower: [83, 27, -42], boardCv, boardTex, furnSign, furnTex, key: '', post: -1 };
+}
+
+function c3PlantUpdate(dt, tr, now) {
+  const P = C3.plant; if (!P) return;
+  // таблички на языке сайта
+  if (P.key !== LANG) {
+    P.key = LANG;
+    for (const k of ['danger', 'assembly']) { const cv = P.boardCv[k]; c3BoardPaint(cv.getContext('2d'), cv.width, cv.height, k); P.boardTex[k].needsUpdate = true; }
+    c3BoardPaint(P.furnSign.getContext('2d'), 1024, 128, 'furnace'); P.furnTex.needsUpdate = true;
+  }
+  // ветроуказатель вытянут туда, куда дует ветер (север = −Z)
+  const to = (weather.windFrom + 180) * Math.PI / 180, dx = Math.sin(to), dz = -Math.cos(to);
+  P.sock.rotation.y = Math.atan2(-dz, dx) + 0.07 * Math.sin(now / 380);
+  // пар: медленно поднимается и уходит по ветру
+  const ws = (weather.windSpeed || 3) / 3, rnd = () => Math.random() - 0.5;
+  c3Emit(P.steam, dt > 0 ? 5 : 0, dt, () => { const s = P.stacks[Math.floor(Math.random() * P.stacks.length)]; c3Spawn(P.steam, s[0] + rnd(), 46.6, s[1] + rnd(), dx * ws + rnd() * 0.4, 1.3 + Math.random() * 0.6, dz * ws + rnd() * 0.4, 10 + Math.random() * 3); });
+  c3Emit(P.steam, dt > 0 ? 4 : 0, dt, () => c3Spawn(P.steam, P.tower[0] + rnd() * 9, P.tower[1], P.tower[2] + rnd() * 9, dx * ws * 0.7, 1.8 + Math.random() * 0.7, dz * ws * 0.7, 11 + Math.random() * 3));
+  c3Step(P.steam, dt, (i, u) => {
+    const v = P.steam.vel, p = P.steam.pos;
+    p[i * 3] += v[i * 3] * dt; p[i * 3 + 1] += v[i * 3 + 1] * dt; p[i * 3 + 2] += v[i * 3 + 2] * dt;
+    P.steam.size[i] = 5 + 20 * Math.pow(u, 0.6); P.steam.alpha[i] = 0.24 * Math.min(1, u * 6) * (1 - u);
+    P.steam.col[i * 3] = 0.94; P.steam.col[i * 3 + 1] = 0.95; P.steam.col[i * 3 + 2] = 0.96;
+  });
+  // рабочие уходят к точке сбора, пока есть тревога и опасность; когда всё стихло — возвращаются
+  const h = hz[tr.id];
+  if (P.post !== tr.id) { P.post = tr.id; P.workers.forEach(w => { w.pos = w.home.slice(); w.path = []; w.mode = 'home'; w.g.rotation.y = w.face; }); }
+  const danger = !!(h && h.alarm != null && (h.active || tr.smoke > 0.05 || tr.fire > 0.05 || tr.leakFire));
+  for (const w of P.workers) {
+    const want = danger ? 'evac' : 'home';
+    if (w.mode !== want) {
+      w.mode = want;
+      w.path = (want === 'evac' ? w.evac : [...w.evac.slice(0, -1).reverse(), w.home]).map(p => p.slice());
+    }
+    let moving = false;
+    if (w.path.length && dt > 0) {
+      const tgt = w.path[0], ddx = tgt[0] - w.pos[0], ddy = tgt[1] - w.pos[1], ddz = tgt[2] - w.pos[2], d = Math.hypot(ddx, ddy, ddz);
+      const step = (w.mode === 'evac' ? 2.4 : 1.2) * dt;
+      if (d <= step) { w.pos = tgt.slice(); w.path.shift(); }
+      else { w.pos[0] += ddx / d * step; w.pos[1] += ddy / d * step; w.pos[2] += ddz / d * step; moving = true; }
+      if (Math.hypot(ddx, ddz) > 0.01) w.g.rotation.y = Math.atan2(ddx, ddz);
+    }
+    if (!w.path.length && w.mode === 'home') w.g.rotation.y = w.face;
+    w.g.position.set(w.pos[0], w.pos[1], w.pos[2]);
+    if (dt > 0) w.phase += dt * (w.mode === 'evac' ? 11 : 6.5);
+    const sw = moving ? Math.sin(w.phase) * 0.6 : 0;
+    w.legL.rotation.x = sw; w.legR.rotation.x = -sw; w.armL.rotation.x = -sw * 0.8; w.armR.rotation.x = sw * 0.8;
+  }
 }
 
 /* ---------- инспектор: данные выбранного объекта ---------- */
