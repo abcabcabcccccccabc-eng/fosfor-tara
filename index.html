@@ -3,21 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Фосфор-Тара — прототип ИИ-системы безопасности налива и перевозки жёлтого фосфора. INNOVATION AI HACKATHON 2026.">
-<meta property="og:title" content="Фосфор-Тара">
+<meta name="description" content="Сақшы — прототип ИИ-системы безопасности налива и перевозки жёлтого фосфора. INNOVATION AI HACKATHON 2026.">
+<meta property="og:title" content="Сақшы">
 <meta property="og:description" content="ИИ следит за наливом жёлтого фосфора, людьми и контейнерами в пути и предотвращает аварии. Прототип для INNOVATION AI HACKATHON 2026.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://abcabcabcccccccabc-eng.github.io/fosfor-tara/">
 <meta property="og:image" content="https://abcabcabcccccccabc-eng.github.io/fosfor-tara/preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Фосфор-Тара: 3D-модель поста налива жёлтого фосфора">
+<meta property="og:image:alt" content="Сақшы: 3D-модель поста налива жёлтого фосфора">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="apple-touch-icon" href="icon-180.png">
 <meta name="theme-color" content="#0d1013">
 <meta name="color-scheme" content="dark light">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 34 34%22%3E%3Crect x=%221%22 y=%221%22 width=%2232%22 height=%2232%22 rx=%229%22 fill=%22%234a5f8f%22/%3E%3Crect x=%226%22 y=%2211%22 width=%2222%22 height=%2214%22 rx=%227%22 fill=%22%23f7f9f8%22/%3E%3Crect x=%226%22 y=%2219%22 width=%2222%22 height=%226%22 rx=%223%22 fill=%22%23dfbe55%22/%3E%3C/svg%3E">
-<title>Фосфор-Тара</title>
+<title>Сақшы</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500&family=Fira+Sans:wght@400;500;600;700&display=swap">
@@ -662,6 +662,13 @@ body::before{background:var(--bg)}
 .kpi .chip{white-space:nowrap;line-height:1;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 .alert.unacked{box-shadow:none;border-color:var(--sevc);background:color-mix(in srgb,var(--sevc) 9%,transparent)}
 .toast-top{flex-wrap:wrap;row-gap:4px}
+.partner{display:flex;align-items:center;gap:8px;flex:none}
+.partner-k{font-size:12px;color:var(--muted);line-height:1.2;text-align:right;max-width:72px}
+.partner-logo{display:inline-flex;align-items:center;height:34px;padding:4px 8px;background:#fff;border:1px solid var(--line);border-radius:var(--r)}
+.pl-full{display:block;height:24px;width:auto}
+.pl-mark{display:none;height:22px;width:auto}
+@media (max-width:1430px){.partner-k{display:none}}
+@media (max-width:1380px){.pl-full{display:none}.pl-mark{display:block}.partner-logo{padding:4px 6px}}
 .hero-more{display:flex;align-items:center;flex-wrap:wrap;gap:4px 14px;font-size:14px}
 .hero-more .link{font-size:14px}
 .case-hint.ok{border-color:color-mix(in srgb,var(--good) 60%,transparent)}
@@ -725,6 +732,9 @@ body::before{background:var(--bg)}
 }
 @media (max-width:700px){
   .iconbtn.menu-btn{display:none}
+  .partner-k,.pl-full{display:none}
+  .pl-mark{display:block}
+  .partner-logo{height:30px;padding:3px 6px}
   .hero-btns .btn{flex:1 1 100%}
   .cases{grid-template-columns:minmax(0,1fr)}
   .cmp-tbl thead{display:none}
@@ -757,7 +767,7 @@ body::before{background:var(--bg)}
     <button class="iconbtn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="side" data-ta="aria-label:menu_btn;title:menu_btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <div class="brand">
       <svg viewBox="0 0 34 34" aria-hidden="true"><rect x="1" y="1" width="32" height="32" rx="9" fill="var(--accent)"/><rect x="6" y="11" width="22" height="14" rx="7" fill="var(--panel)"/><clipPath id="bm"><rect x="6" y="11" width="22" height="14" rx="7"/></clipPath><g clip-path="url(#bm)"><rect x="6" y="16" width="22" height="3" fill="var(--water)"/><rect x="6" y="19" width="22" height="7" fill="var(--phos)"/></g><circle cx="17" cy="8" r="2" fill="var(--panel)"/></svg>
-      <div><div class="brand-name" data-t="brand_name">Фосфор-Тара</div><div class="brand-sub" data-t="brand_sub"></div></div>
+      <div><div class="brand-name" data-t="brand_name">Сақшы</div><div class="brand-sub" data-t="brand_sub"></div></div>
     </div>
     <div class="shiftbox" id="shiftbox"><button class="iconbtn" id="pauseBtn" aria-pressed="false"></button><span class="k" data-t="shift_k"></span><span class="v" id="clock">11:00</span><span id="hsChip"></span></div>
     <div class="top-actions">
@@ -769,6 +779,7 @@ body::before{background:var(--bg)}
       <button class="btn" id="presentExit" data-t="set_present_off" hidden></button>
       <button class="btn btn-primary" id="tourBtn" data-t="tour_btn"></button>
     </div>
+    <div class="partner" role="img" data-ta="aria-label:partner_aria;title:partner_aria"><span class="partner-k" data-t="partner_k"></span><span class="partner-logo"><img class="pl-full" src="data:image/png;base64,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" alt=""><img class="pl-mark" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFMAAAA4CAMAAAC2XzSrAAAAYFBMVEX///////7+/////v7//f3+/f39+/r78vL66+v54eD31tTywr/xtLDxq6fwop7tk4/qfXbnZ1/kTkbjQDbjOC7nNCrkMijmLSPlKyHlKB7kJBniIBXjHxXhHxXiGQ7iEwg2YEEsAAACcUlEQVR42q2Yi5KCIBSG2bioWMrFNPHS+7/lgm6tthyE2m+mnWZqj8TPhwcRgiAoP5cQ5wxhlIwtqYZ+8GNmlacXdSXNtdUQN5ml1sSY67sZZllkADlLHCgm6CJqYeHhKyeUROj0eH8KgOKHaudSqi3SjxLR6bt4xt486c0McFdF3M/HqFBj2/3S6wqiLqMGSliubs2Otoa/TinFEfGgjLI92fH/hOfyck7kICgXzzxMf3A+wkEFNcWLkAAKohEMrkmIE3L0YjXNmR+awZrapVbWVQ1Q1UV6UBid2CmgImIhvEWdkFrpACqAlp70ly341h8y+sMfPZouQna3AzqjwFVa8ZeBWiFlqyNoqoCmZKupe0uDO+VvUJGa2rms/odnUKuQYySLpndQ0y/8ELK/JiEhVL1oGhIS0lRk0Hwzuq4oXp0vaVR5OCl7o6YsEZrlIFme2bXeNskEVnAn7Y/g2nSJDDCzLtxKKvTYJzGKEia3FV1RlYZghyrZjZOi/4EQ8hAJY9txfY64bLYmgnk7m7j1fodpON5tTIWO8rOXMOLlnuzSn4ZpXQ/T+nK39Wn9Oz1WSkQ8u6Ln8phAPJhgzzVYHnBu9a4A4P4GhzKu+/aQ689rS9NDjShxmragkAYWy6gC6kQWTQ3AKDhMoLWzRcEdPClx6MDxhpDQ56yWIgVZHx4TnKavtycT8PGuOY5o6P9o2odGHnWWdemb7fFokuyDE8Kzhyh3K+X9eHZXzvlWPIiUM7zrI4a1c3SaAI3jFHsy3Myp1bQ1sPgdLGSo6HUUBUzyI5FlQxkE/Tjx15FKajda4geTtx7cFOydBz4IfQPvtLIyUfTpAwAAAABJRU5ErkJggg==" alt=""></span></div>
   </div>
   <div class="wrap tourbar" id="tourbar" hidden>
     <div class="tb-main">
@@ -968,7 +979,7 @@ function locText(l) {
 
 /* ---------- словарь: русский ---------- */
 L.ru = {
-  brand_name: 'Фосфор-Тара',
+  brand_name: 'Сақшы',
   brand_sub: 'Контроль операций с жёлтым фосфором',
   tabs_aria: 'Разделы',
   tab_overview: 'Обзор', tab_transfer: 'Налив', tab_transit: 'В пути', tab_incident: 'Инциденты', tab_about: 'О проекте',
@@ -1189,7 +1200,7 @@ L.ru = {
   rep_refused: 'Claude не стал писать этот текст, поэтому показан шаблон.', rep_nogrant: 'Доступ к Claude не выдан, поэтому черновик собран по шаблону.',
   rep_unavail: 'Claude недоступен в этом просмотре, поэтому черновик собран по шаблону.', rep_err: 'Не удалось связаться с Claude, показан шаблон. Попробуйте ещё раз.',
   rep_err_partial: 'Связь прервалась, текст неполный. Попробуйте ещё раз.', rep_copied: 'Текст скопирован.', rep_select: 'Текст выделен — скопируйте его вручную.',
-  msgs_note: 'Имитация. В рабочей версии сообщения уходят через Telegram Bot API и дублируются SMS.', msg_from: 'Фосфор-Тара',
+  msgs_note: 'Имитация. В рабочей версии сообщения уходят через Telegram Bot API и дублируются SMS.', msg_from: 'Сақшы',
   z_store: 'Склад жёлтого фосфора', z_shop7: 'Цех №7', z_pumps: 'Насосная', z_office: 'АБК', z_repair: 'Ремонтный участок', z_med: 'Медпункт',
   z_station: 'Вокзал', z_farm: 'Ферма', z_siding: 'Разъезд', z_res: 'жилая застройка (условно)',
   z_wind: p => `ветер ${p.d}`, z_ms: p => `${f1(p.s)} м/с`, z_scale_plant: '100 м', z_scale_km: '1 км',
@@ -1257,11 +1268,11 @@ L.ru = {
   ab_why_h: 'Три инцидента — одна операция',
   ab_why_p: 'Жёлтый фосфор хранят и перевозят под слоем воды: на воздухе он самовоспламеняется. Три известных случая связаны с одним и тем же — тарой, в которую фосфор наливают, из которой извлекают и в которой везут.',
   ab_c1_d: '06.08.2021 · ст. Арысь', ab_c1_h: 'Возгорание контейнеров в пути', ab_c1_p: 'Фосфор «Казфосфата» загорелся по дороге в Россию. Предварительная причина — протечка ёмкости. Эвакуировали 1700 жителей.',
-  ab_c1_fix: 'Фосфор-Тара: следит за слоем воды, замечает течь за часы до оголения фосфора и предлагает остановить поезд до города.',
+  ab_c1_fix: 'Сақшы: следит за слоем воды, замечает течь за часы до оголения фосфора и предлагает остановить поезд до города.',
   ab_c2_d: '03.08.2023 · НДФЗ, цех №7', ab_c2_h: 'Выброс при извлечении из контейнера', ab_c2_p: 'Вспышка на складе жёлтого фосфора, двое рабочих получили ожоги.',
-  ab_c2_fix: 'Фосфор-Тара: камера с ИИ видит дым и вспышку у горловины за секунды и сразу поднимает тревогу.',
+  ab_c2_fix: 'Сақшы: камера с ИИ видит дым и вспышку у горловины за секунды и сразу поднимает тревогу.',
   ab_c3_d: '08.11.2025 · склад фосфора', ab_c3_h: 'Перелив при перекачке', ab_c3_p: 'Перелив в транспортную ёмкость и кратковременное возгорание. Пострадавших нет.',
-  ab_c3_fix: 'Фосфор-Тара: сверяет датчик уровня с расходомером, прогнозирует перелив и сама останавливает насос.',
+  ab_c3_fix: 'Сақшы: сверяет датчик уровня с расходомером, прогнозирует перелив и сам останавливает насос.',
   ab_flow_h: 'Как устроено',
   ab_f1_b: 'Датчики', ab_f1_s: 'уровень и расход на посту налива, слой воды, t° и наклон в контейнере, GPS, камеры',
   ab_f2_b: 'Шлюз MQTT', ab_f2_s: 'сбор показаний с поста налива и трекеров в пути',
@@ -1287,7 +1298,7 @@ L.ru = {
 
 /* ---------- dictionary: English ---------- */
 L.en = {
-  brand_name: 'Fosfor-Tara',
+  brand_name: 'Saqshy',
   brand_sub: 'Yellow phosphorus operations monitor',
   tabs_aria: 'Sections',
   tab_overview: 'Overview', tab_transfer: 'Loading', tab_transit: 'In transit', tab_incident: 'Incidents', tab_about: 'About',
@@ -1502,7 +1513,7 @@ L.en = {
   rep_refused: 'Claude declined to write this text, so the template is shown.', rep_nogrant: 'Claude access was not granted, so the draft uses the template.',
   rep_unavail: 'Claude is not available in this view, so the draft uses the template.', rep_err: 'Could not reach Claude, the template is shown. Try again.',
   rep_err_partial: 'The connection dropped and the text is incomplete. Try again.', rep_copied: 'Text copied.', rep_select: 'Text selected — copy it manually.',
-  msgs_note: 'Simulated. In production, messages go out through the Telegram Bot API with an SMS backup.', msg_from: 'Fosfor-Tara',
+  msgs_note: 'Simulated. In production, messages go out through the Telegram Bot API with an SMS backup.', msg_from: 'Saqshy',
   z_store: 'Yellow phosphorus store', z_shop7: 'Workshop No. 7', z_pumps: 'Pump room', z_office: 'Admin building', z_repair: 'Repair shop', z_med: 'First aid',
   z_station: 'Station building', z_farm: 'Farm', z_siding: 'Siding', z_res: 'homes (illustrative)',
   z_wind: p => `wind ${p.d}`, z_ms: p => `${f1(p.s)} m/s`, z_scale_plant: '100 m', z_scale_km: '1 km',
@@ -1569,11 +1580,11 @@ L.en = {
   ab_why_h: 'Three incidents, one operation',
   ab_why_p: 'Yellow phosphorus is stored and shipped under water because it ignites by itself in air. Three known incidents involve the same thing: the container it is filled into, taken out of and shipped in.',
   ab_c1_d: '06.08.2021 · Arys station', ab_c1_h: 'Containers caught fire in transit', ab_c1_p: 'Kazphosphate phosphorus caught fire on its way to Russia. The preliminary cause was a leaking container. 1,700 residents were evacuated.',
-  ab_c1_fix: 'Fosfor-Tara: watches the water layer, spots a leak hours before the phosphorus is exposed and suggests stopping the train before town.',
+  ab_c1_fix: 'Saqshy: watches the water layer, spots a leak hours before the phosphorus is exposed and suggests stopping the train before town.',
   ab_c2_d: '03.08.2023 · NDFZ, workshop No. 7', ab_c2_h: 'Release while emptying a container', ab_c2_p: 'A flash at the yellow phosphorus store; two workers were burned.',
-  ab_c2_fix: 'Fosfor-Tara: an AI camera sees smoke and flashes at the neck within seconds and raises the alarm.',
+  ab_c2_fix: 'Saqshy: an AI camera sees smoke and flashes at the neck within seconds and raises the alarm.',
   ab_c3_d: '08.11.2025 · phosphorus store', ab_c3_h: 'Overflow during transfer', ab_c3_p: 'An overflow into a shipping container and a brief fire. No one was hurt.',
-  ab_c3_fix: 'Fosfor-Tara: cross-checks the level sensor with the flow meter, forecasts the overflow and stops the pump itself.',
+  ab_c3_fix: 'Saqshy: cross-checks the level sensor with the flow meter, forecasts the overflow and stops the pump itself.',
   ab_flow_h: 'How it works',
   ab_f1_b: 'Sensors', ab_f1_s: 'level and flow at the loading post; water layer, t° and tilt in the container; GPS; cameras',
   ab_f2_b: 'MQTT gateway', ab_f2_s: 'collects readings from the loading post and the trackers in transit',
@@ -1598,7 +1609,7 @@ L.en = {
 
 /* ---------- сөздік: қазақша ---------- */
 L.kk = {
-  brand_name: 'Фосфор-Тара',
+  brand_name: 'Сақшы',
   brand_sub: 'Сары фосформен жұмысты бақылау',
   tabs_aria: 'Бөлімдер',
   tab_overview: 'Шолу', tab_transfer: 'Құю', tab_transit: 'Жолда', tab_incident: 'Оқиғалар', tab_about: 'Жоба туралы',
@@ -1813,7 +1824,7 @@ L.kk = {
   rep_refused: 'Claude бұл мәтінді жазбады, сондықтан үлгі көрсетілді.', rep_nogrant: 'Claude-қа рұқсат берілмеді, сондықтан жоба үлгі бойынша жасалды.',
   rep_unavail: 'Бұл көріністе Claude қолжетімсіз, сондықтан жоба үлгі бойынша жасалды.', rep_err: 'Claude-пен байланыс болмады, үлгі көрсетілді. Қайталап көріңіз.',
   rep_err_partial: 'Байланыс үзілді, мәтін толық емес. Қайталап көріңіз.', rep_copied: 'Мәтін көшірілді.', rep_select: 'Мәтін белгіленді — оны қолмен көшіріңіз.',
-  msgs_note: 'Имитация. Жұмыс нұсқасында хабарламалар Telegram Bot API арқылы жіберіліп, SMS-пен қайталанады.', msg_from: 'Фосфор-Тара',
+  msgs_note: 'Имитация. Жұмыс нұсқасында хабарламалар Telegram Bot API арқылы жіберіліп, SMS-пен қайталанады.', msg_from: 'Сақшы',
   z_store: 'Сары фосфор қоймасы', z_shop7: '№7 цех', z_pumps: 'Сорғы бекеті', z_office: 'ӘТК', z_repair: 'Жөндеу учаскесі', z_med: 'Медпункт',
   z_station: 'Вокзал', z_farm: 'Ферма', z_siding: 'Айрық', z_res: 'тұрғын үйлер (шартты)',
   z_wind: p => `жел ${p.d}`, z_ms: p => `${f1(p.s)} м/с`, z_scale_plant: '100 м', z_scale_km: '1 км',
@@ -1880,11 +1891,11 @@ L.kk = {
   ab_why_h: 'Үш оқиға — бір операция',
   ab_why_p: 'Сары фосфорды су қабатының астында сақтайды және тасымалдайды: ауада ол өздігінен тұтанады. Белгілі үш оқиға бір нәрсеге байланысты — фосфор құйылатын, шығарылатын және тасылатын ыдысқа.',
   ab_c1_d: '06.08.2021 · Арыс ст.', ab_c1_h: 'Жолда контейнерлердің тұтануы', ab_c1_p: '«Қазфосфаттың» фосфоры Ресейге бара жатқанда тұтанды. Алдын ала себебі — ыдыстың ағуы. 1700 тұрғын эвакуацияланды.',
-  ab_c1_fix: 'Фосфор-Тара: су қабатын бақылайды, ағуды фосфор ашылардан бірнеше сағат бұрын байқайды және пойызды қалаға жетпей тоқтатуды ұсынады.',
+  ab_c1_fix: 'Сақшы: су қабатын бақылайды, ағуды фосфор ашылардан бірнеше сағат бұрын байқайды және пойызды қалаға жетпей тоқтатуды ұсынады.',
   ab_c2_d: '03.08.2023 · НДФЗ, №7 цех', ab_c2_h: 'Контейнерден шығарғанда шығарынды', ab_c2_p: 'Сары фосфор қоймасында жарқыл болды, екі жұмысшы күйік алды.',
-  ab_c2_fix: 'Фосфор-Тара: ЖИ камерасы мойындағы түтін мен жарқылды бірнеше секундта көріп, бірден дабыл береді.',
+  ab_c2_fix: 'Сақшы: ЖИ камерасы мойындағы түтін мен жарқылды бірнеше секундта көріп, бірден дабыл береді.',
   ab_c3_d: '08.11.2025 · фосфор қоймасы', ab_c3_h: 'Айдау кезінде асып төгілу', ab_c3_p: 'Тасымалдау ыдысына асып төгілу және қысқа уақытқа тұтану. Зардап шеккендер жоқ.',
-  ab_c3_fix: 'Фосфор-Тара: деңгей датчигін шығын өлшегішпен салыстырады, асып төгілуді болжайды және сорғыны өзі тоқтатады.',
+  ab_c3_fix: 'Сақшы: деңгей датчигін шығын өлшегішпен салыстырады, асып төгілуді болжайды және сорғыны өзі тоқтатады.',
   ab_flow_h: 'Қалай жұмыс істейді',
   ab_f1_b: 'Датчиктер', ab_f1_s: 'құю бекетіндегі деңгей мен шығын, контейнердегі су қабаты, t° және көлбеу, GPS, камералар',
   ab_f2_b: 'MQTT шлюзі', ab_f2_s: 'құю бекетінен және жолдағы трекерлерден көрсеткіштерді жинайды',
@@ -2138,7 +2149,7 @@ Object.assign(L.ru, {
   csv_btn: 'Скачать CSV', csv_time: 'Время', csv_sev: 'Важность', csv_sec: 'Раздел', csv_obj: 'Объект', csv_msg: 'Сообщение',
   rep_dl: 'Скачать отчёт для печати', dl_ok: 'Файл передан на сохранение.', dl_declined: 'Сохранение отменено.', dl_fail: 'Здесь не удалось сохранить файл.',
   rd_title: 'Отчёт об инциденте', rd_print: 'Печать', rd_recipients: 'Кому отправлено',
-  rd_made: p => `Сформировано в прототипе «Фосфор-Тара» в ${p.t} по времени модели. Данные учебные, смоделированные.`,
+  rd_made: p => `Сформировано в прототипе «Сақшы» в ${p.t} по времени модели. Данные учебные, смоделированные.`,
 
   how5: 'Пауза (пробел) останавливает время. Ползунок под шапкой возвращает к любому моменту последних двух часов модели.',
   hk_h: 'Горячие клавиши',
@@ -2174,7 +2185,7 @@ Object.assign(L.en, {
   csv_btn: 'Download CSV', csv_time: 'Time', csv_sev: 'Severity', csv_sec: 'Section', csv_obj: 'Object', csv_msg: 'Message',
   rep_dl: 'Download printable report', dl_ok: 'The file was handed over for saving.', dl_declined: 'Saving was cancelled.', dl_fail: 'The file could not be saved here.',
   rd_title: 'Incident report', rd_print: 'Print', rd_recipients: 'Sent to',
-  rd_made: p => `Generated by the Fosfor-Tara prototype at ${p.t} model time. Training data, simulated.`,
+  rd_made: p => `Generated by the Saqshy prototype at ${p.t} model time. Training data, simulated.`,
 
   how5: 'Pause (Space) stops time. The slider under the header takes you back to any moment in the last two hours of the model.',
   hk_h: 'Keyboard shortcuts',
@@ -2210,7 +2221,7 @@ Object.assign(L.kk, {
   csv_btn: 'CSV жүктеу', csv_time: 'Уақыт', csv_sev: 'Маңыздылығы', csv_sec: 'Бөлім', csv_obj: 'Нысан', csv_msg: 'Хабар',
   rep_dl: 'Басып шығаруға арналған есепті жүктеу', dl_ok: 'Файл сақтауға жіберілді.', dl_declined: 'Сақтау тоқтатылды.', dl_fail: 'Мұнда файлды сақтау мүмкін болмады.',
   rd_title: 'Оқиға туралы есеп', rd_print: 'Басып шығару', rd_recipients: 'Кімге жіберілді',
-  rd_made: p => `«Фосфор-Тара» прототипінде модель уақыты бойынша ${p.t} жасалды. Деректер оқу үшін модельденген.`,
+  rd_made: p => `«Сақшы» прототипінде модель уақыты бойынша ${p.t} жасалды. Деректер оқу үшін модельденген.`,
 
   how5: 'Үзіліс (бос орын) уақытты тоқтатады. Тақырып астындағы жүгірткі модельдің соңғы екі сағатындағы кез келген сәтке қайтарады.',
   hk_h: 'Жылдам пернелер',
@@ -2345,7 +2356,7 @@ Object.assign(L.ru, {
   cs_where_sensor: 'пост налива 1', cs_where_smoke: 'пост налива 2', cs_where_leak: 'пост налива 3', cs_where_tleak: 'поезд № 2417',
   case_leak_d: 'насосная · модельный случай', case_leak_h: 'Течь во фланце трубы',
   case_leak_p: 'Через неплотный фланец часть фосфора уходит мимо контейнера. Снаружи этого не видно, пока у фланца не начнётся возгорание.',
-  case_leak_fix: 'Фосфор-Тара: сравнивает, сколько отдал насос и сколько пришло в контейнер, замечает разницу и перекрывает линию.',
+  case_leak_fix: 'Сақшы: сравнивает, сколько отдал насос и сколько пришло в контейнер, замечает разницу и перекрывает линию.',
   cs_reset: 'Вернуть всё в норму', cs_reset_d: 'посты, люди и поезда возвращаются в обычное состояние',
   k_page: 'раздел', k_case: 'случай',
 
@@ -2397,7 +2408,7 @@ Object.assign(L.en, {
   cs_where_sensor: 'loading post 1', cs_where_smoke: 'loading post 2', cs_where_leak: 'loading post 3', cs_where_tleak: 'train No. 2417',
   case_leak_d: 'pump room · model case', case_leak_h: 'Leak at a pipe flange',
   case_leak_p: 'Through a loose flange part of the phosphorus goes past the container. It cannot be seen from outside until a fire starts at the flange.',
-  case_leak_fix: 'Fosfor-Tara: compares how much the pump sent with how much reached the container, notices the gap and shuts the line.',
+  case_leak_fix: 'Saqshy: compares how much the pump sent with how much reached the container, notices the gap and shuts the line.',
   cs_reset: 'Put everything back to normal', cs_reset_d: 'posts, people and trains return to their usual state',
   k_page: 'section', k_case: 'case',
 
@@ -2449,7 +2460,7 @@ Object.assign(L.kk, {
   cs_where_sensor: '1-құю бекеті', cs_where_smoke: '2-құю бекеті', cs_where_leak: '3-құю бекеті', cs_where_tleak: '№ 2417 пойыз',
   case_leak_d: 'сорғы бекеті · модельдік жағдай', case_leak_h: 'Құбыр фланецінен ағу',
   case_leak_p: 'Тығыз емес фланец арқылы фосфордың бір бөлігі контейнерге жетпей кетеді. Фланец жанында өрт басталмайынша, мұны сырттан көру мүмкін емес.',
-  case_leak_fix: 'Фосфор-Тара: сорғы қанша бергенін және контейнерге қанша келгенін салыстырып, айырманы байқайды да, желіні жабады.',
+  case_leak_fix: 'Сақшы: сорғы қанша бергенін және контейнерге қанша келгенін салыстырып, айырманы байқайды да, желіні жабады.',
   cs_reset: 'Бәрін қалыпқа келтіру', cs_reset_d: 'бекеттер, адамдар және пойыздар әдеттегі күйіне қайтады',
   k_page: 'бөлім', k_case: 'жағдай',
 
@@ -2514,12 +2525,12 @@ Object.assign(L.ru, {
 
   chart_hint: 'Наведите курсор на график, чтобы увидеть значения в любой момент.',
 
-  sm_title: 'Фосфор-Тара — резюме проекта',
+  sm_title: 'Сақшы — резюме проекта',
   sm_problem_h: 'Проблема',
   sm_problem: 'Жёлтый фосфор на воздухе сам загорается. На НДФЗ его наливают в контейнеры и везут поездом под слоем воды. Отказы датчиков, дым при вскрытии люка и течи в пути уже приводили к пожарам и пострадавшим.',
   sm_solution_h: 'Решение',
   sm_solution: 'ИИ-система следит за наливом, камерами, людьми и контейнерами в пути. Она замечает опасность раньше человека, сама останавливает насос, уводит людей из зоны и заранее предупреждает диспетчера.',
-  sm_stats_h: 'Результат на модели (эта сессия)', sm_made: p => `Сформировано в прототипе «Фосфор-Тара» · ${p.t} по времени модели. Данные смоделированы.`
+  sm_stats_h: 'Результат на модели (эта сессия)', sm_made: p => `Сформировано в прототипе «Сақшы» · ${p.t} по времени модели. Данные смоделированы.`
 });
 
 /* ---------- AI effect, architecture, cost, Telegram, summary — English ---------- */
@@ -2565,12 +2576,12 @@ Object.assign(L.en, {
 
   chart_hint: 'Hover over the chart to see the values at any moment.',
 
-  sm_title: 'Fosfor-Tara: project summary',
+  sm_title: 'Saqshy: project summary',
   sm_problem_h: 'Problem',
   sm_problem: 'Yellow phosphorus catches fire by itself in air. At NDFZ it is loaded into containers and shipped by train under a layer of water. Sensor failures, smoke when a hatch is opened and leaks in transit have already led to fires and injuries.',
   sm_solution_h: 'Solution',
   sm_solution: 'An AI system watches the loading, the cameras, the people and the containers in transit. It spots danger before a person does, stops the pump itself, moves people out of the zone and warns the dispatcher in advance.',
-  sm_stats_h: 'Results on the model (this session)', sm_made: p => `Generated by the Fosfor-Tara prototype · ${p.t} model time. Data is simulated.`
+  sm_stats_h: 'Results on the model (this session)', sm_made: p => `Generated by the Saqshy prototype · ${p.t} model time. Data is simulated.`
 });
 
 /* ---------- ЖИ әсері, жүйе құрылымы, құны, Telegram, түйіндеме — қазақша ---------- */
@@ -2616,12 +2627,12 @@ Object.assign(L.kk, {
 
   chart_hint: 'Кез келген сәттегі мәндерді көру үшін курсорды графикке апарыңыз.',
 
-  sm_title: 'Фосфор-Тара — жоба түйіндемесі',
+  sm_title: 'Сақшы — жоба түйіндемесі',
   sm_problem_h: 'Мәселе',
   sm_problem: 'Сары фосфор ауада өзінен-өзі жанады. НДФЗ-да оны контейнерлерге құйып, су қабатының астында пойызбен тасымалдайды. Датчиктердің істен шығуы, люкті ашқандағы түтін және жолдағы ағулар өрт пен зардап шеккендерге әкелген.',
   sm_solution_h: 'Шешім',
   sm_solution: 'ЖИ жүйесі құюды, камераларды, адамдарды және жолдағы контейнерлерді бақылайды. Ол қауіпті адамнан бұрын байқап, сорғыны өзі тоқтатады, адамдарды аймақтан шығарады және диспетчерді алдын ала ескертеді.',
-  sm_stats_h: 'Модельдегі нәтиже (осы сеанс)', sm_made: p => `«Фосфор-Тара» прототипінде жасалды · модель уақыты бойынша ${p.t}. Деректер модельденген.`
+  sm_stats_h: 'Модельдегі нәтиже (осы сеанс)', sm_made: p => `«Сақшы» прототипінде жасалды · модель уақыты бойынша ${p.t}. Деректер модельденген.`
 });
 
 /* ---------- 3D-камера поста налива: тексты на трёх языках ---------- */
@@ -2743,6 +2754,7 @@ Object.assign(L.kk, { c3_danger: 'ҚАУІПТІ', c3_danger_sub: 'САРЫ ФО
 
 /* ---------- правки по ревью: итог случая, подпись камеры, риск, перегон, пример инцидента — три языка ---------- */
 Object.assign(L.ru, {
+  partner_k: 'при поддержке', partner_aria: 'При поддержке ТОО «Казфосфат»',
   c3_gl_aria: '3D-модель поста налива: цистерна под эстакадой, рабочие, второй путь и корпуса завода',
   c3_hud_aria: 'Подписи камеры: номер, время и рамки, которыми ИИ отмечает дым, огонь и течь',
   cw_done_h: p => `Случай «${p.name}» завершён`, cw_inc: 'Открыть инцидент',
@@ -2766,6 +2778,7 @@ Object.assign(L.ru, {
   cs_fix_tleak: 'Следит за слоем воды, замечает течь за часы до оголения фосфора и предлагает остановить поезд до города.'
 });
 Object.assign(L.en, {
+  partner_k: 'supported by', partner_aria: 'Supported by Kazphosphate LLP',
   c3_gl_aria: '3D model of the loading post: the tank under the gantry, workers, the second track and the plant buildings',
   c3_hud_aria: 'Camera captions: number, time and the boxes the AI draws around smoke, fire and leaks',
   cw_done_h: p => `Case finished: “${p.name}”`, cw_inc: 'Open the incident',
@@ -2789,6 +2802,7 @@ Object.assign(L.en, {
   cs_fix_tleak: 'Watches the water layer, spots a leak hours before the phosphorus is exposed and suggests stopping the train before town.'
 });
 Object.assign(L.kk, {
+  partner_k: 'демеуші', partner_aria: '«Қазфосфат» ЖШС қолдауымен',
   c3_gl_aria: 'Құю бекетінің 3D моделі: эстакада астындағы цистерна, жұмысшылар, екінші жол және зауыт ғимараттары',
   c3_hud_aria: 'Камера жазулары: нөмір, уақыт және ЖИ түтінді, өртті және ағуды белгілейтін жақтаулар',
   cw_done_h: p => `«${p.name}» жағдайы аяқталды`, cw_inc: 'Оқиғаны ашу',
